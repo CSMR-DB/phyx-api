@@ -1,0 +1,5 @@
+{
+  "watch": ["src/**/*.ts", "src/**/*.*.ts"],
+  "ignore": ["src/**/*.(spec|test).ts"],
+  "exec": "ts-node -r tsconfig-paths/register src/index.ts"
+}

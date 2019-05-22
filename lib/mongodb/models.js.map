@@ -1,0 +1,1 @@
+{"version":3,"file":"models.js","sourceRoot":"","sources":["../../src/mongodb/models.ts"],"names":[],"mappings":";;;AAAA,6DAA2C;AAE3C,MAAM,iBAAiB,GAAG,IAAI,iBAAM,CAAC;IACnC,KAAK,EAAE,MAAM;IACb,IAAI,EAAE,MAAM;IACZ,IAAI,EAAE,MAAM;CACb,CAAC,CAAA;AAEF,MAAM,gBAAgB,GAAG,kBAAQ,CAAC,KAAK,CAAC,KAAK,EAAE,iBAAiB,EAAE,KAAK,CAAC,CAAA;AAExE,kBAAe,gBAAgB,CAAA"}

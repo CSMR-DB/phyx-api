@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "tslint.configFile": "C:\\Users\\casim\\Documents\\Code\\phyx-api\\tslint.json"
+  }
+}

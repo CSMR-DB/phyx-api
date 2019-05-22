@@ -1,0 +1,42 @@
+{
+  "name": "phyx-api",
+  "version": "0.1.0",
+  "description": "PHYX API Server",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && nodemon lib/index.js",
+    "start": "nodemon lib/index.js",
+    "deploy": "npm run build",
+    "test": "jest",
+    "test:watchAll": "jest --watchAll"
+  },
+  "main": "lib/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "2.3.3",
+    "graphql": "14.1.1",
+    "graphql-import-node": "0.0.1",
+    "graphql-tag": "2.10.1",
+    "graphql-tools": "4.0.4",
+    "mongodb": "3.1.13",
+    "mongoose": "^5.4.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@types/graphql": "14.0.5",
+    "@types/jest": "^24.0.1",
+    "@types/mongodb": "^3.1.19",
+    "@types/mongoose": "^5.3.12",
+    "jest": "^24.5.0",
+    "nodemon": "^1.18.10",
+    "ts-jest": "23.10.4",
+    "ts-node": "^8.0.2",
+    "tsconfig-paths": "^3.8.0",
+    "tslint": "5.12.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "3.3.1",
+    "typescript-tslint-plugin": "^0.3.1"
+  }
+}

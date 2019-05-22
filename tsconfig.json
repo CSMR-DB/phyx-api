@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["es6", "esnext.asynciterable"],
+    "module": "commonjs",
+    "importHelpers": true,
+    "outDir": "lib",
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "target": "es5",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": false,
+    "preserveConstEnums": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "~src/*": ["src/*"],
+      "~csgo/*": ["src/features/csgo/*"],
+      "~r6siege/*": ["src/features/r6siege/*"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ]
+  },
+  "compileOnSave": true,
+  "buildOnSave": false,
+  "include": ["src/**/*.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "exclude": ["node_modules"]
+}
