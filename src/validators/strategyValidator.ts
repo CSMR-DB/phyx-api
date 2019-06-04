@@ -1,12 +1,6 @@
 import { IValidator } from "./IValidator.interface"
 import { isValidated } from "./validator-modules/isValidated"
 
-interface IStrategyValidator {
-  readonly validators: IValidator[]
-
-  execute(): boolean
-}
-
 type ValidatorReturnType = { result: boolean; errors: Error[] | [] }
 
 /**
