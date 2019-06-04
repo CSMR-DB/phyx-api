@@ -58,7 +58,7 @@ describe("strategyValidator()", () => {
       dataManager: csgoDataManager,
       dataReducer: csgoDataReducer,
       expected: {
-        errors: [Error("Cookie has spent too much on their loadout")],
+        errors: [ Error("Cookie has spent too much on their loadout") ],
         result: false
       }
     },
@@ -106,20 +106,20 @@ describe("strategyValidator()", () => {
   } = {
     execute: () =>
       Promise.resolve({
-        errors: [Error("AUG is not equippable on ATK side")],
+        errors: [ Error("AUG is not equippable on ATK side") ],
         result: false
       })
   }
 
   const mockExpected: {result: boolean; errors: Error[]} = {
     result: false,
-    errors: [Error("AUG is not equippable on ATK side")]
+    errors: [ Error("AUG is not equippable on ATK side") ]
   }
 
   // tslint:disable-next-line: typedef
   test.each(testCases)(
-    "strategyValidator() case", 
-    async ({strategy, dataManager, dataReducer, expected}) => {
+    "strategyValidator() case",
+    async ({strategy, dataManager, dataReducer, expected}: any) => {
       // jest // < Cannot assign to 'execute' because of Object.freeze({...})
       //   .spyOn(
       //     sideValidator(strategy, dataReducer(strategy), dataManager),
@@ -145,7 +145,7 @@ describe("strategyValidator()", () => {
 
   test("strategyValidator() mocked", async () => {
     await expect(
-      strategyValidator([mockSideValidator, mockItemsValidator]).execute()
+      strategyValidator([ mockSideValidator, mockItemsValidator ]).execute()
     ).resolves.toEqual(mockExpected)
   })
 })
