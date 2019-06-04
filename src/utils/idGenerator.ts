@@ -9,13 +9,13 @@ export interface IIDGenerator {
 }
 
 export const idGenerator: IIDGenerator = (
-  input,
+  input: string,
   options?: Partial<{
     uppercase: boolean
     prefix: string
   }>
 ) => {
-  let id: string = input.replace(/\W/g, '')
+  let id: string = input.replace(/\W/g, "")
 
   if (options && options.uppercase) {
     id = id.toUpperCase()

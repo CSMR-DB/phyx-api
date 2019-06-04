@@ -1,9 +1,9 @@
-import { strategyValidator } from "./strategyValidator"
-import { sideValidator } from "./validator-modules/sideValidator"
-import { itemsValidator } from "./validator-modules/itemsValidator"
-import { csgoCostValidator } from "~src/features/csgo/validation/csgoCostValidator"
+import {strategyValidator} from "./strategyValidator"
+import {sideValidator} from "./validator-modules/sideValidator"
+import {itemsValidator} from "./validator-modules/itemsValidator"
+import {csgoCostValidator} from "~src/features/csgo/validation/csgoCostValidator"
 
-import { csgoStrategyDataTransposer } from "~src/features/csgo/csgoStrategyDataTransposer"
+import {csgoStrategyDataTransposer} from "~src/features/csgo/csgoStrategyDataTransposer"
 
 import csgoStrategyValid from "~src/features/csgo/mocks/csgoStrategyValid.mock"
 import csgoStrategyInvalidCost from "~src/features/csgo/mocks/csgoStrategyInvalidCost.mock"
@@ -13,19 +13,14 @@ import {
   ICSGOStrategy,
   ICSGOItem
 } from "~src/features/csgo/interfaces/ICSGOStrategy.interface"
-import { siegeStrategyValid } from "~src/features/siege/mocks/siegeStrategyValid.mock"
-import {
-  gameDataManager,
-  IGameDataManager
-} from "~src/services/gameDataManager"
-import { ISiegeStrategy } from "~src/features/siege/ISiegeStrategyModel.interface"
-import { siegeStrategyDataTransposer } from "~src/features/siege/siegeStrategyDataTransposer"
-import { CSGOFACTORY } from "~src/features/csgo/data/dataFactory"
-import { IStrategyDataTransposer } from "./validator-modules/IStrategyDataTransposer.interface"
-import {
-  R6SIEGEFACTORY,
-  R6SIEGE
-} from "~src/features/siege/data/r6siege.factory"
+import {siegeStrategyValid} from "~src/features/siege/mocks/siegeStrategyValid.mock"
+import {gameDataManager, IGameDataManager} from "~src/services/gameDataManager"
+import {ISiegeStrategy} from "~src/features/siege/ISiegeStrategyModel.interface"
+import {siegeStrategyDataTransposer} from "~src/features/siege/siegeStrategyDataTransposer"
+import {CSGOFACTORY} from "~src/features/csgo/data/dataFactory"
+import {IStrategyDataTransposer} from "./validator-modules/IStrategyDataTransposer.interface"
+import {R6SIEGEFACTORY, R6SIEGE} from "~src/features/siege/data/r6siege.factory"
+import {IValidator} from "./IValidator.interface"
 
 describe("strategyValidator()", () => {
   const csgoDataManager: IGameDataManager<
@@ -96,7 +91,9 @@ describe("strategyValidator()", () => {
     }
   ]
 
-  const mockSideValidator = {
+  const mockSideValidator: {
+    execute: () => Promise<{errors: Error[]; result: boolean}>
+  } = {
     execute: () =>
       Promise.resolve({
         errors: [],
@@ -104,7 +101,9 @@ describe("strategyValidator()", () => {
       })
   }
 
-  const mockItemsValidator = {
+  const mockItemsValidator: {
+    execute: () => Promise<{errors: Error[]; result: boolean}>
+  } = {
     execute: () =>
       Promise.resolve({
         errors: [Error("AUG is not equippable on ATK side")],
@@ -112,15 +111,15 @@ describe("strategyValidator()", () => {
       })
   }
 
-  const mockExpected = {
+  const mockExpected: {result: boolean; errors: Error[]} = {
     result: false,
     errors: [Error("AUG is not equippable on ATK side")]
   }
 
   // tslint:disable-next-line: typedef
   test.each(testCases)(
-    "strategyValidator() case",
-    async ({ strategy, dataManager, dataReducer, expected }) => {
+    "strategyValidator() case", 
+    async ({strategy, dataManager, dataReducer, expected}) => {
       // jest // < Cannot assign to 'execute' because of Object.freeze({...})
       //   .spyOn(
       //     sideValidator(strategy, dataReducer(strategy), dataManager),
@@ -132,14 +131,15 @@ describe("strategyValidator()", () => {
       //       result: false
       //     })
       //   )
+      const configuredStrategyValidator: IValidator = strategyValidator([
+        itemsValidator(strategy, dataManager, dataReducer(strategy)),
+        csgoCostValidator(strategy, dataManager),
+        sideValidator(strategy, dataReducer(strategy), dataManager)
+      ])
 
-      await expect(
-        strategyValidator([
-          itemsValidator(strategy, dataManager, dataReducer(strategy)),
-          csgoCostValidator(strategy, dataManager),
-          sideValidator(strategy, dataReducer(strategy), dataManager)
-        ]).execute()
-      ).resolves.toEqual(expected)
+      await expect(configuredStrategyValidator.execute()).resolves.toEqual(
+        expected
+      )
     }
   )
 
