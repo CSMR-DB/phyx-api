@@ -28,73 +28,73 @@ import {
 } from "~src/features/siege/data/r6siege.factory"
 
 describe("strategyValidator()", () => {
-  // const csgoDataManager: IGameDataManager<
-  //   ICSGOItem,
-  //   keyof ICSGOItem
-  // > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
+  const csgoDataManager: IGameDataManager<
+    ICSGOItem,
+    keyof ICSGOItem
+  > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
 
-  // // tslint:disable-next-line: typedef
-  // const csgoDataReducer: (
-  //   strategy: ICSGOStrategy
-  // ) => IStrategyDataTransposer = (strategy: ICSGOStrategy) =>
-  //   csgoStrategyDataTransposer(strategy)
+  // tslint:disable-next-line: typedef
+  const csgoDataReducer: (
+    strategy: ICSGOStrategy
+  ) => IStrategyDataTransposer = (strategy: ICSGOStrategy) =>
+    csgoStrategyDataTransposer(strategy)
 
-  // const siegeDataManager: IGameDataManager<
-  //   R6SIEGE.IOperator,
-  //   keyof R6SIEGE.IOperator
-  // > = gameDataManager(R6SIEGEFACTORY.getOperators())
+  const siegeDataManager: IGameDataManager<
+    R6SIEGE.IOperator,
+    keyof R6SIEGE.IOperator
+  > = gameDataManager(R6SIEGEFACTORY.getOperators())
 
-  // // tslint:disable-next-line: typedef
-  // const siegeDataReducer = (strategy: ISiegeStrategy) =>
-  //   siegeStrategyDataTransposer(strategy)
+  // tslint:disable-next-line: typedef
+  const siegeDataReducer = (strategy: ISiegeStrategy) =>
+    siegeStrategyDataTransposer(strategy)
 
-  // const testCases: any[] = [
-  //   {
-  //     strategy: csgoStrategyValid,
-  //     dataManager: csgoDataManager,
-  //     dataReducer: csgoDataReducer,
-  //     expected: {
-  //       errors: [],
-  //       result: true
-  //     }
-  //   },
-  //   {
-  //     strategy: csgoStrategyInvalidCost,
-  //     dataManager: csgoDataManager,
-  //     dataReducer: csgoDataReducer,
-  //     expected: {
-  //       errors: [Error("Cookie has spent too much on their loadout")],
-  //       result: false
-  //     }
-  //   },
-  //   {
-  //     strategy: csgoStrategyInvalidSide,
-  //     dataManager: csgoDataManager,
-  //     dataReducer: csgoDataReducer,
-  //     expected: {
-  //       errors: [
-  //         Error("Cookie has spent too much on their loadout"),
-  //         Error("P2000 is not equippable on ATK side"),
-  //         Error("M4A4 is not equippable on ATK side")
-  //       ],
-  //       result: false
-  //     }
-  //   },
-  //   {
-  //     strategy: csgoStrategyInvalidItems,
-  //     dataManager: csgoDataManager,
-  //     dataReducer: csgoDataReducer,
-  //     expected: {
-  //       result: false,
-  //       errors: [
-  //         Error("GLOCKZZZZ18 does not exist"),
-  //         Error("PHYD has spent too much on their loadout"),
-  //         Error("GLOCKZZZZ18 is not equippable on ATK side"),
-  //         Error("AUG is not equippable on ATK side")
-  //       ]
-  //     }
-  //   }
-  // ]
+  const testCases: any[] = [
+    {
+      strategy: csgoStrategyValid,
+      dataManager: csgoDataManager,
+      dataReducer: csgoDataReducer,
+      expected: {
+        errors: [],
+        result: true
+      }
+    },
+    {
+      strategy: csgoStrategyInvalidCost,
+      dataManager: csgoDataManager,
+      dataReducer: csgoDataReducer,
+      expected: {
+        errors: [Error("Cookie has spent too much on their loadout")],
+        result: false
+      }
+    },
+    {
+      strategy: csgoStrategyInvalidSide,
+      dataManager: csgoDataManager,
+      dataReducer: csgoDataReducer,
+      expected: {
+        errors: [
+          Error("Cookie has spent too much on their loadout"),
+          Error("P2000 is not equippable on ATK side"),
+          Error("M4A4 is not equippable on ATK side")
+        ],
+        result: false
+      }
+    },
+    {
+      strategy: csgoStrategyInvalidItems,
+      dataManager: csgoDataManager,
+      dataReducer: csgoDataReducer,
+      expected: {
+        result: false,
+        errors: [
+          Error("GLOCKZZZZ18 does not exist"),
+          Error("PHYD has spent too much on their loadout"),
+          Error("GLOCKZZZZ18 is not equippable on ATK side"),
+          Error("AUG is not equippable on ATK side")
+        ]
+      }
+    }
+  ]
 
   const mockSideValidator = {
     execute: () =>
@@ -118,23 +118,30 @@ describe("strategyValidator()", () => {
   }
 
   // tslint:disable-next-line: typedef
-  // test.each(testCases)(
-  //   "strategyValidator() case",
-  //   async ({ strategy, dataManager, dataReducer, expected }) => {
-  //     // jest.spyOn(
-  //     //   sideValidator(strategy, dataReducer(strategy), dataManager),
-  //     //   "execute"
-  //     // )
+  test.each(testCases)(
+    "strategyValidator() case",
+    async ({ strategy, dataManager, dataReducer, expected }) => {
+      // jest // < Cannot assign to 'execute' because of Object.freeze({...})
+      //   .spyOn(
+      //     sideValidator(strategy, dataReducer(strategy), dataManager),
+      //     "execute"
+      //   )
+      //   .mockReturnValue(
+      //     Promise.resolve({
+      //       errors: [Error("M4A4 is not equippable on ATK side")],
+      //       result: false
+      //     })
+      //   )
 
-  //     await expect(
-  //       strategyValidator([
-  //         itemsValidator(strategy, dataManager, dataReducer(strategy)),
-  //         csgoCostValidator(strategy, dataManager),
-  //         sideValidator(strategy, dataReducer(strategy), dataManager)
-  //       ]).execute()
-  //     ).resolves.toEqual(expected)
-  //   }
-  // )
+      await expect(
+        strategyValidator([
+          itemsValidator(strategy, dataManager, dataReducer(strategy)),
+          csgoCostValidator(strategy, dataManager),
+          sideValidator(strategy, dataReducer(strategy), dataManager)
+        ]).execute()
+      ).resolves.toEqual(expected)
+    }
+  )
 
   test("strategyValidator() mocked", async () => {
     await expect(
