@@ -32,7 +32,7 @@ describe("compose()", () => {
     expect(
       compose(
         removeSymbols,
-        trace("uppercase"),
+        trace("after uppercase"),
         uppercase
       )("abcd1234&*^%")
     ).toBe("ABCD1234")
@@ -53,7 +53,7 @@ describe("pipe()", () => {
     expect(
       pipe(
         removeSymbols,
-        trace("without symbols"),
+        trace("after removeSymbols"),
         uppercase
       )("abcd1234&*^%")
     ).toBe("ABCD1234")
