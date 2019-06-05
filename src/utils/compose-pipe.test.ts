@@ -7,7 +7,7 @@ const times2: (v: number) => number = (v: number): number => v * 2
 describe("compose()", () => {
   it("should compose functions RTL", () => {
     expect(
-      compose(
+      compose<number>(
         add10,
         times2
       )(4)
@@ -18,7 +18,7 @@ describe("compose()", () => {
 describe("pipe()", () => {
   it("should pipe functions LTR", () => {
     expect(
-      pipe(
+      pipe<number>(
         add10,
         times2
       )(4)
