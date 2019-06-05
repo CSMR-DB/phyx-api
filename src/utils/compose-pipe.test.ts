@@ -35,7 +35,7 @@ describe("pipe()", () => {
 //       pipe(
 //         add10,
 //         times2,
-//         uppercase // <-- errors as expected. Consider adding a runtime implementation.
+//         uppercase // <-- errors as expected. TODO: add a runtime implementation.
 //       )(4)
 //     ).toBe(null)
 //   })
