@@ -1,10 +1,10 @@
 import { mapSpecificKey } from './mapSpecificKey'
 
-interface ICostTest {
-  cost?: number
+interface ITestArray {
+  cost?: number | string | undefined
 }
 
-const testArray = [
+const testArray: (ITestArray & { [key: string]: any })[] = [
   {
     cost: 200,
     name: 'Flash',
@@ -31,7 +31,7 @@ const testArray = [
   }
 ]
 
-const testArrayWithMissingValue = [
+const testArrayWithMissingValue: ITestArray[] = [
   {
     cost: 200
   },
@@ -44,7 +44,7 @@ const testArrayWithMissingValue = [
   }
 ]
 
-const testArrayWithIncorrectType = [
+const testArrayWithIncorrectType: ITestArray[] = [
   {
     cost: 200
   },
@@ -57,16 +57,26 @@ const testArrayWithIncorrectType = [
   }
 ]
 
-const testCases = [
+const testCases: {
+  input: ITestArray[]
+  field: keyof ITestArray
+  expected: any[]
+}[] = [
   { input: testArray, field: 'cost', expected: [ 200, 200, 300, 300 ] },
-  { input: testArrayWithMissingValue, field: 'cost', expected: [ 200, 300, 300 ] }
-  // { input: testArrayWithIncorrectType, field: 'cost',  expected: [ 200, 300, 300 ] }
+  {
+    input: testArrayWithMissingValue,
+    field: 'cost',
+    expected: [ 200, 300, 300 ]
+  },
+  {
+    input: testArrayWithIncorrectType,
+    field: 'cost',
+    expected: [ 200, 300, 300 ]
+  }
 ]
 
 describe.skip('mapSpecificKey<number>', () => {
   test.each(testCases)('case', ({ input, field, expected }) => {
-    expect(mapSpecificKey<ICostTest, keyof ICostTest>(input, field)).toEqual(
-      expected
-    )
+    expect(mapSpecificKey(input, field)).toEqual(expected)
   })
 })
