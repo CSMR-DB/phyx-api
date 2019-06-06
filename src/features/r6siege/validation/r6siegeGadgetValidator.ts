@@ -1,5 +1,5 @@
 import { R6SIEGE } from '../data/r6siege.factory'
-import { IR6SiegeOperator } from '~src/features/siege/IR6SiegeStrategyModel.interface'
+import { IR6SiegeOperator } from '~src/features/r6siege/IR6SiegeStrategyModel.interface'
 import { IGameDataManager } from '../../../services/gameDataManager'
 import { IR6SiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer'
 import { IValidator } from '~src/services/validators/IValidator.interface'
