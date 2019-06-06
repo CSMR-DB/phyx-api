@@ -5,7 +5,7 @@ const {
   Utility
 } = SiegeDataModels
 
-namespace SiegeItemsData {
+export namespace SiegeItemsData {
   // PRIMARIES
   export const _L85A2 = new AR('L85A2')
   export const _AR33 = new AR('AR33')
@@ -129,5 +129,3 @@ namespace SiegeItemsData {
   export const _SMOKEGRENADE = new Utility('Smoke Grenade', 2)
   export const _NITROCELL = new Utility('Nitro Cell', 1)
 }
-
-export default SiegeItemsData

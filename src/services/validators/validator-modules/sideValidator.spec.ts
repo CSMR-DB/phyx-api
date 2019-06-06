@@ -1,8 +1,8 @@
 import { sideValidator } from './sideValidator'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
-import csgoStrategyValid from '~src/features/csgo/mocks/csgoStrategyValid.mock'
-import csgoStrategyInvalidSide from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
+import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import { csgoStrategyInvalidSide } from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
 import {
   gameDataManager,
   IGameDataManager

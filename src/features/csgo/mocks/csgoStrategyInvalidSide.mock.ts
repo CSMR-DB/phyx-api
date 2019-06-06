@@ -1,4 +1,4 @@
-const csgoStrategyInvalidSide = {
+export const csgoStrategyInvalidSide = {
   id: 'asf875t6a9s8f5afgu',
   map: 'Nuke',
   name: 'Default A',
@@ -209,5 +209,3 @@ const csgoStrategyInvalidSide = {
     }
   }
 }
-
-export default csgoStrategyInvalidSide

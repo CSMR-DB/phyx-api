@@ -1,6 +1,6 @@
 import { itemsValidator } from './itemsValidator'
-import csgoStrategyValid from '~src/features/csgo/mocks/csgoStrategyValid.mock'
-import csgoStrategyInvalidItems from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
+import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import { csgoStrategyInvalidItems } from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import {

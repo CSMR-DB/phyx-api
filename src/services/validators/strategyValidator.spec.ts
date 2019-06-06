@@ -5,10 +5,10 @@ import { csgoCostValidator } from '~src/features/csgo/validation/csgoCostValidat
 
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 
-import csgoStrategyValid from '~src/features/csgo/mocks/csgoStrategyValid.mock'
-import csgoStrategyInvalidCost from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
-import csgoStrategyInvalidSide from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
-import csgoStrategyInvalidItems from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
+import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import { csgoStrategyInvalidCost } from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
+import { csgoStrategyInvalidSide } from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
+import { csgoStrategyInvalidItems } from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
 import {
   ICSGOStrategy,
   ICSGOItem

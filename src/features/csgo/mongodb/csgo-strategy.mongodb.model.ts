@@ -1,4 +1,4 @@
-import Mongoose, { Schema } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 const Item = new Schema({
   internal_id: String
@@ -87,6 +87,4 @@ const schema = new Schema({
   }
 })
 
-const MongooseModelCSGOStrategy = Mongoose.model('csgo', schema, 'csgo')
-
-export default MongooseModelCSGOStrategy
+export const MongooseModelCSGOStrategy = model('csgo', schema, 'csgo')

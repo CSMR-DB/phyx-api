@@ -1,4 +1,4 @@
-const csgoStrategyValid = {
+export const csgoStrategyValid = {
   id: 'asf875t6a9s8f5afgu',
   map: 'Nuke',
   name: 'Default A',
@@ -208,5 +208,3 @@ const csgoStrategyValid = {
     }
   }
 }
-
-export default csgoStrategyValid

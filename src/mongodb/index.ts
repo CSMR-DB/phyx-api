@@ -1,4 +1,4 @@
-import * as Mongoose from 'mongoose'
+import { connect } from 'mongoose'
 
 class Database {
   private readonly DBURL: string =
@@ -11,7 +11,10 @@ class Database {
   }
 
   _connect(): void {
-    Mongoose.connect(`${this.DBURL}/${this.DBNAME}`, { useNewUrlParser: true })
+    connect(
+      `${this.DBURL}/${this.DBNAME}`,
+      { useNewUrlParser: true }
+    )
       .then(() => {
         console.log('Database connection successful')
       })
@@ -21,6 +24,4 @@ class Database {
   }
 }
 
-const DATABASE: Database = new Database()
-
-export { DATABASE }
+export const DATABASE: Database = new Database()

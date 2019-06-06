@@ -45,7 +45,7 @@ export interface ITeam {
   players: IPlayers
 }
 
-export default interface IStrategy {
+export interface IStrategy {
   id: string
   map: string
   name: string

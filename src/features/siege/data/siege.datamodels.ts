@@ -1,6 +1,6 @@
 import { idGenerator } from '~src/utils/idGenerator'
 
-namespace SiegeDataModels {
+export namespace SiegeDataModels {
   type Side = 'ATK' | 'DEF'
   type Slot = 'primary' | 'secondary' | 'utility' | 'gadget' | 'ability'
   type PrimaryCategory = 'AR' | 'SMG' | 'SHOTGUN' | 'DMR' | 'LMG' | 'SHIELD'
@@ -141,5 +141,3 @@ namespace SiegeDataModels {
     public readonly side: Side = 'DEF'
   }
 }
-
-export default SiegeDataModels

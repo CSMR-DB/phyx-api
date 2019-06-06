@@ -1,4 +1,4 @@
-const csgoStrategyInvalidCost = {
+export const csgoStrategyInvalidCost = {
   id: 'asf875t6a9s8f5afgu',
   map: 'Nuke',
   name: 'Default A',
@@ -209,5 +209,3 @@ const csgoStrategyInvalidCost = {
     }
   }
 }
-
-export default csgoStrategyInvalidCost

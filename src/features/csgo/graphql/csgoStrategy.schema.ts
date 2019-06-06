@@ -1,5 +1,5 @@
-import MongooseModelCSGOStrategy from "../mongodb/csgo-strategy.mongodb.model"
-import { gql, makeExecutableSchema } from "apollo-server"
+import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
+import { gql, makeExecutableSchema } from 'apollo-server'
 
 const csgoTypeDefs = gql`
   type Item {
