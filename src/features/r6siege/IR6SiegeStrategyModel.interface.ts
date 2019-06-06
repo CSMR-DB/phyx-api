@@ -1,61 +1,61 @@
 import { IPosition } from '../../interfaces/IStrategy.interface'
 
-export interface ISiegeItem {
+export interface IR6SiegeItem {
   internal_id: string
   name?: string
   organization?: string
 }
 
-export interface ISiegeGadget {
+export interface IR6SiegeGadget {
   internal_id: string
   name?: string
   deployable?: boolean
   deployed_at: [number, number, number][] | number[][]
 }
 
-export interface ISiegeAbility {
+export interface IR6SiegeAbility {
   internal_id: string
   name?: string
 }
 
-export interface ISiegeOperator {
+export interface IR6SiegeOperator {
   internal_id: string
   name?: string
-  primary: ISiegeItem
-  secondary: ISiegeItem
-  utility: ISiegeItem
-  gadget: ISiegeGadget
-  ability?: ISiegeAbility
+  primary: IR6SiegeItem
+  secondary: IR6SiegeItem
+  utility: IR6SiegeItem
+  gadget: IR6SiegeGadget
+  ability?: IR6SiegeAbility
 }
 
-export interface ISiegePlayer {
+export interface IR6SiegePlayer {
   [key: string]: any
 
   internal_id: string
   name: string
   role: string
-  operator: ISiegeOperator
+  operator: IR6SiegeOperator
   positions: IPosition[]
   reinforced: string[]
 }
 
-export interface ISiegePlayers {
+export interface IR6SiegePlayers {
   [key: string]: any
 
-  player_1: ISiegePlayer
-  player_2: ISiegePlayer
-  player_3: ISiegePlayer
-  player_4: ISiegePlayer
-  player_5: ISiegePlayer
+  player_1: IR6SiegePlayer
+  player_2: IR6SiegePlayer
+  player_3: IR6SiegePlayer
+  player_4: IR6SiegePlayer
+  player_5: IR6SiegePlayer
 }
 
-export interface ISiegeTeam {
+export interface IR6SiegeTeam {
   team_id?: string
   name: string
-  players: ISiegePlayers
+  players: IR6SiegePlayers
 }
 
-export interface ISiegeStrategy {
+export interface IR6SiegeStrategy {
   id: string
   name: string
   side: string
@@ -63,5 +63,5 @@ export interface ISiegeStrategy {
   map: string
   mode: string
   location: string
-  team: ISiegeTeam
+  team: IR6SiegeTeam
 }

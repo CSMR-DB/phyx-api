@@ -1,23 +1,23 @@
 import { IGameDataManager } from '~src/services/gameDataManager'
-import { ISiegeOperator } from '~src/features/siege/IR6SiegeStrategyModel.interface'
-import { ISiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer'
+import { IR6SiegeOperator } from '~src/features/r6siege/IR6SiegeStrategyModel.interface'
+import { IR6SiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer'
 import { R6SIEGE } from '../data/r6siege.factory'
 import { IValidator } from '~src/services/validators/IValidator.interface'
 import { isValidated } from '~src/services/validators/validator-modules/isValidated'
 
 export function siegeOperatorValidator(
   gameDataManager: IGameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>,
-  strategyDataTransposer: ISiegeStrategyDataTransposer
+  strategyDataTransposer: IR6SiegeStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{ result: boolean; errors: Error[] }> {
     const {
       uniqueOperatorIDs
     }: {
-      uniqueOperatorIDs: ISiegeOperator['internal_id'][]
+      uniqueOperatorIDs: IR6SiegeOperator['internal_id'][]
     } = strategyDataTransposer
     const {
       operators
-    }: { operators: ISiegeOperator[] } = strategyDataTransposer
+    }: { operators: IR6SiegeOperator[] } = strategyDataTransposer
 
     const results: boolean[] = []
 
@@ -39,8 +39,8 @@ export function siegeOperatorValidator(
         gadget: R6SIEGE.IOperator['gadget']
       } = operatorData!
 
-      const operatorSubmitted: ISiegeOperator | undefined = operators.find(
-        (operator: ISiegeOperator) => operator.internal_id === id
+      const operatorSubmitted: IR6SiegeOperator | undefined = operators.find(
+        (operator: IR6SiegeOperator) => operator.internal_id === id
       )
 
       const {
@@ -49,10 +49,10 @@ export function siegeOperatorValidator(
         utility: { internal_id: utilityID },
         gadget: { internal_id: gadgetID }
       }: {
-        primary: { internal_id: ISiegeOperator['primary']['internal_id'] }
-        secondary: { internal_id: ISiegeOperator['secondary']['internal_id'] }
-        utility: { internal_id: ISiegeOperator['utility']['internal_id'] }
-        gadget: { internal_id: ISiegeOperator['gadget']['internal_id'] }
+        primary: { internal_id: IR6SiegeOperator['primary']['internal_id'] }
+        secondary: { internal_id: IR6SiegeOperator['secondary']['internal_id'] }
+        utility: { internal_id: IR6SiegeOperator['utility']['internal_id'] }
+        gadget: { internal_id: IR6SiegeOperator['gadget']['internal_id'] }
       } = operatorSubmitted!
 
       // Operator optionally has an ability and can therefor not be destructured in te same way

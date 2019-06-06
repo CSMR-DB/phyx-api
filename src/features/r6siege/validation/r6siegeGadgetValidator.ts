@@ -1,25 +1,25 @@
 import { R6SIEGE } from '../data/r6siege.factory'
-import { ISiegeOperator } from '~src/features/siege/IR6SiegeStrategyModel.interface'
+import { IR6SiegeOperator } from '~src/features/siege/IR6SiegeStrategyModel.interface'
 import { IGameDataManager } from '../../../services/gameDataManager'
-import { ISiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer'
+import { IR6SiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer'
 import { IValidator } from '~src/services/validators/IValidator.interface'
 import { isValidated } from '~src/services/validators/validator-modules/isValidated'
 
 export function siegeGadgetValidator(
-  // strategy: ISiegeStrategy,
+  // strategy: IR6SiegeStrategy,
   gameDataManager: IGameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>,
-  strategyDataTransposer: ISiegeStrategyDataTransposer
+  strategyDataTransposer: IR6SiegeStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{ result: boolean; errors: Error[] }> {
     const {
       operators
-    }: { operators: ISiegeOperator[] } = strategyDataTransposer
+    }: { operators: IR6SiegeOperator[] } = strategyDataTransposer
 
     const results: boolean[] = []
 
     const errors: Error[] = []
 
-    operators.map((operator: ISiegeOperator) => {
+    operators.map((operator: IR6SiegeOperator) => {
       const operatorData:
         | R6SIEGE.IOperator
         | undefined = gameDataManager.getOneById(operator.internal_id)

@@ -1,30 +1,30 @@
 import {
-  ISiegeStrategy,
-  ISiegePlayer,
-  ISiegeOperator,
-  ISiegePlayers
+  IR6SiegeStrategy,
+  IR6SiegePlayer,
+  IR6SiegeOperator,
+  IR6SiegePlayers
 } from '~src/features/r6siege/IR6SiegeStrategyModel.interface'
 import { objectToArray } from '~src/utils/objectToArray'
 
-export interface ISiegeStrategyDataTransposer {
-  readonly players: ISiegePlayer[]
-  readonly operators: ISiegeOperator[]
-  readonly uniqueOperatorIDs: ISiegeOperator['internal_id'][]
+export interface IR6SiegeStrategyDataTransposer {
+  readonly players: IR6SiegePlayer[]
+  readonly operators: IR6SiegeOperator[]
+  readonly uniqueOperatorIDs: IR6SiegeOperator['internal_id'][]
   readonly map: string
 }
 
 export function siegeStrategyDataTransposer(
-  strategy: ISiegeStrategy
-): ISiegeStrategyDataTransposer {
+  strategy: IR6SiegeStrategy
+): IR6SiegeStrategyDataTransposer {
   const {
     map,
     team: { players: _players }
-  }: { map: string; team: { players: ISiegePlayers } } = strategy
+  }: { map: string; team: { players: IR6SiegePlayers } } = strategy
 
-  const players: ISiegePlayer[] = objectToArray(_players)
+  const players: IR6SiegePlayer[] = objectToArray(_players)
 
-  const operators: ISiegeOperator[] = players.map(
-    ({ operator }: { operator: ISiegeOperator }) => operator
+  const operators: IR6SiegeOperator[] = players.map(
+    ({ operator }: { operator: IR6SiegeOperator }) => operator
   )
 
   const uniqueOperatorIDs: string[] = Array.from(
