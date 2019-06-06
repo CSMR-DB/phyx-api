@@ -18,6 +18,32 @@ const trace: <T>(label: string) => (value: T) => T = <T>(
   return value
 }
 
+interface IObject {
+  name: string
+  skill: number
+}
+
+interface ILevel {
+  level: "novice" | "apprentice"
+}
+
+const object: IObject = {
+  name: "Mock",
+  skill: 6
+}
+
+const improveSkill: (obj: IObject) => IObject = (obj: IObject): IObject => {
+  obj.skill++
+
+  return obj
+}
+
+const levelify: (obj: IObject) => IObject & ILevel = (
+  obj: IObject
+): IObject & ILevel => {
+  return {...obj, level: obj.skill < 8 ? "novice" : "apprentice"}
+}
+
 describe("compose()", () => {
   it("should compose functions RTL (number)", () => {
     expect(
@@ -57,6 +83,20 @@ describe("pipe()", () => {
         uppercase
       )("abcd1234&*^%")
     ).toBe("ABCD1234")
+  })
+
+  it("should pipe functions LTR (object)", () => {
+    expect(
+      pipe(
+        improveSkill,
+        trace("after improveskill"),
+        levelify
+      )(object)
+    ).toEqual({
+      name: "Mock",
+      skill: 7,
+      level: "novice"
+    })
   })
 })
 
