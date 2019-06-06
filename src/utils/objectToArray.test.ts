@@ -22,7 +22,10 @@ const testCases = [
 ]
 
 describe('objectToArray()', () => {
-  test.each(testCases)('should turn team.players object into an array of players', ({ input, expected }) => {
-    expect(objectToArray(input)).toEqual(expected)
-  })
+  test.each(testCases)(
+    'should turn team.players object into an array of players',
+    ({ input, expected }) => {
+      expect(objectToArray(input)).toEqual(expected)
+    }
+  )
 })

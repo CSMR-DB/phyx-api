@@ -88,7 +88,11 @@ namespace SiegeDataModels {
   export class Gadget extends SiegeItem {
     public readonly slot: Slot = 'gadget'
 
-    constructor(public readonly name: string, public readonly deployable: boolean, public readonly count: number) {
+    constructor(
+      public readonly name: string,
+      public readonly deployable: boolean,
+      public readonly count: number
+    ) {
       super(name)
     }
   }
@@ -111,8 +115,16 @@ namespace SiegeDataModels {
     constructor(
       public readonly name: string,
       public readonly organization: Organization,
-      public readonly primaries: (Primary.AR | Primary.SMG | Primary.ShotgunP | Primary.DMR | Primary.LMG)[],
-      public readonly secondaries: (Secondary.Handgun | Secondary.MachinePistol | Secondary.ShotgunS)[],
+      public readonly primaries: (
+        | Primary.AR
+        | Primary.SMG
+        | Primary.ShotgunP
+        | Primary.DMR
+        | Primary.LMG)[],
+      public readonly secondaries: (
+        | Secondary.Handgun
+        | Secondary.MachinePistol
+        | Secondary.ShotgunS)[],
       public readonly utilities: Utility[],
       public readonly gadget: Gadget,
       public readonly ability?: Ability

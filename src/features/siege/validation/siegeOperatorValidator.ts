@@ -1,9 +1,12 @@
 import IStrategy from '~src/interfaces/IStrategy.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'
-import { ISiegeStrategy, ISiegeOperator } from '~src/features/siege/ISiegeStrategyModel.interface'
+import {
+  ISiegeStrategy,
+  ISiegeOperator
+} from '~src/features/siege/ISiegeStrategyModel.interface'
 import { ISiegeStrategyDataTransposer } from '../siegeStrategyDataTransposer'
 import { R6SIEGE } from '../data/r6siege.factory'
-import { IValidator } from '~src/validators/IValidator.interface'
+import { IValidator } from '~src/services/validators/IValidator.interface'
 
 export function siegeOperatorValidator(
   // strategy: ISiegeStrategy,
@@ -11,12 +14,20 @@ export function siegeOperatorValidator(
   strategyDataTransposer: ISiegeStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<boolean> {
-    const { uniqueOperatorIDs }: { uniqueOperatorIDs: () => ISiegeOperator['internal_id'][] } = strategyDataTransposer
-    const { operators }: { operators: () => ISiegeOperator[] } = strategyDataTransposer
+    const {
+      uniqueOperatorIDs
+    }: {
+      uniqueOperatorIDs: () => ISiegeOperator['internal_id'][]
+    } = strategyDataTransposer
+    const {
+      operators
+    }: { operators: () => ISiegeOperator[] } = strategyDataTransposer
     const results: boolean[] = []
 
     uniqueOperatorIDs().map((id: string) => {
-      const operatorData: R6SIEGE.IOperator | undefined = gameDataManager.getOneById(id)
+      const operatorData:
+        | R6SIEGE.IOperator
+        | undefined = gameDataManager.getOneById(id)
       const {
         primaries: primariesData,
         secondaries: secondariesData,
@@ -50,12 +61,20 @@ export function siegeOperatorValidator(
         console.log(operatorSubmitted!.ability)
       }
 
-      const isPrimaryValid: boolean = primaryID.length > 0 && primariesData.indexOf(primaryID) !== -1
-      const isSecondaryValid: boolean = secondaryID.length > 0 && secondariesData.indexOf(secondaryID) !== -1
-      const isUtilityValid: boolean = utilityID.length > 0 && utilitiesData.indexOf(utilityID) !== -1
+      const isPrimaryValid: boolean =
+        primaryID.length > 0 && primariesData.indexOf(primaryID) !== -1
+      const isSecondaryValid: boolean =
+        secondaryID.length > 0 && secondariesData.indexOf(secondaryID) !== -1
+      const isUtilityValid: boolean =
+        utilityID.length > 0 && utilitiesData.indexOf(utilityID) !== -1
       const isGadgetValid: boolean = gadgetData.internal_id === gadgetID
 
-      results.push(isPrimaryValid, isSecondaryValid, isUtilityValid, isGadgetValid)
+      results.push(
+        isPrimaryValid,
+        isSecondaryValid,
+        isUtilityValid,
+        isGadgetValid
+      )
     })
 
     return await !(results.indexOf(false) > -1)

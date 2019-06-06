@@ -6,10 +6,14 @@ import csgoStrategyInvalidItems from './mocks/csgoStrategyInvalidItems.mock'
 
 describe('CSGOStrategyDataTransposer()', () => {
   test('should reduce items to a unique set of IDs', () => {
-    expect(csgoStrategyDataTransposer(csgoStrategyValid).uniqueIDs).toContain('AWP')
+    expect(csgoStrategyDataTransposer(csgoStrategyValid).uniqueIDs).toContain(
+      'AWP'
+    )
   })
 
   test('should reduce items to a unique set of IDs', () => {
-    expect(csgoStrategyDataTransposer(csgoStrategyInvalidItems).uniqueIDs).toContain('AUG')
+    expect(
+      csgoStrategyDataTransposer(csgoStrategyInvalidItems).uniqueIDs
+    ).toContain('AUG')
   })
 })

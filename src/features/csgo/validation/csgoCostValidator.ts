@@ -9,8 +9,8 @@ import {
 import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
-import { IValidator } from '~src/validators/IValidator.interface'
-import { isValidated } from '~src/validators/validator-modules/isValidated'
+import { IValidator } from '~src/services/validators/IValidator.interface'
+import { isValidated } from '~src/services/validators/validator-modules/isValidated'
 
 export function csgoCostValidator(
   strategy: ICSGOStrategy,
@@ -20,7 +20,9 @@ export function csgoCostValidator(
 
   const errors: Error[] = []
 
-  function validatePlayer(player: ICSGOPlayer): { result: boolean; errors: Error[] | [] } {
+  function validatePlayer(
+    player: ICSGOPlayer
+  ): { result: boolean; errors: Error[] | [] } {
     const {
       loadout: { primary, secondary, gear, utilities }
     }: { loadout: ICSGOLoadout } = player
@@ -35,8 +37,9 @@ export function csgoCostValidator(
       ...hasOrEmptyFn<ICSGOItem[]>(utilities)
     ]
 
-    const allPlayerItemsCost: number[] = allPlayerItems.map(({ internal_id }: { internal_id: string }) =>
-      gameDataManager.getField(internal_id, 'cost', 0)
+    const allPlayerItemsCost: number[] = allPlayerItems.map(
+      ({ internal_id }: { internal_id: string }) =>
+        gameDataManager.getField(internal_id, 'cost', 0)
     )
 
     const totalPlayerCost: number = sumArray(allPlayerItemsCost)
@@ -44,7 +47,9 @@ export function csgoCostValidator(
     const withinBudget: boolean = totalPlayerCost <= budget
 
     if (!withinBudget) {
-      errors.push(new Error(`${player.name} has spent too much on their loadout`))
+      errors.push(
+        new Error(`${player.name} has spent too much on their loadout`)
+      )
     }
 
     return { result: withinBudget, errors }
@@ -57,9 +62,10 @@ export function csgoCostValidator(
 
     const playersArray: ICSGOPlayer[] = objectToArray(players)
 
-    const results: { result: boolean; errors: Error[] | [] }[] = playersArray.map((player: ICSGOPlayer) =>
-      validatePlayer(player)
-    )
+    const results: {
+      result: boolean
+      errors: Error[] | []
+    }[] = playersArray.map((player: ICSGOPlayer) => validatePlayer(player))
 
     const result: boolean = isValidated(results.map(({ result }) => result))
 

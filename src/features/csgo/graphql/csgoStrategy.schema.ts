@@ -1,5 +1,5 @@
-import MongooseModelCSGOStrategy from '../mongodb/csgo-strategy.mongodb.model'
-import { gql, makeExecutableSchema } from 'apollo-server'
+import MongooseModelCSGOStrategy from "../mongodb/csgo-strategy.mongodb.model"
+import { gql, makeExecutableSchema } from "apollo-server"
 
 const csgoTypeDefs = gql`
   type Item {
@@ -66,23 +66,23 @@ const resolvers = {
     csgoStrategy: async (_: any, { id }: { id: string }) => {
       return await MongooseModelCSGOStrategy.findOne({ id })
         .exec()
-        .then((doc) => doc)
-        .catch((error) => {
+        .then(doc => doc)
+        .catch(error => {
           throw error
         })
     },
     csgoStrategies: async () =>
       await MongooseModelCSGOStrategy.find({})
         .exec()
-        .then((docs) => docs)
-        .catch((error) => {
+        .then(docs => docs)
+        .catch(error => {
           throw error
         }),
     csgoStrategiesByMap: async (_: any, { map }: { map: string }) => {
       return await MongooseModelCSGOStrategy.find({ map })
         .exec()
-        .then((docs) => docs)
-        .catch((error) => {
+        .then(docs => docs)
+        .catch(error => {
           throw error
         })
     }

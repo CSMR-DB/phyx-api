@@ -12,7 +12,9 @@ export interface IResultHandler<T> {
 //   }
 // }
 
-export function resultHandler<T>(scenarios: { [scenario: string]: () => boolean | Error }): IResultHandler<T> {
+export function resultHandler<T>(scenarios: {
+  [scenario: string]: () => boolean | Error
+}): IResultHandler<T> {
   function handle(scenario: T): boolean | Error {
     return scenarios[scenario.toString()]()
   }

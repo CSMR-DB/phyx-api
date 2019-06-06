@@ -8,7 +8,9 @@ namespace GENERIC {
     getAllEquipment: () => EquipmentType[]
   }
 
-  export function DATAFACTORY<MapType, EquipmentType>(): Required<IDataFactory<MapType, EquipmentType>> {
+  export function DATAFACTORY<MapType, EquipmentType>(): Required<
+    IDataFactory<MapType, EquipmentType>
+  > {
     const LOCAL_INVENTORY: { EQUIPMENT: EquipmentType[]; MAPS: MapType[] } = {
       EQUIPMENT: [],
       MAPS: []
@@ -65,7 +67,10 @@ export namespace CSGO {
   export type Equipment = Required<NameID & ICost & ISide>
 
   export const BLUEPRINTS = {
-    MAP: (name: string) => ({ name, id: idGenerator(name, { uppercase: true }) }),
+    MAP: (name: string) => ({
+      name,
+      id: idGenerator(name, { uppercase: true })
+    }),
     EQUIPMENT: (name: string, cost: number, side: string) => ({
       name,
       id: idGenerator(name, { uppercase: true }),
@@ -82,5 +87,10 @@ CSGOFACTORYFN.ADD_MAP({ name: 'Inferno', id: 'INFERNO' })
 CSGOFACTORYFN.ADD_MAP(CSGO.BLUEPRINTS.MAP('Dust 2'))
 
 CSGOFACTORYFN.ADD_EQUIPMENT(CSGO.BLUEPRINTS.EQUIPMENT('Glock-18', 0, 'ATK'))
-CSGOFACTORYFN.ADD_EQUIPMENT({ name: 'SSG-01', id: 'SSG01', cost: 1700, side: 'UNI' })
+CSGOFACTORYFN.ADD_EQUIPMENT({
+  name: 'SSG-01',
+  id: 'SSG01',
+  cost: 1700,
+  side: 'UNI'
+})
 // console.log(CSGOFACTORYFN.getAllMaps(), CSGOFACTORYFN.getAllEquipment())

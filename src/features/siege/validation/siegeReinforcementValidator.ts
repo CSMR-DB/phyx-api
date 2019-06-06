@@ -1,8 +1,11 @@
 import { R6SIEGE } from '../data/r6siege.factory'
 import { ISiegeStrategyDataTransposer } from '../siegeStrategyDataTransposer'
-import { ISiegeStrategy, ISiegePlayer } from './../ISiegeStrategyModel.interface'
+import {
+  ISiegeStrategy,
+  ISiegePlayer
+} from './../ISiegeStrategyModel.interface'
 import { IGameDataManager } from '../../../services/gameDataManager'
-import { IValidator } from './../../../validators/IValidator.interface'
+import { IValidator } from '~src/services/validators/IValidator.interface'
 
 export function siegeReinforcementValidator(
   strategy: ISiegeStrategy,
@@ -10,9 +13,13 @@ export function siegeReinforcementValidator(
   strategyDataTransposer: ISiegeStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<boolean> {
-    const map: R6SIEGE.IMap | undefined = gameDataManager.getOneById(strategy.map)
+    const map: R6SIEGE.IMap | undefined = gameDataManager.getOneById(
+      strategy.map
+    )
 
-    const { players }: { players: () => ISiegePlayer[] } = strategyDataTransposer
+    const {
+      players
+    }: { players: () => ISiegePlayer[] } = strategyDataTransposer
 
     const results: boolean[] = []
 
@@ -27,7 +34,8 @@ export function siegeReinforcementValidator(
     )
 
     reinforced.map((reinforcement: string) => {
-      const wallIsReinforceable: boolean = reinforceableWallIDs.indexOf(reinforcement) !== -1
+      const wallIsReinforceable: boolean =
+        reinforceableWallIDs.indexOf(reinforcement) !== -1
       results.push(wallIsReinforceable)
     })
 

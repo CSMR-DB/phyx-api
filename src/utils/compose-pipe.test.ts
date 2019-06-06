@@ -1,4 +1,4 @@
-import {compose, pipe} from "./compose-pipe"
+import { compose, pipe } from './compose-pipe'
 
 const add10: (v: number) => number = (v: number): number => v + 10
 
@@ -8,7 +8,7 @@ const uppercase: (v: string) => string = (v: string): string =>
   v.toLocaleUpperCase()
 
 const removeSymbols: (v: string) => string = (v: string): string =>
-  v.replace(/\W/gi, "")
+  v.replace(/\W/gi, '')
 
 const trace: <T>(label: string) => (value: T) => T = <T>(
   label: string
@@ -24,11 +24,11 @@ interface IObject {
 }
 
 interface ILevel {
-  level: "novice" | "apprentice"
+  level: 'novice' | 'apprentice'
 }
 
 const object: IObject = {
-  name: "Mock",
+  name: 'Mock',
   skill: 6
 }
 
@@ -41,11 +41,11 @@ const improveSkill: (obj: IObject) => IObject = (obj: IObject): IObject => {
 const levelify: (obj: IObject) => IObject & ILevel = (
   obj: IObject
 ): IObject & ILevel => {
-  return {...obj, level: obj.skill < 8 ? "novice" : "apprentice"}
+  return { ...obj, level: obj.skill < 8 ? 'novice' : 'apprentice' }
 }
 
-describe("compose()", () => {
-  it("should compose functions RTL (number)", () => {
+describe('compose()', () => {
+  it('should compose functions RTL (number)', () => {
     expect(
       compose(
         add10,
@@ -54,19 +54,19 @@ describe("compose()", () => {
     ).toBe(18)
   })
 
-  it("should compose functions RTL (string)", () => {
+  it('should compose functions RTL (string)', () => {
     expect(
       compose(
         removeSymbols,
-        trace("after uppercase"),
+        trace('after uppercase'),
         uppercase
-      )("abcd1234&*^%")
-    ).toBe("ABCD1234")
+      )('abcd1234&*^%')
+    ).toBe('ABCD1234')
   })
 })
 
-describe("pipe()", () => {
-  it("should pipe functions LTR (number)", () => {
+describe('pipe()', () => {
+  it('should pipe functions LTR (number)', () => {
     expect(
       pipe(
         add10,
@@ -75,27 +75,27 @@ describe("pipe()", () => {
     ).toBe(28)
   })
 
-  it("should pipe functions LTR (string)", () => {
+  it('should pipe functions LTR (string)', () => {
     expect(
       pipe(
         removeSymbols,
-        trace("after removeSymbols"),
+        trace('after removeSymbols'),
         uppercase
-      )("abcd1234&*^%")
-    ).toBe("ABCD1234")
+      )('abcd1234&*^%')
+    ).toBe('ABCD1234')
   })
 
-  it("should pipe functions LTR (object)", () => {
+  it('should pipe functions LTR (object)', () => {
     expect(
       pipe(
         improveSkill,
-        trace("after improveskill"),
+        trace('after improveskill'),
         levelify
       )(object)
     ).toEqual({
-      name: "Mock",
+      name: 'Mock',
       skill: 7,
-      level: "novice"
+      level: 'novice'
     })
   })
 })

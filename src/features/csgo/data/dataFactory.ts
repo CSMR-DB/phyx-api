@@ -2,7 +2,9 @@ import { idGenerator, IIDGenerator } from '~src/utils/idGenerator'
 
 export namespace CSGO {
   type EquipmentSide = Required<'ATK' | 'DEF' | 'UNI'>
-  type EquipmentCategory = Required<'weapon' | 'gear' | 'utility' | 'uncategorized'>
+  type EquipmentCategory = Required<
+    'weapon' | 'gear' | 'utility' | 'uncategorized'
+  >
   type WeaponCategory = Required<'pistol' | 'rifle' | 'heavy' | 'smg'>
   type EquipmentSlot = Required<'primary' | 'secondary' | 'gear' | 'utility'>
 
@@ -35,13 +37,21 @@ export namespace CSGO {
     addMap: (name: string, official: boolean) => void
     getMaps: () => IMap[]
     getMapByID: (id: string) => IMap | undefined
-    addItem: (side: EquipmentSide, name: string, cost: number, slot: EquipmentSlot, category?: WeaponCategory) => void
+    addItem: (
+      side: EquipmentSide,
+      name: string,
+      cost: number,
+      slot: EquipmentSlot,
+      category?: WeaponCategory
+    ) => void
     getItems: () => IItem[]
     getItemByID: (id: string) => IItem | undefined
     getItemsBySide: (side: EquipmentSide) => IItem[]
   }
 
-  export function dataFactory(options: { idGenerator: IIDGenerator }): Required<IDataFactory> {
+  export function dataFactory(options: {
+    idGenerator: IIDGenerator
+  }): Required<IDataFactory> {
     // const LOCAL_INVENTORY: ILocalInventory = Object.freeze({
     //   ITEMS: [],
     //   MAPS: []
@@ -81,7 +91,11 @@ export namespace CSGO {
       slot: EquipmentSlot,
       category: WeaponCategory | undefined
     ): { categories: Partial<[EquipmentCategory, WeaponCategory]> } {
-      const categoryObject: { [key: string]: { categories: Partial<[EquipmentCategory, WeaponCategory]> } } = {
+      const categoryObject: {
+        [key: string]: {
+          categories: Partial<[EquipmentCategory, WeaponCategory]>
+        }
+      } = {
         primary: { categories: [ 'weapon', category! ] },
         secondary: { categories: [ 'weapon', 'pistol' ] },
         gear: { categories: [ 'gear' ] },
@@ -91,7 +105,13 @@ export namespace CSGO {
       return categoryObject[slot]
     }
 
-    function addItem(side: EquipmentSide, name: string, cost: number, slot: EquipmentSlot, category?: WeaponCategory): void {
+    function addItem(
+      side: EquipmentSide,
+      name: string,
+      cost: number,
+      slot: EquipmentSlot,
+      category?: WeaponCategory
+    ): void {
       const internal_id: string = generateID(name)
       const E: IItem = Object.freeze({
         name,
@@ -135,7 +155,9 @@ export namespace CSGO {
   }
 }
 
-const CSGOFACTORY: CSGO.IDataFactory = CSGO.dataFactory({ idGenerator: idGenerator })
+const CSGOFACTORY: CSGO.IDataFactory = CSGO.dataFactory({
+  idGenerator: idGenerator
+})
 
 CSGOFACTORY.addItem('UNI', 'Dual Berettas', 400, 'secondary')
 CSGOFACTORY.addItem('UNI', 'P-250', 300, 'secondary')

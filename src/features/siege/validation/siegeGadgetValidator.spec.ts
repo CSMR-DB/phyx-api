@@ -8,7 +8,9 @@ describe('siegeGadgetValidator', () => {
   test('should validate amount and deployability', async () => {
     await expect(
       siegeGadgetValidator(
-        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(R6SIEGEFACTORY.getOperators()),
+        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(
+          R6SIEGEFACTORY.getOperators()
+        ),
         siegeStrategyDataTransposer(siegeStrategyDefenseValid)
       ).execute()
     ).resolves.toEqual(true)

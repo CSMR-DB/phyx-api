@@ -1,4 +1,9 @@
-import { ISiegeStrategy, ISiegePlayer, ISiegeOperator, ISiegePlayers } from '~src/features/siege/ISiegeStrategyModel.interface'
+import {
+  ISiegeStrategy,
+  ISiegePlayer,
+  ISiegeOperator,
+  ISiegePlayers
+} from '~src/features/siege/ISiegeStrategyModel.interface'
 import { objectToArray } from '~src/utils/objectToArray'
 
 export interface ISiegeStrategyDataTransposer {
@@ -7,7 +12,9 @@ export interface ISiegeStrategyDataTransposer {
   readonly uniqueOperatorIDs: () => ISiegeOperator['internal_id'][]
 }
 
-export function siegeStrategyDataTransposer(strategy: ISiegeStrategy): ISiegeStrategyDataTransposer {
+export function siegeStrategyDataTransposer(
+  strategy: ISiegeStrategy
+): ISiegeStrategyDataTransposer {
   const {
     team: { players: _players }
   }: { team: { players: ISiegePlayers } } = strategy
@@ -19,13 +26,21 @@ export function siegeStrategyDataTransposer(strategy: ISiegeStrategy): ISiegeStr
   }
 
   function operators(): ISiegeOperator[] {
-    const result: ISiegeOperator[] = players().map(({ operator }: { operator: ISiegeOperator }) => operator)
+    const result: ISiegeOperator[] = players().map(
+      ({ operator }: { operator: ISiegeOperator }) => operator
+    )
 
     return result
   }
 
   function uniqueOperatorIDs(): ISiegeOperator['internal_id'][] {
-    const result: string[] = Array.from(new Set(operators().map(({ internal_id }: { internal_id: string }) => internal_id)))
+    const result: string[] = Array.from(
+      new Set(
+        operators().map(
+          ({ internal_id }: { internal_id: string }) => internal_id
+        )
+      )
+    )
 
     return result
   }

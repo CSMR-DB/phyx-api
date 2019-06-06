@@ -1,28 +1,34 @@
-import {strategyValidator} from "./strategyValidator"
-import {sideValidator} from "./validator-modules/sideValidator"
-import {itemsValidator} from "./validator-modules/itemsValidator"
-import {csgoCostValidator} from "~src/features/csgo/validation/csgoCostValidator"
+import { strategyValidator } from './strategyValidator'
+import { sideValidator } from './validator-modules/sideValidator'
+import { itemsValidator } from './validator-modules/itemsValidator'
+import { csgoCostValidator } from '~src/features/csgo/validation/csgoCostValidator'
 
-import {csgoStrategyDataTransposer} from "~src/features/csgo/csgoStrategyDataTransposer"
+import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 
-import csgoStrategyValid from "~src/features/csgo/mocks/csgoStrategyValid.mock"
-import csgoStrategyInvalidCost from "~src/features/csgo/mocks/csgoStrategyInvalidCost.mock"
-import csgoStrategyInvalidSide from "~src/features/csgo/mocks/csgoStrategyInvalidSide.mock"
-import csgoStrategyInvalidItems from "~src/features/csgo/mocks/csgoStrategyInvalidItems.mock"
+import csgoStrategyValid from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import csgoStrategyInvalidCost from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
+import csgoStrategyInvalidSide from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
+import csgoStrategyInvalidItems from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
 import {
   ICSGOStrategy,
   ICSGOItem
-} from "~src/features/csgo/interfaces/ICSGOStrategy.interface"
-import {siegeStrategyValid} from "~src/features/siege/mocks/siegeStrategyValid.mock"
-import {gameDataManager, IGameDataManager} from "~src/services/gameDataManager"
-import {ISiegeStrategy} from "~src/features/siege/ISiegeStrategyModel.interface"
-import {siegeStrategyDataTransposer} from "~src/features/siege/siegeStrategyDataTransposer"
-import {CSGOFACTORY} from "~src/features/csgo/data/dataFactory"
-import {IStrategyDataTransposer} from "./validator-modules/IStrategyDataTransposer.interface"
-import {R6SIEGEFACTORY, R6SIEGE} from "~src/features/siege/data/r6siege.factory"
-import {IValidator} from "./IValidator.interface"
+} from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
+import { siegeStrategyValid } from '~src/features/siege/mocks/siegeStrategyValid.mock'
+import {
+  gameDataManager,
+  IGameDataManager
+} from '~src/services/gameDataManager'
+import { ISiegeStrategy } from '~src/features/siege/ISiegeStrategyModel.interface'
+import { siegeStrategyDataTransposer } from '~src/features/siege/siegeStrategyDataTransposer'
+import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
+import { IStrategyDataTransposer } from './validator-modules/IStrategyDataTransposer.interface'
+import {
+  R6SIEGEFACTORY,
+  R6SIEGE
+} from '~src/features/siege/data/r6siege.factory'
+import { IValidator } from './IValidator.interface'
 
-describe("strategyValidator()", () => {
+describe('strategyValidator()', () => {
   const csgoDataManager: IGameDataManager<
     ICSGOItem,
     keyof ICSGOItem
@@ -58,7 +64,7 @@ describe("strategyValidator()", () => {
       dataManager: csgoDataManager,
       dataReducer: csgoDataReducer,
       expected: {
-        errors: [ Error("Cookie has spent too much on their loadout") ],
+        errors: [ Error('Cookie has spent too much on their loadout') ],
         result: false
       }
     },
@@ -68,9 +74,9 @@ describe("strategyValidator()", () => {
       dataReducer: csgoDataReducer,
       expected: {
         errors: [
-          Error("Cookie has spent too much on their loadout"),
-          Error("P2000 is not equippable on ATK side"),
-          Error("M4A4 is not equippable on ATK side")
+          Error('Cookie has spent too much on their loadout'),
+          Error('P2000 is not equippable on ATK side'),
+          Error('M4A4 is not equippable on ATK side')
         ],
         result: false
       }
@@ -82,17 +88,17 @@ describe("strategyValidator()", () => {
       expected: {
         result: false,
         errors: [
-          Error("GLOCKZZZZ18 does not exist"),
-          Error("PHYD has spent too much on their loadout"),
-          Error("GLOCKZZZZ18 is not equippable on ATK side"),
-          Error("AUG is not equippable on ATK side")
+          Error('GLOCKZZZZ18 does not exist'),
+          Error('PHYD has spent too much on their loadout'),
+          Error('GLOCKZZZZ18 is not equippable on ATK side'),
+          Error('AUG is not equippable on ATK side')
         ]
       }
     }
   ]
 
   const mockSideValidator: {
-    execute: () => Promise<{errors: Error[]; result: boolean}>
+    execute: () => Promise<{ errors: Error[]; result: boolean }>
   } = {
     execute: () =>
       Promise.resolve({
@@ -102,24 +108,24 @@ describe("strategyValidator()", () => {
   }
 
   const mockItemsValidator: {
-    execute: () => Promise<{errors: Error[]; result: boolean}>
+    execute: () => Promise<{ errors: Error[]; result: boolean }>
   } = {
     execute: () =>
       Promise.resolve({
-        errors: [ Error("AUG is not equippable on ATK side") ],
+        errors: [ Error('AUG is not equippable on ATK side') ],
         result: false
       })
   }
 
-  const mockExpected: {result: boolean; errors: Error[]} = {
+  const mockExpected: { result: boolean; errors: Error[] } = {
     result: false,
-    errors: [ Error("AUG is not equippable on ATK side") ]
+    errors: [ Error('AUG is not equippable on ATK side') ]
   }
 
   // tslint:disable-next-line: typedef
   test.each(testCases)(
-    "strategyValidator() case",
-    async ({strategy, dataManager, dataReducer, expected}: any) => {
+    'strategyValidator() case',
+    async ({ strategy, dataManager, dataReducer, expected }: any) => {
       // jest // < Cannot assign to 'execute' because of Object.freeze({...})
       //   .spyOn(
       //     sideValidator(strategy, dataReducer(strategy), dataManager),
@@ -143,7 +149,7 @@ describe("strategyValidator()", () => {
     }
   )
 
-  test("strategyValidator() mocked", async () => {
+  test('strategyValidator() mocked', async () => {
     await expect(
       strategyValidator([ mockSideValidator, mockItemsValidator ]).execute()
     ).resolves.toEqual(mockExpected)

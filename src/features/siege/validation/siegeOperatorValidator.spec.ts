@@ -12,7 +12,9 @@ describe('siegeOperatorValidator()', () => {
     await expect(
       siegeOperatorValidator(
         // siegeStrategyValid,
-        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(R6SIEGEFACTORY.getOperators()),
+        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(
+          R6SIEGEFACTORY.getOperators()
+        ),
         siegeStrategyDataTransposer(siegeStrategyValid)
       ).execute()
     ).resolves.toEqual(true)
@@ -22,7 +24,9 @@ describe('siegeOperatorValidator()', () => {
     await expect(
       siegeOperatorValidator(
         // siegeStrategyInvalidOperatorConfig,
-        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(R6SIEGEFACTORY.getOperators()),
+        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(
+          R6SIEGEFACTORY.getOperators()
+        ),
         siegeStrategyDataTransposer(siegeStrategyInvalidOperatorConfig)
       ).execute()
     ).resolves.toEqual(false)
@@ -32,7 +36,9 @@ describe('siegeOperatorValidator()', () => {
     await expect(
       siegeOperatorValidator(
         // siegeStrategyDefenseValid,
-        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(R6SIEGEFACTORY.getOperators()),
+        gameDataManager<R6SIEGE.IOperator, keyof R6SIEGE.IOperator>(
+          R6SIEGEFACTORY.getOperators()
+        ),
         siegeStrategyDataTransposer(siegeStrategyDefenseValid)
       ).execute()
     ).resolves.toEqual(true)

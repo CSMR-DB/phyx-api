@@ -44,10 +44,21 @@ export namespace R6SIEGE {
   }
 
   interface IDataFactory {
-    addMap: (name: string, official: boolean, walls: [string, boolean][], doorways: string[], windows: string[]) => void
+    addMap: (
+      name: string,
+      official: boolean,
+      walls: [string, boolean][],
+      doorways: string[],
+      windows: string[]
+    ) => void
     getMaps: () => IMap[]
     getMapByID: (id: string) => IMap | undefined
-    addItem: (name: string, slot: string, category: string, count?: number) => void
+    addItem: (
+      name: string,
+      slot: string,
+      category: string,
+      count?: number
+    ) => void
     getItems: () => IItem[]
     getItemByID: (id: string) => IItem | undefined
     addOperator: (
@@ -57,14 +68,20 @@ export namespace R6SIEGE {
       primaries: string[],
       secondaries: string[],
       utilities: string[],
-      gadget: [IOperator['gadget']['name'], IOperator['gadget']['deployable'], IOperator['gadget']['count']],
+      gadget: [
+        IOperator['gadget']['name'],
+        IOperator['gadget']['deployable'],
+        IOperator['gadget']['count']
+      ],
       ability?: string
     ) => void
     getOperators: () => IOperator[]
     getOperatorByID: (id: string) => IOperator | undefined
   }
 
-  export function DATAFACTORY(options: { idGenerator: IIDGenerator }): Required<IDataFactory> {
+  export function DATAFACTORY(options: {
+    idGenerator: IIDGenerator
+  }): Required<IDataFactory> {
     const { idGenerator } = options
 
     const LOCAL_INVENTORY: ILocalInventory = {
@@ -85,7 +102,12 @@ export namespace R6SIEGE {
       return categoryOptions[slot]
     }
 
-    function addItem(name: string, slot: string, category: string, count?: number): void {
+    function addItem(
+      name: string,
+      slot: string,
+      category: string,
+      count?: number
+    ): void {
       const E: IItem = Object.freeze(
         Object.assign(
           {},
@@ -103,14 +125,29 @@ export namespace R6SIEGE {
     }
 
     function getItemByID(id: string): IItem | undefined {
-      return getItems().find((item) => item.internal_id === id)
+      return getItems().find(item => item.internal_id === id)
     }
 
-    function addMap(name: string, official: boolean, walls: [string, boolean][], doorways: string[], windows: string[]): void {
+    function addMap(
+      name: string,
+      official: boolean,
+      walls: [string, boolean][],
+      doorways: string[],
+      windows: string[]
+    ): void {
       const M: IMap = Object.freeze(
         Object.assign(
           {},
-          { name, official, walls: walls.map((wall) => ({ internal_id: wall[0], reinforceable: wall[1] })), doorways, windows },
+          {
+            name,
+            official,
+            walls: walls.map(wall => ({
+              internal_id: wall[0],
+              reinforceable: wall[1]
+            })),
+            doorways,
+            windows
+          },
           { internal_id: idGenerator(name, { uppercase: true }) }
         )
       )
@@ -119,7 +156,7 @@ export namespace R6SIEGE {
     }
 
     function getMapByID(id: string): IMap | undefined {
-      return getMaps().find((item) => item.internal_id === id)
+      return getMaps().find(item => item.internal_id === id)
     }
 
     function getMaps(): IMap[] {
@@ -138,7 +175,11 @@ export namespace R6SIEGE {
        * ~param `1` = a boolean describing whether or not a gadget can be physically deployed
        * ~param `2` = a number to define how many times a specific gadget can be used or deployed
        */
-      gadget: [IOperator['gadget']['name'], IOperator['gadget']['deployable'], IOperator['gadget']['count']],
+      gadget: [
+        IOperator['gadget']['name'],
+        IOperator['gadget']['deployable'],
+        IOperator['gadget']['count']
+      ],
       ability?: string
     ): void {
       const O: IOperator = Object.freeze(
@@ -148,15 +189,21 @@ export namespace R6SIEGE {
             side,
             name,
             organization,
-            primaries: primaries.map((i) => idGenerator(i, { uppercase: true })),
-            secondaries: secondaries.map((i) => idGenerator(i, { uppercase: true })),
-            utilities: utilities.map((i) => idGenerator(i, { uppercase: true })),
+            primaries: primaries.map(i => idGenerator(i, { uppercase: true })),
+            secondaries: secondaries.map(i =>
+              idGenerator(i, { uppercase: true })
+            ),
+            utilities: utilities.map(i => idGenerator(i, { uppercase: true })),
             gadget: Object.assign(
               { name: gadget[0], deployable: gadget[1], count: gadget[2] },
               { internal_id: idGenerator(gadget[0], { uppercase: true }) }
             ),
             ability:
-              (ability && Object.assign({ name: ability }, { ability_id: idGenerator(ability, { uppercase: true }) })) ||
+              (ability &&
+                Object.assign(
+                  { name: ability },
+                  { ability_id: idGenerator(ability, { uppercase: true }) }
+                )) ||
               undefined
           },
           { internal_id: idGenerator(name, { uppercase: true }) }
@@ -171,7 +218,7 @@ export namespace R6SIEGE {
     }
 
     function getOperatorByID(id: string): IOperator | undefined {
-      return getOperators().find((item) => item.internal_id === id)
+      return getOperators().find(item => item.internal_id === id)
     }
 
     return Object.freeze({
@@ -315,8 +362,20 @@ R6SIEGEFACTORY.addItem('Smoke Grenade', 'utility', 'utility', 2)
 R6SIEGEFACTORY.addItem('Nitro Cell', 'utility', 'utility', 1)
 
 // MAPS
-R6SIEGEFACTORY.addMap('Consulate', true, [ [ 'WA_01', true ], [ 'WA_02', true ] ], [ 'DO_01', 'DO_02' ], [ 'WI_01', 'WI_02' ])
-R6SIEGEFACTORY.addMap('Plane', true, [ [ 'WA_01', true ], [ 'WA_02', true ] ], [ 'DO_01', 'DO_02' ], [ 'WI_01', 'WI_02' ])
+R6SIEGEFACTORY.addMap(
+  'Consulate',
+  true,
+  [ [ 'WA_01', true ], [ 'WA_02', true ] ],
+  [ 'DO_01', 'DO_02' ],
+  [ 'WI_01', 'WI_02' ]
+)
+R6SIEGEFACTORY.addMap(
+  'Plane',
+  true,
+  [ [ 'WA_01', true ], [ 'WA_02', true ] ],
+  [ 'DO_01', 'DO_02' ],
+  [ 'WI_01', 'WI_02' ]
+)
 
 // ATTACKERS
 R6SIEGEFACTORY.addOperator(

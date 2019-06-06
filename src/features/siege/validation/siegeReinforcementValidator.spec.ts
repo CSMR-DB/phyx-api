@@ -9,7 +9,9 @@ describe('siegeReinforcementValidator', () => {
     await expect(
       siegeReinforcementValidator(
         siegeStrategyDefenseValid,
-        gameDataManager<R6SIEGE.IMap, keyof R6SIEGE.IMap>(R6SIEGEFACTORY.getMaps()),
+        gameDataManager<R6SIEGE.IMap, keyof R6SIEGE.IMap>(
+          R6SIEGEFACTORY.getMaps()
+        ),
         siegeStrategyDataTransposer(siegeStrategyDefenseValid)
       ).execute()
     ).resolves.toEqual(true)

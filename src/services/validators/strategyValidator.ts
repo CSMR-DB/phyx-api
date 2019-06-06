@@ -1,7 +1,7 @@
-import {IValidator} from "./IValidator.interface"
-import {isValidated} from "./validator-modules/isValidated"
+import { IValidator } from './IValidator.interface'
+import { isValidated } from './validator-modules/isValidated'
 
-type ValidatorReturnType = {result: boolean; errors: Error[] | []}
+type ValidatorReturnType = { result: boolean; errors: Error[] | [] }
 
 /**
  * Runs all supplied Validators in order and determines if a Strategy is qualified to be submitted to storage.
@@ -28,8 +28,8 @@ export function strategyValidator(validators: IValidator[]): IValidator {
 
     const result: boolean = isValidated(Array.from(new Set(results)))
 
-    return {result, errors}
+    return { result, errors }
   }
 
-  return Object.freeze({execute})
+  return Object.freeze({ execute })
 }

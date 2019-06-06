@@ -2,7 +2,9 @@ import { CSGO } from './dataFactory'
 import { idGenerator } from '~src/utils/idGenerator'
 
 describe('CSGOFACTORY', () => {
-  const CSGOFACTORY: CSGO.IDataFactory = CSGO.dataFactory({ idGenerator: idGenerator })
+  const CSGOFACTORY: CSGO.IDataFactory = CSGO.dataFactory({
+    idGenerator: idGenerator
+  })
 
   beforeAll(() => {
     CSGOFACTORY.addMap('Mirage', true)
@@ -26,7 +28,11 @@ describe('CSGOFACTORY', () => {
   })
 
   test('should include Mirage as a map', () => {
-    expect(CSGOFACTORY.getMapByID('MIRAGE')).toEqual({ internal_id: 'MIRAGE', name: 'Mirage', official: true })
+    expect(CSGOFACTORY.getMapByID('MIRAGE')).toEqual({
+      internal_id: 'MIRAGE',
+      name: 'Mirage',
+      official: true
+    })
   })
 
   test('should not include Consulate as a map', () => {

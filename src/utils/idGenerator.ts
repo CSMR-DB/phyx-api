@@ -15,7 +15,7 @@ export const idGenerator: IIDGenerator = (
     prefix: string
   }>
 ) => {
-  let id: string = input.replace(/\W/g, "")
+  let id: string = input.replace(/\W/g, '')
 
   if (options && options.uppercase) {
     id = id.toUpperCase()

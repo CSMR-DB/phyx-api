@@ -6,8 +6,22 @@ describe('R6SIEGEFACTORY', () => {
 
   beforeAll(() => {
     R6SIEGEFACTORY.addItem('G36-C', 'primary', 'AR')
-    R6SIEGEFACTORY.addMap('Consulate', true, [ [ 'WA_01', true ] ], [ 'DO_01' ], [ 'WI_01' ])
-    R6SIEGEFACTORY.addOperator('ATK', 'Sledge', 'SAS', [ 'L85A2' ], [ 'P226MK25' ], [ 'FRAGGRENADE' ], [ 'The Caber', false, 25 ])
+    R6SIEGEFACTORY.addMap(
+      'Consulate',
+      true,
+      [ [ 'WA_01', true ] ],
+      [ 'DO_01' ],
+      [ 'WI_01' ]
+    )
+    R6SIEGEFACTORY.addOperator(
+      'ATK',
+      'Sledge',
+      'SAS',
+      [ 'L85A2' ],
+      [ 'P226MK25' ],
+      [ 'FRAGGRENADE' ],
+      [ 'The Caber', false, 25 ]
+    )
   })
 
   test('should correctly add a new item', () => {
@@ -50,7 +64,15 @@ describe('R6SIEGEFACTORY', () => {
   })
 
   test('should correctly add a new Operator', () => {
-    R6SIEGEFACTORY.addOperator('ATK', 'Ash', 'SWAT', [ 'G36C' ], [ '57USG' ], [ 'STUNGRENADE' ], [ 'M120 CREM', true, 2 ])
+    R6SIEGEFACTORY.addOperator(
+      'ATK',
+      'Ash',
+      'SWAT',
+      [ 'G36C' ],
+      [ '57USG' ],
+      [ 'STUNGRENADE' ],
+      [ 'M120 CREM', true, 2 ]
+    )
 
     expect(R6SIEGEFACTORY.getOperatorByID('ASH')).toEqual({
       side: 'ATK',
@@ -60,7 +82,12 @@ describe('R6SIEGEFACTORY', () => {
       primaries: [ 'G36C' ],
       secondaries: [ '57USG' ],
       utilities: [ 'STUNGRENADE' ],
-      gadget: { name: 'M120 CREM', internal_id: 'M120CREM', deployable: true, count: 2 }
+      gadget: {
+        name: 'M120 CREM',
+        internal_id: 'M120CREM',
+        deployable: true,
+        count: 2
+      }
     })
   })
 
@@ -73,7 +100,12 @@ describe('R6SIEGEFACTORY', () => {
       primaries: [ 'L85A2' ],
       secondaries: [ 'P226MK25' ],
       utilities: [ 'FRAGGRENADE' ],
-      gadget: { name: 'The Caber', internal_id: 'THECABER', deployable: false, count: 25 }
+      gadget: {
+        name: 'The Caber',
+        internal_id: 'THECABER',
+        deployable: false,
+        count: 25
+      }
     })
   })
 

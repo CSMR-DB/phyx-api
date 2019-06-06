@@ -9,11 +9,15 @@ describe('idGenerator', () => {
 
   describe('idGenerator options object', () => {
     test('should return an object', () => {
-      expect(idGenerator(someWordToId, { uppercase: true })).toEqual('SOMEWORD18')
+      expect(idGenerator(someWordToId, { uppercase: true })).toEqual(
+        'SOMEWORD18'
+      )
     })
 
     test('should return an id with prefix', () => {
-      expect(idGenerator(someWordToId, { prefix: 'kek' })).toEqual('kekSomeword18')
+      expect(idGenerator(someWordToId, { prefix: 'kek' })).toEqual(
+        'kekSomeword18'
+      )
     })
   })
 })

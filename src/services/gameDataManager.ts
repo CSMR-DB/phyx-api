@@ -10,7 +10,9 @@ export interface IGameDataManager<T extends IItem, K extends keyof T> {
   getField: (id: T['internal_id'], field: K, undefinedReturn: T[K]) => T[K]
 }
 
-export function gameDataManager<T extends IItem, K extends keyof T>(items: T[]): IGameDataManager<T, K> {
+export function gameDataManager<T extends IItem, K extends keyof T>(
+  items: T[]
+): IGameDataManager<T, K> {
   function hasID(id: T['internal_id']): boolean {
     const result: boolean = items.some((item: T) => item.internal_id === id)
 
@@ -18,12 +20,18 @@ export function gameDataManager<T extends IItem, K extends keyof T>(items: T[]):
   }
 
   function getOneById(id: T['internal_id']): T | undefined {
-    const result: T | undefined = hasID(id) ? items.find((item: T) => item.internal_id === id) : undefined
+    const result: T | undefined = hasID(id)
+      ? items.find((item: T) => item.internal_id === id)
+      : undefined
 
     return result
   }
 
-  function getField(id: T['internal_id'], field: K, undefinedReturn: T[K]): T[K] {
+  function getField(
+    id: T['internal_id'],
+    field: K,
+    undefinedReturn: T[K]
+  ): T[K] {
     const result: T[K] = hasID(id) ? getOneById(id)![field] : undefinedReturn
 
     return result

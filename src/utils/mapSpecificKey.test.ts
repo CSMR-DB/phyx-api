@@ -65,6 +65,8 @@ const testCases = [
 
 describe.skip('mapSpecificKey<number>', () => {
   test.each(testCases)('case', ({ input, field, expected }) => {
-    expect(mapSpecificKey<ICostTest, keyof ICostTest>(input, field)).toEqual(expected)
+    expect(mapSpecificKey<ICostTest, keyof ICostTest>(input, field)).toEqual(
+      expected
+    )
   })
 })

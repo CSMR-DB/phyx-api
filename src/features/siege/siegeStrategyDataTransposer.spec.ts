@@ -3,12 +3,8 @@ import { siegeStrategyValid } from '~src/features/siege/mocks/siegeStrategyValid
 
 describe('StrategyItemsReducer', () => {
   test('should return an array (from Set) of unique Operator IDs', () => {
-    expect(siegeStrategyDataTransposer(siegeStrategyValid).uniqueOperatorIDs()).toEqual([
-      'ALIBI',
-      'BANDIT',
-      'CASTLE',
-      'DOC',
-      'FROST'
-    ])
+    expect(
+      siegeStrategyDataTransposer(siegeStrategyValid).uniqueOperatorIDs()
+    ).toEqual([ 'ALIBI', 'BANDIT', 'CASTLE', 'DOC', 'FROST' ])
   })
 })
