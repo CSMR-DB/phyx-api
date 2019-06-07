@@ -19,8 +19,8 @@ describe('SideValidator()', () => {
     await expect(
       sideValidator(
         csgoStrategyValid,
-        csgoStrategyDataTransposer(csgoStrategyValid),
-        csgoDataManager
+        csgoDataManager,
+        csgoStrategyDataTransposer(csgoStrategyValid)
       ).execute()
     ).resolves.toEqual({ errors: [], result: true })
   })
@@ -29,8 +29,8 @@ describe('SideValidator()', () => {
     await expect(
       sideValidator(
         csgoStrategyInvalidSide,
-        csgoStrategyDataTransposer(csgoStrategyInvalidSide),
-        csgoDataManager
+        csgoDataManager,
+        csgoStrategyDataTransposer(csgoStrategyInvalidSide)
       ).execute()
     ).resolves.toEqual({
       errors: [

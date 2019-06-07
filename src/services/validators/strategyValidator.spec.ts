@@ -140,7 +140,7 @@ describe('strategyValidator()', () => {
       const configuredStrategyValidator: IValidator = strategyValidator([
         itemsValidator(strategy, dataManager, dataReducer(strategy)),
         csgoCostValidator(strategy, dataManager),
-        sideValidator(strategy, dataReducer(strategy), dataManager)
+        sideValidator(strategy, dataManager, dataReducer(strategy))
       ])
 
       await expect(configuredStrategyValidator.execute()).resolves.toEqual(

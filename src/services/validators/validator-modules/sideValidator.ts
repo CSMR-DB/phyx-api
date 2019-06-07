@@ -6,8 +6,8 @@ import { IGameDataManager } from '~src/services/gameDataManager'
 
 export function sideValidator(
   strategy: IStrategy,
-  strategyDataTransposer: IStrategyDataTransposer,
-  gameDataManager: IGameDataManager<ICSGOItem, keyof ICSGOItem>
+  gameDataManager: IGameDataManager<ICSGOItem, keyof ICSGOItem>,
+  strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{ result: boolean; errors: Error[] | [] }> {
     const stratSide: string = strategy.side
