@@ -2,7 +2,7 @@ import { gameDataManager, IGameDataManager } from './gameDataManager'
 import {
   Attackers,
   ALLOPERATORS
-} from '~src/features/siege/data/siege-operators'
+} from '~src/features/r6siege/data/r6siege-operators'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
 

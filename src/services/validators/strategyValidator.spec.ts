@@ -13,19 +13,19 @@ import {
   ICSGOStrategy,
   ICSGOItem
 } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
-import { siegeStrategyValid } from '~src/features/siege/mocks/siegeStrategyValid.mock'
+import { siegeStrategyValid } from '~src/features/r6siege/mocks/r6siegeStrategyValid.mock'
 import {
   gameDataManager,
   IGameDataManager
 } from '~src/services/gameDataManager'
-import { ISiegeStrategy } from '~src/features/siege/ISiegeStrategyModel.interface'
-import { siegeStrategyDataTransposer } from '~src/features/siege/siegeStrategyDataTransposer'
+import { IR6SiegeStrategy } from '~src/features/r6siege/IR6SiegeStrategyModel.interface'
+import { siegeStrategyDataTransposer } from '~src/features/r6siege/r6siegeStrategyDataTransposer'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import { IStrategyDataTransposer } from './validator-modules/IStrategyDataTransposer.interface'
 import {
   R6SIEGEFACTORY,
   R6SIEGE
-} from '~src/features/siege/data/r6siege.factory'
+} from '~src/features/r6siege/data/r6siege.factory'
 import { IValidator } from './IValidator.interface'
 
 describe('strategyValidator()', () => {
@@ -46,7 +46,7 @@ describe('strategyValidator()', () => {
   > = gameDataManager(R6SIEGEFACTORY.getOperators())
 
   // tslint:disable-next-line: typedef
-  const siegeDataReducer = (strategy: ISiegeStrategy) =>
+  const siegeDataReducer = (strategy: IR6SiegeStrategy) =>
     siegeStrategyDataTransposer(strategy)
 
   const testCases: any[] = [

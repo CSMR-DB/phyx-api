@@ -1,14 +1,8 @@
-import { IResultHandler } from '~src/utils/resultHandler'
 import { IGameDataManager } from '~src/services/gameDataManager'
 import { IValidator } from '../IValidator.interface'
-import IStrategy, { IGameItem } from '~src/interfaces/IStrategy.interface'
+import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/validator-modules/IStrategyDataTransposer.interface'
 import { isValidated } from './isValidated'
-
-interface IItemsValidator {
-  readonly gameDataManager: IGameDataManager<IGameItem, keyof IGameItem>
-  readonly strategyDataTransposer: IStrategyDataTransposer
-}
 
 export function itemsValidator(
   strategy: IStrategy,
