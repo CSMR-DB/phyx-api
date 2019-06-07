@@ -10,7 +10,7 @@ import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
 import { IValidator } from '~src/services/validators/IValidator.interface'
-import { isValidated } from '~src/services/validators/validator-modules/isValidated'
+import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
   strategy: ICSGOStrategy,

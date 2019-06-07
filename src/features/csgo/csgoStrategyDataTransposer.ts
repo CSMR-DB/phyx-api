@@ -6,7 +6,7 @@ import {
   ICSGOItem,
   ICSGOPlayers
 } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
-import { IStrategyDataTransposer } from '~src/services/validators/validator-modules/IStrategyDataTransposer.interface'
+import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 
 export function csgoStrategyDataTransposer(
   strategy: ICSGOStrategy

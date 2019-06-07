@@ -1,5 +1,5 @@
 import { IStrategy } from '~src/interfaces/IStrategy.interface'
-import { IStrategyDataTransposer } from '~src/services/validators/validator-modules/IStrategyDataTransposer.interface'
+import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { IValidator } from '../IValidator.interface'
 import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'

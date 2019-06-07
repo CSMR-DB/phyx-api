@@ -1,7 +1,7 @@
 import { IGameDataManager } from '~src/services/gameDataManager'
 import { IValidator } from '../IValidator.interface'
 import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
-import { IStrategyDataTransposer } from '~src/services/validators/validator-modules/IStrategyDataTransposer.interface'
+import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { isValidated } from './isValidated'
 
 export function itemsValidator(

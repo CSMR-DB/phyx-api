@@ -3,7 +3,7 @@ import { IR6SiegeStrategyDataTransposer } from '../r6siegeStrategyDataTransposer
 import { IR6SiegePlayer } from '../IR6SiegeStrategyModel.interface'
 import { IGameDataManager } from '../../../services/gameDataManager'
 import { IValidator } from '~src/services/validators/IValidator.interface'
-import { isValidated } from '~src/services/validators/validator-modules/isValidated'
+import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function siegeReinforcementValidator(
   gameDataManager: IGameDataManager<R6SIEGE.IMap, keyof R6SIEGE.IMap>,

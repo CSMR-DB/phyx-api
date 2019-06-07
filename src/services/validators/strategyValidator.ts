@@ -1,5 +1,5 @@
 import { IValidator } from './IValidator.interface'
-import { isValidated } from './validator-modules/isValidated'
+import { isValidated } from './modules/isValidated'
 
 type ValidatorReturnType = { result: boolean; errors: Error[] | [] }
 

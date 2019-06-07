@@ -1,7 +1,7 @@
 import { strategyValidator } from './strategyValidator'
-import { sideValidator } from './validator-modules/sideValidator'
-import { itemsValidator } from './validator-modules/itemsValidator'
-import { csgoCostValidator } from '~src/features/csgo/validation/csgoCostValidator'
+import { sideValidator } from './modules/sideValidator'
+import { itemsValidator } from './modules/itemsValidator'
+import { csgoCostValidator } from '~src/features/csgo/validators/modules/csgoCostValidator'
 
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 
@@ -21,7 +21,7 @@ import {
 import { IR6SiegeStrategy } from '~src/features/r6siege/IR6SiegeStrategyModel.interface'
 import { siegeStrategyDataTransposer } from '~src/features/r6siege/r6siegeStrategyDataTransposer'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
-import { IStrategyDataTransposer } from './validator-modules/IStrategyDataTransposer.interface'
+import { IStrategyDataTransposer } from './modules/IStrategyDataTransposer.interface'
 import {
   R6SIEGEFACTORY,
   R6SIEGE
