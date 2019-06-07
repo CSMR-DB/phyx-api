@@ -33,7 +33,7 @@ export namespace R6SIEGE {
     }
     ability?: {
       name: string
-      ability_id: string
+      internal_id: string
     }
   }
 
@@ -202,7 +202,7 @@ export namespace R6SIEGE {
               (ability &&
                 Object.assign(
                   { name: ability },
-                  { ability_id: idGenerator(ability, { uppercase: true }) }
+                  { internal_id: idGenerator(ability, { uppercase: true }) }
                 )) ||
               undefined
           },

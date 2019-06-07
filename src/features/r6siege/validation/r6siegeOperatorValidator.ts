@@ -11,90 +11,90 @@ export function siegeOperatorValidator(
 ): IValidator {
   async function execute(): Promise<{ result: boolean; errors: Error[] }> {
     const {
+      operators,
       uniqueOperatorIDs
     }: {
+      operators: IR6SiegeOperator[]
       uniqueOperatorIDs: IR6SiegeOperator['internal_id'][]
     } = strategyDataTransposer
-    const {
-      operators
-    }: { operators: IR6SiegeOperator[] } = strategyDataTransposer
 
     const results: boolean[] = []
-
     const errors: Error[] = []
 
     uniqueOperatorIDs.map((id: string) => {
+      const invalidItems: string[] = []
+
       const operatorData:
         | R6SIEGE.IOperator
         | undefined = gameDataManager.getOneById(id)
-      const {
-        primaries: primariesData,
-        secondaries: secondariesData,
-        utilities: utilitiesData,
-        gadget: gadgetData
-      }: {
-        primaries: R6SIEGE.IOperator['primaries']
-        secondaries: R6SIEGE.IOperator['secondaries']
-        utilities: R6SIEGE.IOperator['utilities']
-        gadget: R6SIEGE.IOperator['gadget']
-      } = operatorData!
 
-      const operatorSubmitted: IR6SiegeOperator | undefined = operators.find(
-        (operator: IR6SiegeOperator) => operator.internal_id === id
-      )
+      if (operatorData) {
+        const {
+          primaries: primariesData,
+          secondaries: secondariesData,
+          utilities: utilitiesData,
+          gadget: gadgetData,
+          ability: abilityData
+        }: R6SIEGE.IOperator = operatorData
 
-      const {
-        primary: { internal_id: primaryID },
-        secondary: { internal_id: secondaryID },
-        utility: { internal_id: utilityID },
-        gadget: { internal_id: gadgetID }
-      }: {
-        primary: { internal_id: IR6SiegeOperator['primary']['internal_id'] }
-        secondary: { internal_id: IR6SiegeOperator['secondary']['internal_id'] }
-        utility: { internal_id: IR6SiegeOperator['utility']['internal_id'] }
-        gadget: { internal_id: IR6SiegeOperator['gadget']['internal_id'] }
-      } = operatorSubmitted!
-
-      // Operator optionally has an ability and can therefor not be destructured in te same way
-      if (operatorSubmitted!.ability !== undefined) {
-        console.log(operatorSubmitted!.ability)
-      }
-
-      const isPrimaryValid: boolean =
-        primaryID.length > 0 && primariesData.indexOf(primaryID) !== -1
-      const isSecondaryValid: boolean =
-        secondaryID.length > 0 && secondariesData.indexOf(secondaryID) !== -1
-      const isUtilityValid: boolean =
-        utilityID.length > 0 && utilitiesData.indexOf(utilityID) !== -1
-      const isGadgetValid: boolean = gadgetData.internal_id === gadgetID
-
-      results.push(
-        isPrimaryValid,
-        isSecondaryValid,
-        isUtilityValid,
-        isGadgetValid
-      )
-
-      const invalidItems: string[] = []
-
-      !isPrimaryValid && invalidItems.push(primaryID)
-      !isSecondaryValid && invalidItems.push(secondaryID)
-      !isUtilityValid && invalidItems.push(utilityID)
-      !isGadgetValid && invalidItems.push(gadgetID)
-
-      if (
-        !isPrimaryValid ||
-        !isSecondaryValid ||
-        !isUtilityValid ||
-        !isGadgetValid
-      )
-        errors.push(
-          Error(
-            `${operatorSubmitted!.internal_id} is invalid: ${invalidItems.join(
-              ', '
-            )}`
-          )
+        const operatorSubmitted: IR6SiegeOperator | undefined = operators.find(
+          (operator: IR6SiegeOperator) => operator.internal_id === id
         )
+
+        if (operatorSubmitted) {
+          const {
+            primary: { internal_id: primaryID },
+            secondary: { internal_id: secondaryID },
+            utility: { internal_id: utilityID },
+            gadget: { internal_id: gadgetID },
+            ability
+          }: IR6SiegeOperator = operatorSubmitted
+
+          const itemsArray: [string[], string][] = [
+            [ primariesData, primaryID ],
+            [ secondariesData, secondaryID ],
+            [ utilitiesData, utilityID ]
+          ]
+
+          // Validate items with a shape of string[]
+          itemsArray.map(([ array, item ]: [string[], string]) => {
+            const itemValid: boolean = array.indexOf(item) !== -1
+            if (!itemValid) {
+              invalidItems.push(item)
+            }
+            results.push(itemValid)
+          })
+
+          // Validate gadget with a shape of {name: string; internal_id: string; deployable: boolean; count: number;}
+          if (gadgetID && gadgetData) {
+            const gadgetValid: boolean = gadgetData.internal_id === gadgetID
+            if (!gadgetValid) {
+              invalidItems.push(gadgetID)
+            }
+            results.push(gadgetValid)
+          }
+
+          // Validate ability with a shape of Optional<{name: string: internal_id: string}>
+          if (ability) {
+            const abilityValid: boolean = abilityData
+              ? ability.internal_id === abilityData.internal_id
+              : false
+            if (!abilityValid) {
+              invalidItems.push(ability.internal_id)
+            }
+            results.push(abilityValid)
+          }
+
+          if (invalidItems.length > 0)
+            errors.push(
+              Error(
+                `${
+                  operatorSubmitted.internal_id
+                } is invalid: ${invalidItems.join(', ')}`
+              )
+            )
+        }
+      }
     })
 
     return await { result: isValidated(results), errors }

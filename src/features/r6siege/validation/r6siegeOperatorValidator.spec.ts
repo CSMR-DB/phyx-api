@@ -5,6 +5,8 @@ import { R6SIEGEFACTORY } from '../data/r6siege.factory'
 import { siegeStrategyValid } from '../mocks/r6siegeStrategyValid.mock'
 import { siegeStrategyInvalidOperatorConfig } from '../mocks/r6siegeStrategyInvalidOperatorConfig.mock'
 import { siegeStrategyDefenseValid } from '../mocks/r6siegeStrategyDefenseValid.mock'
+import { siegeStrategyInvalidOperatorGadget } from '../mocks/r6siegeStrategyInvalidOperatorGadget.mock'
+import { siegeStrategyInvalidOperatorAbility } from '../mocks/r6siegeStrategyInvalidOperatorAbility.mock'
 
 describe('siegeOperatorValidator()', () => {
   test('should validate an Operator with a good loadout configuration', async () => {
@@ -35,5 +37,29 @@ describe('siegeOperatorValidator()', () => {
         siegeStrategyDataTransposer(siegeStrategyDefenseValid)
       ).execute()
     ).resolves.toEqual({ result: true, errors: [] })
+  })
+
+  test('should invalidate an Operator with an invalid gadget equipped', async () => {
+    await expect(
+      siegeOperatorValidator(
+        gameDataManager(R6SIEGEFACTORY.getOperators()),
+        siegeStrategyDataTransposer(siegeStrategyInvalidOperatorGadget)
+      ).execute()
+    ).resolves.toEqual({
+      result: false,
+      errors: [ Error('BANDIT is invalid: GRZMOTMINE') ]
+    })
+  })
+
+  test('should invalidate an Operator with an invalid ability equipped', async () => {
+    await expect(
+      siegeOperatorValidator(
+        gameDataManager(R6SIEGEFACTORY.getOperators()),
+        siegeStrategyDataTransposer(siegeStrategyInvalidOperatorAbility)
+      ).execute()
+    ).resolves.toEqual({
+      result: false,
+      errors: [ Error('BANDIT is invalid: SILENTSTEP') ]
+    })
   })
 })
