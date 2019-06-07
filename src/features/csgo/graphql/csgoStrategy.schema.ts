@@ -1,7 +1,9 @@
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { gql, makeExecutableSchema } from 'apollo-server'
+import { DocumentNode, GraphQLError, GraphQLSchema } from 'graphql'
+import { Document } from 'mongoose'
 
-const csgoTypeDefs = gql`
+const typeDefs: DocumentNode = gql`
   type Item {
     internal_id: String!
   }
@@ -58,38 +60,53 @@ const csgoTypeDefs = gql`
     csgoStrategiesByMap(map: String): [CSGOStrategy!]!
     csgoStrategy(id: String): CSGOStrategy!
   }
+
+  type Mutation {
+    submitCSGOStrategy: String
+  }
 `
 
+// tslint:disable-next-line: typedef
 const resolvers = {
   Query: {
-    // csgoStrategies: () => csgoStrategies
-    csgoStrategy: async (_: any, { id }: { id: string }) => {
+    csgoStrategy: async (
+      _: any,
+      { id }: { id: string }
+    ): Promise<Document | null> => {
       return await MongooseModelCSGOStrategy.findOne({ id })
         .exec()
-        .then(doc => doc)
-        .catch(error => {
+        .then((doc: Document | null) => doc)
+        .catch((error: GraphQLError) => {
           throw error
         })
     },
-    csgoStrategies: async () =>
+    csgoStrategies: async (): Promise<Document[]> =>
       await MongooseModelCSGOStrategy.find({})
         .exec()
-        .then(docs => docs)
-        .catch(error => {
+        .then((docs: Document[]) => docs)
+        .catch((error: GraphQLError) => {
           throw error
         }),
-    csgoStrategiesByMap: async (_: any, { map }: { map: string }) => {
+    csgoStrategiesByMap: async (
+      _: any,
+      { map }: { map: string }
+    ): Promise<Document[]> => {
       return await MongooseModelCSGOStrategy.find({ map })
         .exec()
-        .then(docs => docs)
-        .catch(error => {
+        .then((docs: Document[]) => docs)
+        .catch((error: GraphQLError) => {
           throw error
         })
+    }
+  },
+  Mutation: {
+    submitCSGOStrategy: async () => {
+      console.log('submission ran?')
     }
   }
 }
 
-export const csgoSchema = makeExecutableSchema({
-  typeDefs: csgoTypeDefs,
+export const csgoSchema: GraphQLSchema = makeExecutableSchema({
+  typeDefs,
   resolvers
 })
