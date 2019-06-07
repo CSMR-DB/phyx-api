@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "target": "es5",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "preserveConstEnums": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
