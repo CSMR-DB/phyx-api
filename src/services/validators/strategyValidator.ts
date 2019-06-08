@@ -1,7 +1,5 @@
-import { IValidator } from './IValidator.interface'
+import { IValidator, ValidatorReturnType } from './IValidator.interface'
 import { isValidated } from './modules/isValidated'
-
-type ValidatorReturnType = { result: boolean; errors: Error[] | [] }
 
 /**
  * Runs all supplied Validators in order and determines if a Strategy is qualified to be submitted to storage.
