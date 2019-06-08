@@ -3,8 +3,8 @@ import { isValidated } from './modules/isValidated'
 
 /**
  * Runs all supplied Validators in order and determines if a Strategy is qualified to be submitted to storage.
- * ~param validators: Array of all Validators to run, exposing an `execute()` method to comply with the IValidator contract.
- * ~returns A `boolean` value
+ * @param validators: Array of all Validators to run, exposing an `execute()` method to comply with the IValidator contract.
+ * @returns A `boolean` value
  */
 export function strategyValidator(validators: IValidator[]): IValidator {
   async function execute(): Promise<ValidatorReturnType> {
