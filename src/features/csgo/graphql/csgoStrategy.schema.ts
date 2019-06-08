@@ -1,7 +1,10 @@
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { gql, makeExecutableSchema } from 'apollo-server'
-import { DocumentNode, GraphQLError, GraphQLSchema } from 'graphql'
+import { DocumentNode, GraphQLSchema, GraphQLError } from 'graphql'
 import { Document } from 'mongoose'
+import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
+import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
+import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
 const typeDefs: DocumentNode = gql`
   type Item {
@@ -61,8 +64,55 @@ const typeDefs: DocumentNode = gql`
     csgoStrategy(id: String): CSGOStrategy!
   }
 
+  # ValidationReturnType
+  type ValidationReturn {
+    result: Boolean
+    errors: [String]
+  }
+
+  # Define input model for submission
+  input ItemInput {
+    internal_id: String
+  }
+
+  input LoadoutInput {
+    primary: ItemInput
+    secondary: ItemInput
+    gear: [ItemInput]
+    utilities: [ItemInput]
+  }
+
+  input PlayerInput {
+    color: String
+    name: String
+    role: String
+    loadout: LoadoutInput!
+  }
+
+  input PlayersInput {
+    player_1: PlayerInput
+    player_2: PlayerInput
+    player_3: PlayerInput
+    player_4: PlayerInput
+    player_5: PlayerInput
+  }
+
+  input TeamInput {
+    name: String
+    players: PlayersInput
+  }
+
+  input CSGOStrategyInput {
+    name: String!
+    side: String!
+    description: String
+    map: String!
+    team: TeamInput
+    budget: Int!
+  }
+
   type Mutation {
-    submitCSGOStrategy: String
+    submitCSGOStrategy(strategy: CSGOStrategyInput): ValidationReturn
   }
 `
 
@@ -100,8 +150,33 @@ const resolvers = {
     }
   },
   Mutation: {
-    submitCSGOStrategy: async () => {
-      console.log('submission ran?')
+    submitCSGOStrategy: async (
+      _: any,
+      { strategy }: { strategy: ICSGOStrategy }
+    ): Promise<{ result: boolean; errors: string[] }> => {
+      let validationResult: { result: boolean; errors: string[] } = {
+        result: false,
+        errors: []
+      }
+
+      await csgoStrategyValidator(strategy)
+        .then((result: void | ValidatorReturnType) => {
+          if (result) {
+            if (result.errors.length > 0) {
+              result.errors.forEach((error: Error) => {
+                validationResult.errors.push(error.toString())
+              })
+            } else {
+              validationResult = { result: true, errors: [] }
+            }
+          }
+        })
+        .catch((e: Error) => {
+          validationResult.errors = [ e.toString() ]
+        })
+
+      // Return result of submission. TODO: insert to db -> get submitted result document from db -> return document
+      return validationResult
     }
   }
 }
