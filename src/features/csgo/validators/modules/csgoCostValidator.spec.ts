@@ -1,5 +1,4 @@
 import { csgoCostValidator } from './csgoCostValidator'
-import { resultHandler, IResultHandler } from '~src/utils/resultHandler'
 import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
 import { csgoStrategyInvalidCost } from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
@@ -14,13 +13,6 @@ describe('cost-validator-class', () => {
     ICSGOItem,
     keyof ICSGOItem
   > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
-
-  const resultHandlerDef: IResultHandler<boolean> = resultHandler<boolean>({
-    true: () => true,
-    false: () => {
-      throw new Error(`Strategy is not within budget`)
-    }
-  })
 
   test('should be within budget and return true', async () => {
     await expect(

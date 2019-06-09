@@ -1,4 +1,3 @@
-import { IResultHandler } from '~src/utils/resultHandler'
 import {
   ICSGOStrategy,
   ICSGOPlayer,
@@ -9,7 +8,10 @@ import {
 import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
-import { IValidator } from '~src/services/validators/IValidator.interface'
+import {
+  IValidator,
+  ValidatorReturnType
+} from '~src/services/validators/IValidator.interface'
 import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
@@ -20,9 +22,7 @@ export function csgoCostValidator(
 
   const errors: Error[] = []
 
-  function validatePlayer(
-    player: ICSGOPlayer
-  ): { result: boolean; errors: Error[] | [] } {
+  function validatePlayer(player: ICSGOPlayer): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
     }: { loadout: ICSGOLoadout } = player
@@ -55,21 +55,23 @@ export function csgoCostValidator(
     return { result: withinBudget, errors }
   }
 
-  async function execute(): Promise<{ result: boolean; errors: Error[] | [] }> {
+  async function execute(): Promise<ValidatorReturnType> {
     const {
       team: { players }
     }: { team: { players: ICSGOPlayers } } = strategy
 
     const playersArray: ICSGOPlayer[] = objectToArray(players)
 
-    const results: {
-      result: boolean
-      errors: Error[] | []
-    }[] = playersArray.map((player: ICSGOPlayer) => validatePlayer(player))
+    const results: ValidatorReturnType[] = playersArray.map(
+      (player: ICSGOPlayer) => validatePlayer(player)
+    )
 
-    const result: boolean = isValidated(results.map(({ result }) => result))
-
-    return await { result, errors }
+    return await {
+      result: isValidated(
+        results.map(({ result }: { result: boolean }): boolean => result)
+      ),
+      errors
+    }
   }
 
   return Object.freeze({ execute, errors })
