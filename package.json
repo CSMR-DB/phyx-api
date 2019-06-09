@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.3.3",
+    "fs": "0.0.1-security",
     "graphql": "^14.1.1",
     "graphql-import-node": "0.0.1",
     "graphql-tag": "^2.10.1",
