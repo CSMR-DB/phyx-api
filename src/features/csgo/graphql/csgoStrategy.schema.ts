@@ -1,120 +1,11 @@
+import fs from 'fs'
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
-import { gql, makeExecutableSchema } from 'apollo-server'
-import { DocumentNode, GraphQLSchema, GraphQLError } from 'graphql'
+import { makeExecutableSchema } from 'apollo-server'
+import { GraphQLSchema, GraphQLError } from 'graphql'
 import { Document } from 'mongoose'
 import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
-
-const typeDefs: DocumentNode = gql`
-  type Item {
-    internal_id: String!
-  }
-
-  type Loadout {
-    cost: Int!
-    primary: Item
-    secondary: Item!
-    gear: [Item]
-    utilities: [Item]
-  }
-
-  type Position {
-    x: Int!
-    y: Int!
-  }
-
-  type Player {
-    internal_id: ID!
-    color: String!
-    name: String!
-    role: String
-    loadout: Loadout!
-    positions: [Position!]!
-  }
-
-  type Players {
-    player_1: Player!
-    player_2: Player!
-    player_3: Player!
-    player_4: Player!
-    player_5: Player!
-  }
-
-  type Team {
-    team_id: ID
-    name: String
-    players: Players!
-  }
-
-  type CSGOStrategy {
-    _id: ID!
-    id: ID!
-    name: String!
-    map: String!
-    description: String
-    side: String!
-    team: Team!
-    budget: Int
-  }
-
-  type Query {
-    csgoStrategies: [CSGOStrategy!]!
-    csgoStrategiesByMap(map: String): [CSGOStrategy!]!
-    csgoStrategy(id: String): CSGOStrategy!
-  }
-
-  # ValidationReturnType
-  type ValidationReturn {
-    result: Boolean
-    errors: [String]
-  }
-
-  # Define input model for submission
-  input ItemInput {
-    internal_id: String
-  }
-
-  input LoadoutInput {
-    primary: ItemInput
-    secondary: ItemInput
-    gear: [ItemInput]
-    utilities: [ItemInput]
-  }
-
-  input PlayerInput {
-    color: String
-    name: String
-    role: String
-    loadout: LoadoutInput!
-  }
-
-  input PlayersInput {
-    player_1: PlayerInput
-    player_2: PlayerInput
-    player_3: PlayerInput
-    player_4: PlayerInput
-    player_5: PlayerInput
-  }
-
-  input TeamInput {
-    name: String
-    players: PlayersInput
-  }
-
-  input CSGOStrategyInput {
-    name: String!
-    side: String!
-    description: String
-    map: String!
-    team: TeamInput
-    budget: Int!
-  }
-
-  type Mutation {
-    submitCSGOStrategy(strategy: CSGOStrategyInput): ValidationReturn
-  }
-`
 
 // tslint:disable-next-line: typedef
 const resolvers = {
@@ -182,6 +73,6 @@ const resolvers = {
 }
 
 export const csgoSchema: GraphQLSchema = makeExecutableSchema({
-  typeDefs,
+  typeDefs: fs.readFileSync(__dirname + '/csgoStrategy.types.gql', 'utf8'),
   resolvers
 })
