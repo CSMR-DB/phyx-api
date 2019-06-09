@@ -13,14 +13,13 @@ const resolvers = {
     csgoStrategy: async (
       _: any,
       { id }: { id: string }
-    ): Promise<Document | null> => {
-      return await MongooseModelCSGOStrategy.findOne({ id })
+    ): Promise<Document | null> =>
+      await MongooseModelCSGOStrategy.findOne({ id })
         .exec()
         .then((doc: Document | null) => doc)
         .catch((error: GraphQLError) => {
           throw error
-        })
-    },
+        }),
     csgoStrategies: async (): Promise<Document[]> =>
       await MongooseModelCSGOStrategy.find({})
         .exec()
@@ -31,14 +30,13 @@ const resolvers = {
     csgoStrategiesByMap: async (
       _: any,
       { map }: { map: string }
-    ): Promise<Document[]> => {
-      return await MongooseModelCSGOStrategy.find({ map })
+    ): Promise<Document[]> =>
+      await MongooseModelCSGOStrategy.find({ map })
         .exec()
         .then((docs: Document[]) => docs)
         .catch((error: GraphQLError) => {
           throw error
         })
-    }
   },
   Mutation: {
     submitCSGOStrategy: async (
