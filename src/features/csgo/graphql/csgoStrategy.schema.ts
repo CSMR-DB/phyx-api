@@ -1,42 +1,35 @@
 import fs from 'fs'
-import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { makeExecutableSchema } from 'apollo-server'
-import { GraphQLSchema, GraphQLError } from 'graphql'
+import { GraphQLSchema } from 'graphql'
 import { Document } from 'mongoose'
 import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
+import { Context } from 'apollo-server-core'
 
 // tslint:disable-next-line: typedef
 const resolvers = {
   Query: {
     csgoStrategy: async (
       _: any,
-      { id }: { id: string }
+      { id }: { id: string },
+      ctx: Context
     ): Promise<Document | null> =>
-      await MongooseModelCSGOStrategy.findOne({ id })
-        .exec()
-        .then((doc: Document | null) => doc)
-        .catch((error: GraphQLError) => {
-          throw error
-        }),
-    csgoStrategies: async (): Promise<Document[]> =>
-      await MongooseModelCSGOStrategy.find({})
-        .exec()
-        .then((docs: Document[]) => docs)
-        .catch((error: GraphQLError) => {
-          throw error
-        }),
+      await ctx.csgoStrategyGraphQLService.csgoStrategy({ id }),
+
+    csgoStrategies: async (
+      _: any,
+      _args: any,
+      ctx: Context
+    ): Promise<Document[]> =>
+      await ctx.csgoStrategyGraphQLService.csgoStrategies(),
+
     csgoStrategiesByMap: async (
       _: any,
-      { map }: { map: string }
+      { map }: { map: string },
+      ctx: Context
     ): Promise<Document[]> =>
-      await MongooseModelCSGOStrategy.find({ map })
-        .exec()
-        .then((docs: Document[]) => docs)
-        .catch((error: GraphQLError) => {
-          throw error
-        })
+      await ctx.csgoStrategyGraphQLService.csgoStrategiesByMap({ map })
   },
   Mutation: {
     submitCSGOStrategy: async (

@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Model, Document } from 'mongoose'
 
-const Item = new Schema({
+const Item: Schema<any> = new Schema({
   internal_id: String
 })
 
-const Loadout = new Schema({
+const Loadout: Schema<any> = new Schema({
   cost: Number,
   secondary: {
     type: Item,
@@ -15,12 +15,12 @@ const Loadout = new Schema({
   utilities: [ Item ]
 })
 
-const Position = new Schema({
+const Position: Schema<any> = new Schema({
   x: Number,
   y: Number
 })
 
-const Player = (color: String) =>
+const Player: (color: string) => Schema<any> = (color: String): Schema<any> =>
   new Schema({
     internal_id: String,
     color: {
@@ -37,7 +37,7 @@ const Player = (color: String) =>
     positions: { type: [ Position ], required: true }
   })
 
-const Players = new Schema({
+const Players: Schema<any> = new Schema({
   player_1: { type: Player('blue'), required: true },
   player_2: { type: Player('purple'), required: true },
   player_3: { type: Player('green'), required: true },
@@ -45,7 +45,7 @@ const Players = new Schema({
   player_5: { type: Player('yellow'), required: true }
 })
 
-const Team = new Schema({
+const Team: Schema<any> = new Schema({
   team_id: String,
   name: {
     type: String,
@@ -55,7 +55,7 @@ const Team = new Schema({
   players: { type: Players, required: true }
 })
 
-const schema = new Schema({
+const schema: Schema<any> = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
     auto: true
@@ -87,4 +87,8 @@ const schema = new Schema({
   }
 })
 
-export const MongooseModelCSGOStrategy = model('csgo', schema, 'csgo')
+export const MongooseModelCSGOStrategy: Model<Document, {}> = model(
+  'csgo',
+  schema,
+  'csgo'
+)
