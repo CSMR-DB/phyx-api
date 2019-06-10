@@ -1,4 +1,5 @@
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
+import { IcsgoStrategyGraphQLService } from './csgoStrategyGraphQL.service'
 
 const csgoStrategiesMockCollection: ICSGOStrategy[] = [
   {
@@ -137,9 +138,9 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
   }
 ]
 
-export const csgoStrategyGraphQLServiceMock: {
-  [key: string]: (args?: any) => Promise<any>
-} = {
+export const csgoStrategyGraphQLServiceMock: IcsgoStrategyGraphQLService<
+  ICSGOStrategy
+> = {
   csgoStrategies: async (): Promise<ICSGOStrategy[]> =>
     await csgoStrategiesMockCollection,
 

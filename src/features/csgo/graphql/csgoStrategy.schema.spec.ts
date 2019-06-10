@@ -1,6 +1,5 @@
 import { csgoSchema } from './csgoStrategy.schema'
 import { graphql, ExecutionResult } from 'graphql'
-import { ExecutionResultDataDefault } from 'graphql/execution/execute'
 import { csgoStrategyGraphQLServiceMock } from '../services/csgoStrategyGraphQL.service.mock'
 
 interface IGraphQLTestCase {
@@ -127,7 +126,7 @@ describe('CSGO Strategy GraphQL Schema', () => {
   test.each(csgoStrategyQueryCases)(
     'should return a document',
     async ({ query, variables, context, expected }: IGraphQLTestCase) => {
-      const result: ExecutionResult<ExecutionResultDataDefault> = await graphql(
+      const result: ExecutionResult<{ [key: string]: any }> = await graphql(
         csgoSchema,
         query,
         null,

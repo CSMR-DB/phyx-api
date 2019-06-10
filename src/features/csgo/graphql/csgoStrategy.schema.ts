@@ -5,7 +5,7 @@ import { Document } from 'mongoose'
 import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
-import { Context } from 'apollo-server-core'
+import { csgoStrategyGraphQLServiceContext } from '../services/csgoStrategyGraphQL.service'
 
 // tslint:disable-next-line: typedef
 const resolvers = {
@@ -13,21 +13,21 @@ const resolvers = {
     csgoStrategy: async (
       _: any,
       { id }: { id: string },
-      ctx: Context
-    ): Promise<Document | null> =>
+      ctx: csgoStrategyGraphQLServiceContext
+    ): Promise<Document | null | undefined> =>
       await ctx.csgoStrategyGraphQLService.csgoStrategy({ id }),
 
     csgoStrategies: async (
       _: any,
       _args: any,
-      ctx: Context
+      ctx: csgoStrategyGraphQLServiceContext
     ): Promise<Document[]> =>
       await ctx.csgoStrategyGraphQLService.csgoStrategies(),
 
     csgoStrategiesByMap: async (
       _: any,
       { map }: { map: string },
-      ctx: Context
+      ctx: csgoStrategyGraphQLServiceContext
     ): Promise<Document[]> =>
       await ctx.csgoStrategyGraphQLService.csgoStrategiesByMap({ map })
   },

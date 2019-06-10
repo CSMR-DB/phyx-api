@@ -1,10 +1,24 @@
 import { Document } from 'mongoose'
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 
-export const csgoStrategyGraphQLService: {
-  [key: string]: (args?: any) => Promise<any>
-} = {
-  csgoStrategy: async ({ id }: { id: string }): Promise<Document | null> =>
+export interface IcsgoStrategyGraphQLService<T> {
+  csgoStrategy: ({ id }: { id: string }) => Promise<T | null | undefined>
+  csgoStrategies: () => Promise<T[]>
+  csgoStrategiesByMap: ({ map }: { map: string }) => Promise<T[]>
+}
+
+export type csgoStrategyGraphQLServiceContext = {
+  csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<Document>
+}
+
+export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
+  Document
+> = {
+  csgoStrategy: async ({
+    id
+  }: {
+    id: string
+  }): Promise<Document | null | undefined> =>
     await MongooseModelCSGOStrategy.findOne({ id })
       .exec()
       .then((doc: Document | null) => doc)
