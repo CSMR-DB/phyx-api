@@ -1,3 +1,35 @@
+# PHYX-API
+
+This application serves as a GraphQL API server to a (yet-to-develop) app. It is not complete! It is powered by GraphQL, Apollo Server and Mongoose and built with ❤️ and TypeScript. I try to focus more and more on Separation of Concerns / Single Responsibility, thus much of the code is likely to change at any point.
+
+## Getting started
+
+Clone this repo, followed by installation of all dependencies.
+
+```
+npm install
+```
+
+To be able to run tests, this app uses Jest. Make sure you have it installed globally.
+
+```
+npm i -g jest
+```
+
+Install MongoDB (https://www.mongodb.com/download-center/community?jmp=docs), following the docs for your OS. Optionally also install Compass. This installation is required to run the tests regarding the Mongoose models.
+
+Now you should be able to run tests using
+
+```
+npm run test:watchAll
+```
+
+Or run the app itself, opening up a GraphiQL GUI in the browser at localhost:4000
+
+```
+npm run serve
+```
+
 # VALIDATORS
 
 Validators are expected to expose an 'execute()' method returning a boolean. Some Validators are more generic, while others are more specialized. In this case, there are generic Validators for items and sides (taking in a helper to reduce the data to the expected format)
