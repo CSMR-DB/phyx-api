@@ -9,7 +9,6 @@ const Item: Schema<any> = new Schema(
 
 const Loadout: Schema<any> = new Schema(
   {
-    cost: Number,
     secondary: {
       type: Item,
       required: true
