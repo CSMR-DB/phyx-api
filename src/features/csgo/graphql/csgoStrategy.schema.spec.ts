@@ -1,6 +1,8 @@
 import { csgoSchema } from './csgoStrategy.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoStrategyGraphQLServiceMock } from '../services/csgoStrategyGraphQL.service.mock'
+import { csgoStrategyGraphQLService } from './../services/csgoStrategyGraphQL.service'
+import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 interface IGraphQLTestCase {
   id: string
@@ -126,7 +128,7 @@ describe('CSGO Strategy GraphQL Schema', () => {
   test.each(csgoStrategyQueryCases)(
     'should return a document',
     async ({ query, variables, context, expected }: IGraphQLTestCase) => {
-      const result: ExecutionResult<{ [key: string]: any }> = await graphql(
+      const result: ExecutionResult = await graphql(
         csgoSchema,
         query,
         null,
@@ -137,4 +139,33 @@ describe('CSGO Strategy GraphQL Schema', () => {
       expect(result).toEqual(expected)
     }
   )
+
+  test('should submit a valid document', async () => {
+    const mutation: string = `
+      mutation SUBMIT_NEW_STRATEGY($strategy: CSGOStrategyInput) {
+        submitCSGOStrategy(strategy: $strategy) {
+          result
+          errors
+        }
+      }
+    `
+
+    const context: {} = {
+      csgoStrategyGraphQLService: csgoStrategyGraphQLServiceMock
+    }
+
+    const variables: {} = { strategy: csgoStrategyValid }
+
+    const result: ExecutionResult = await graphql(
+      csgoSchema,
+      mutation,
+      null,
+      context,
+      variables
+    )
+
+    expect(result).toEqual({
+      data: { submitCSGOStrategy: { errors: [], result: true } }
+    })
+  })
 })

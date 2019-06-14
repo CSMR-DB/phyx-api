@@ -2,9 +2,7 @@ import fs from 'fs'
 import { makeExecutableSchema } from 'apollo-server'
 import { GraphQLSchema } from 'graphql'
 import { Document } from 'mongoose'
-import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
-import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { csgoStrategyGraphQLServiceContext } from '../services/csgoStrategyGraphQL.service'
 
 // tslint:disable-next-line: typedef
@@ -15,50 +13,31 @@ const resolvers = {
       { id }: { id: string },
       ctx: csgoStrategyGraphQLServiceContext
     ): Promise<Document | null | undefined> =>
-      await ctx.csgoStrategyGraphQLService.csgoStrategy({ id }),
+      await ctx.csgoStrategyGraphQLService.Query.csgoStrategy({ id }),
 
     csgoStrategies: async (
       _: any,
       _args: any,
       ctx: csgoStrategyGraphQLServiceContext
     ): Promise<Document[]> =>
-      await ctx.csgoStrategyGraphQLService.csgoStrategies(),
+      await ctx.csgoStrategyGraphQLService.Query.csgoStrategies(),
 
     csgoStrategiesByMap: async (
       _: any,
       { map }: { map: string },
       ctx: csgoStrategyGraphQLServiceContext
     ): Promise<Document[]> =>
-      await ctx.csgoStrategyGraphQLService.csgoStrategiesByMap({ map })
+      await ctx.csgoStrategyGraphQLService.Query.csgoStrategiesByMap({ map })
   },
   Mutation: {
     submitCSGOStrategy: async (
       _: any,
-      { strategy }: { strategy: ICSGOStrategy }
+      { strategy }: { strategy: ICSGOStrategy },
+      ctx: csgoStrategyGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
-      let validationResult: { result: boolean; errors: string[] } = {
-        result: false,
-        errors: []
-      }
-
-      await csgoStrategyValidator(strategy)
-        .then((result: void | ValidatorReturnType) => {
-          if (result) {
-            if (result.errors.length > 0) {
-              result.errors.forEach((error: Error) => {
-                validationResult.errors.push(error.toString())
-              })
-            } else {
-              validationResult = { result: true, errors: [] }
-            }
-          }
-        })
-        .catch((e: Error) => {
-          validationResult.errors = [ e.toString() ]
-        })
-
-      // Return result of submission. TODO: insert to db -> get submitted result document from db -> return document
-      return validationResult
+      return await ctx.csgoStrategyGraphQLService.Mutation.submitCSGOStrategy({
+        strategy
+      })
     }
   }
 }
