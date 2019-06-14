@@ -1,5 +1,7 @@
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { IcsgoStrategyGraphQLService } from './csgoStrategyGraphQL.service'
+import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
+import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
 const csgoStrategiesMockCollection: ICSGOStrategy[] = [
   {
@@ -141,24 +143,48 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
 export const csgoStrategyGraphQLServiceMock: IcsgoStrategyGraphQLService<
   ICSGOStrategy
 > = {
-  csgoStrategies: async (): Promise<ICSGOStrategy[]> =>
-    await csgoStrategiesMockCollection,
+  Query: {
+    csgoStrategies: async (): Promise<ICSGOStrategy[]> =>
+      await csgoStrategiesMockCollection,
 
-  csgoStrategy: async ({
-    id
-  }: {
-    id: string
-  }): Promise<ICSGOStrategy | undefined> =>
-    await csgoStrategiesMockCollection.find(
-      (strategy: ICSGOStrategy) => strategy.id === id
-    ),
+    csgoStrategy: async ({
+      id
+    }: {
+      id: string
+    }): Promise<ICSGOStrategy | undefined> =>
+      await csgoStrategiesMockCollection.find(
+        (strategy: ICSGOStrategy) => strategy.id === id
+      ),
 
-  csgoStrategiesByMap: async ({
-    map
-  }: {
-    map: string
-  }): Promise<ICSGOStrategy[]> =>
-    await csgoStrategiesMockCollection.filter(
-      (strategy: ICSGOStrategy) => strategy.map === map
-    )
+    csgoStrategiesByMap: async ({
+      map
+    }: {
+      map: string
+    }): Promise<ICSGOStrategy[]> =>
+      await csgoStrategiesMockCollection.filter(
+        (strategy: ICSGOStrategy) => strategy.map === map
+      )
+  },
+  Mutation: {
+    submitCSGOStrategy: async ({
+      strategy
+    }: {
+      strategy: ICSGOStrategy
+    }): Promise<{
+      result: boolean
+      errors: string[]
+    }> => {
+      await csgoStrategiesMockCollection.push(strategy)
+
+      const result: ValidatorReturnType = await csgoStrategyValidator(strategy)
+
+      const es: string[] = []
+
+      result.errors.forEach((error: Error) => {
+        es.push(error.toString())
+      })
+
+      return { result: result.result, errors: es }
+    }
+  }
 }
