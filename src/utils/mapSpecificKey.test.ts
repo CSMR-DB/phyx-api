@@ -71,11 +71,11 @@ const testCases: {
   {
     input: testArrayWithIncorrectType,
     field: 'cost',
-    expected: [ 200, 300, 300 ]
+    expected: [ 200, 'hey', 300, 300 ]
   }
 ]
 
-describe.skip('mapSpecificKey<number>', () => {
+describe('mapSpecificKey<number>', () => {
   test.each(testCases)('case', ({ input, field, expected }) => {
     expect(mapSpecificKey(input, field)).toEqual(expected)
   })
