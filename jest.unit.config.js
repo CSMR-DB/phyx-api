@@ -4,7 +4,7 @@ module.exports = {
   },
   testEnvironment: 'node',
   roots: ['src'],
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  testRegex: '(/__tests__/.*|(\\.|/)(unit.test|unit.spec))\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   globals: {
     'ts-jest': {
