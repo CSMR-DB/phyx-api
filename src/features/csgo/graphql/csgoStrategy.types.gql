@@ -40,13 +40,14 @@ type Team {
 
 type CSGOStrategy {
   _id: ID!
-  id: ID!
   name: String!
   map: String!
   description: String
   side: String!
   team: Team!
   budget: Int
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type Query {
@@ -73,11 +74,17 @@ input LoadoutInput {
   utilities: [ItemInput]
 }
 
+input PositionInput {
+  x: Int
+  y: Int
+}
+
 input PlayerInput {
   color: String
   name: String
   role: String
   loadout: LoadoutInput!
+  positions: [PositionInput]
 }
 
 input PlayersInput {
