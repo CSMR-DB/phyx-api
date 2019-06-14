@@ -1,5 +1,4 @@
 export const csgoStrategyInvalidSide = {
-  id: 'asf875t6a9s8f5afgu',
   map: 'Nuke',
   name: 'Default A',
   description: 'Execute with smokes to CT, Stairs and Jungle',
@@ -9,7 +8,6 @@ export const csgoStrategyInvalidSide = {
     name: 'NUBBS',
     players: {
       player_1: {
-        internal_id: '913569182756871u24fgkivuhj12b4',
         name: 'Zombie',
         role: 'Sniper',
         color: 'blue',
@@ -38,7 +36,6 @@ export const csgoStrategyInvalidSide = {
         ]
       },
       player_2: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Cookie',
         color: 'purple',
         role: 'Entry',
@@ -80,7 +77,6 @@ export const csgoStrategyInvalidSide = {
         ]
       },
       player_3: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Night',
         color: 'green',
         role: 'Entry',
@@ -122,7 +118,6 @@ export const csgoStrategyInvalidSide = {
         ]
       },
       player_4: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Alun',
         color: 'orange',
         role: 'Undefineable',
@@ -164,7 +159,6 @@ export const csgoStrategyInvalidSide = {
         ]
       },
       player_5: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'PHYD',
         color: 'yellow',
         role: 'Lurker',
@@ -194,7 +188,6 @@ export const csgoStrategyInvalidSide = {
               internal_id: 'FRAGGRENADE'
             },
             {
-              name: 'Molotov',
               internal_id: 'MOLOTOV'
             }
           ]

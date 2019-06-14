@@ -24,21 +24,16 @@ const dataReducer: (strategy: ICSGOStrategy) => IStrategyDataTransposer = (
 
 export const csgoStrategyValidator: (
   strategy: ICSGOStrategy
-) => Promise<void | ValidatorReturnType> = (
+) => Promise<ValidatorReturnType> = async (
   strategy: ICSGOStrategy
-): Promise<void | ValidatorReturnType> => {
-  return strategyValidator([
-    itemsValidator(strategy, dataManager, dataReducer(strategy)),
-    csgoCostValidator(strategy, dataManager),
-    sideValidator(strategy, dataManager, dataReducer(strategy))
-  ])
-    .execute()
-    .then((resultObj: ValidatorReturnType) => {
-      console.log(resultObj)
-
-      return resultObj
-    })
-    .catch((e: Error) => {
-      console.warn(e)
-    })
+): Promise<ValidatorReturnType> => {
+  try {
+    return await strategyValidator([
+      itemsValidator(strategy, dataManager, dataReducer(strategy)),
+      csgoCostValidator(strategy, dataManager),
+      sideValidator(strategy, dataManager, dataReducer(strategy))
+    ]).execute()
+  } catch (e) {
+    return { result: false, errors: [ e ] }
+  }
 }

@@ -1,5 +1,4 @@
-export const csgoStrategyInvalidItems = {
-  id: 'asf875t6a9s8f5afgu',
+export const csgoStrategyInvalidSlots = {
   map: 'Nuke',
   name: 'Default A',
   description: 'Execute with smokes to CT, Stairs and Jungle',
@@ -9,7 +8,6 @@ export const csgoStrategyInvalidItems = {
     name: 'NUBBS',
     players: {
       player_1: {
-        internal_id: '913569182756871u24fgkivuhj12b4',
         name: 'Zombie',
         role: 'Sniper',
         color: 'blue',
@@ -38,10 +36,9 @@ export const csgoStrategyInvalidItems = {
         ]
       },
       player_2: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Cookie',
         color: 'purple',
-        role: 'Entry',
+        role: 'Entry Fragger',
         loadout: {
           primary: {
             internal_id: 'AK47'
@@ -80,10 +77,9 @@ export const csgoStrategyInvalidItems = {
         ]
       },
       player_3: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Night',
         color: 'green',
-        role: 'Entry',
+        role: 'Entry Fragger',
         loadout: {
           primary: {
             internal_id: 'AK47'
@@ -122,10 +118,9 @@ export const csgoStrategyInvalidItems = {
         ]
       },
       player_4: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'Alun',
         color: 'orange',
-        role: 'Undefineable',
+        role: 'Support',
         loadout: {
           primary: {
             internal_id: 'P90'
@@ -164,7 +159,6 @@ export const csgoStrategyInvalidItems = {
         ]
       },
       player_5: {
-        internal_id: '124690876hbghigk1uy2fvkut4fgv1vk',
         name: 'PHYD',
         color: 'yellow',
         role: 'Lurker',
@@ -194,7 +188,6 @@ export const csgoStrategyInvalidItems = {
               internal_id: 'FRAGGRENADE'
             },
             {
-              name: 'Molotov',
               internal_id: 'MOLOTOV'
             }
           ]
