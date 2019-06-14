@@ -1,4 +1,4 @@
-import { Schema, model, Model, Document } from 'mongoose'
+import { Schema, model, Model, Document, SchemaTypes } from 'mongoose'
 
 const Item: Schema<any> = new Schema(
   {
@@ -72,37 +72,40 @@ const Team: Schema<any> = new Schema(
   { _id: false }
 )
 
-const schema: Schema<any> = new Schema({
-  _id: {
-    type: String,
-    auto: false
+const schema: Schema<any> = new Schema(
+  {
+    _id: {
+      type: SchemaTypes.ObjectId,
+      auto: true
+    },
+    map: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      maxlength: 18,
+      required: true
+    },
+    description: String,
+    side: {
+      type: String,
+      enum: [ 'ATK', 'DEF' ],
+      required: true
+    },
+    budget: {
+      type: Number,
+      min: 0,
+      max: 16000,
+      required: true
+    },
+    team: {
+      type: Team,
+      required: true
+    }
   },
-  map: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    maxlength: 18,
-    required: true
-  },
-  description: String,
-  side: {
-    type: String,
-    enum: [ 'ATK', 'DEF' ],
-    required: true
-  },
-  budget: {
-    type: Number,
-    min: 0,
-    max: 16000,
-    required: true
-  },
-  team: {
-    type: Team,
-    required: true
-  }
-})
+  { timestamps: true }
+)
 
 export const MongooseModelCSGOStrategy: Model<Document, {}> = model(
   'csgo',
