@@ -12,6 +12,7 @@ import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataT
 import { csgoCostValidator } from './modules/csgoCostValidator'
 import { sideValidator } from '~src/services/validators/modules/sideValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
+import { slotValidator } from '~src/services/validators/modules/slotValidator'
 
 const dataManager: IGameDataManager<
   ICSGOItem,
@@ -31,7 +32,8 @@ export const csgoStrategyValidator: (
     return await strategyValidator([
       itemsValidator(strategy, dataManager, dataReducer(strategy)),
       csgoCostValidator(strategy, dataManager),
-      sideValidator(strategy, dataManager, dataReducer(strategy))
+      sideValidator(strategy, dataManager, dataReducer(strategy)),
+      slotValidator(strategy, dataManager, dataReducer(strategy))
     ]).execute()
   } catch (e) {
     return { result: false, errors: [ e ] }
