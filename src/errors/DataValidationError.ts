@@ -1,5 +1,5 @@
 export class DataValidationError extends Error implements Error {
-  public readonly status: number = 500
+  public readonly status: number
 
   public readonly date: Date
 
@@ -12,6 +12,8 @@ export class DataValidationError extends Error implements Error {
     super(`[${game}] - ${id} ${reason} (${validator})`)
 
     Error.captureStackTrace(this, this.constructor)
+
+    this.name = 'DataValidationError'
 
     this.status = 418
 
