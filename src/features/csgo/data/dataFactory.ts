@@ -3,10 +3,10 @@ import { idGenerator, IIDGenerator } from '~src/utils/idGenerator'
 export namespace CSGO {
   type EquipmentSide = Required<'ATK' | 'DEF' | 'UNI'>
   type EquipmentCategory = Required<
-    'weapon' | 'gear' | 'utility' | 'uncategorized'
+    'weapon' | 'gear' | 'utilities' | 'uncategorized'
   >
   type WeaponCategory = Required<'pistol' | 'rifle' | 'heavy' | 'smg'>
-  type EquipmentSlot = Required<'primary' | 'secondary' | 'gear' | 'utility'>
+  type EquipmentSlot = Required<'primary' | 'secondary' | 'gear' | 'utilities'>
 
   export interface IMap {
     name: string
@@ -99,7 +99,7 @@ export namespace CSGO {
         primary: { categories: [ 'weapon', category! ] },
         secondary: { categories: [ 'weapon', 'pistol' ] },
         gear: { categories: [ 'gear' ] },
-        utility: { categories: [ 'utility' ] }
+        utilities: { categories: [ 'utilities' ] }
       }
 
       return categoryObject[slot]
@@ -202,12 +202,12 @@ CSGOFACTORY.addItem('UNI', 'Helmet', 350, 'gear')
 CSGOFACTORY.addItem('UNI', 'Zeus', 200, 'gear')
 CSGOFACTORY.addItem('DEF', 'Defuse Kit', 400, 'gear')
 
-CSGOFACTORY.addItem('UNI', 'Smoke Grenade', 300, 'utility')
-CSGOFACTORY.addItem('UNI', 'Flash Grenade', 200, 'utility')
-CSGOFACTORY.addItem('UNI', 'Frag Grenade', 300, 'utility')
-CSGOFACTORY.addItem('UNI', 'Decoy Grenade', 50, 'utility')
-CSGOFACTORY.addItem('ATK', 'Molotov', 400, 'utility')
-CSGOFACTORY.addItem('DEF', 'Incendiary Grenade', 600, 'utility')
+CSGOFACTORY.addItem('UNI', 'Smoke Grenade', 300, 'utilities')
+CSGOFACTORY.addItem('UNI', 'Flash Grenade', 200, 'utilities')
+CSGOFACTORY.addItem('UNI', 'Frag Grenade', 300, 'utilities')
+CSGOFACTORY.addItem('UNI', 'Decoy Grenade', 50, 'utilities')
+CSGOFACTORY.addItem('ATK', 'Molotov', 400, 'utilities')
+CSGOFACTORY.addItem('DEF', 'Incendiary Grenade', 600, 'utilities')
 
 CSGOFACTORY.addMap('Mirage', true)
 CSGOFACTORY.addMap('Inferno', true)

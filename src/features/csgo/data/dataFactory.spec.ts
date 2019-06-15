@@ -11,7 +11,7 @@ describe('CSGOFACTORY', () => {
 
     CSGOFACTORY.addItem('ATK', 'Glock-18', 0, 'secondary')
 
-    CSGOFACTORY.addItem('UNI', 'Frag Grenade', 300, 'utility')
+    CSGOFACTORY.addItem('UNI', 'Frag Grenade', 300, 'utilities')
   })
 
   test('should correctly add a new item', () => {
@@ -52,12 +52,12 @@ describe('CSGOFACTORY', () => {
 
   test('should include FRAGGRENADE as an item', () => {
     expect(CSGOFACTORY.getItemByID('FRAGGRENADE')).toEqual({
-      categories: [ 'utility' ],
+      categories: [ 'utilities' ],
       cost: 300,
       internal_id: 'FRAGGRENADE',
       name: 'Frag Grenade',
       side: 'UNI',
-      slot: 'utility'
+      slot: 'utilities'
     })
   })
 

@@ -55,9 +55,9 @@ describe('DataManager()', () => {
         name: 'Frag Grenade',
         cost: 300,
         side: 'UNI',
-        slot: 'utility',
+        slot: 'utilities',
         internal_id: 'FRAGGRENADE',
-        categories: [ 'utility' ]
+        categories: [ 'utilities' ]
       },
       has: true
     },

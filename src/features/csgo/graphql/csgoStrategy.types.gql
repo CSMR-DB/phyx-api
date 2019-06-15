@@ -46,8 +46,8 @@ type CSGOStrategy {
   side: String!
   team: Team!
   budget: Int
-  createdAt: Date!
-  updatedAt: Date!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Query {

@@ -23,7 +23,6 @@ export interface ICSGOLoadout {
 }
 
 export interface ICSGOPlayer {
-  internal_id: string
   name: string
   role: string
   color: string
@@ -48,7 +47,6 @@ export interface ICSGOTeam {
 }
 
 export interface ICSGOStrategy {
-  id: string
   name: string
   side: string
   description?: string

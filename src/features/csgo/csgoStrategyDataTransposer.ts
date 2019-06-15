@@ -10,18 +10,19 @@ import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrat
 
 export function csgoStrategyDataTransposer(
   strategy: ICSGOStrategy
-): IStrategyDataTransposer {
+): IStrategyDataTransposer & {
+  slots: { internal_id: string; slot: string }[]
+} {
   const {
     team: { players }
   }: { team: { players: ICSGOPlayers } } = strategy
 
+  const playersArray: ICSGOPlayer[] = objectToArray(players)
+  const loadoutArray: ICSGOLoadout[] = playersArray.map(
+    (player: ICSGOPlayer) => player['loadout']
+  )
+
   function uniqueIDs(): ICSGOItem['internal_id'][] {
-    const playersArray: ICSGOPlayer[] = objectToArray(players)
-
-    const loadoutArray: ICSGOLoadout[] = playersArray.map(
-      (player: ICSGOPlayer) => player['loadout']
-    )
-
     const items: ICSGOItem[] = loadoutArray
       .map((loadout: ICSGOLoadout) => [
         loadout.primary || ({} as ICSGOItem),
@@ -38,5 +39,51 @@ export function csgoStrategyDataTransposer(
     return Array.from(new Set(ids))
   }
 
-  return Object.freeze({ uniqueIDs: uniqueIDs() })
+  function slots(): { internal_id: string; slot: string }[] {
+    const items: {
+      slot: string
+      internal_id: string
+    }[] = loadoutArray.map((loadout: ICSGOLoadout) => ({
+      slot: 'secondary',
+      internal_id: loadout.secondary.internal_id
+    }))
+
+    loadoutArray.map((loadout: ICSGOLoadout) => {
+      if (loadout.primary) {
+        items.push({
+          slot: 'primary',
+          internal_id: loadout.primary.internal_id
+        })
+      }
+
+      if (loadout.gear) {
+        loadout.gear.map((item: ICSGOItem) => {
+          if (item) {
+            items.push({
+              slot: 'gear',
+              internal_id: item.internal_id
+            })
+          }
+        })
+      }
+      if (loadout.utilities) {
+        loadout.utilities.map((item: ICSGOItem) => {
+          if (item) {
+            items.push({
+              slot: 'utilities',
+              internal_id: item.internal_id
+            })
+          }
+        })
+      }
+    })
+
+    return Array.from(
+      new Set(
+        items.filter((item: { internal_id: string; slot: string }) => item)
+      )
+    )
+  }
+
+  return Object.freeze({ uniqueIDs: uniqueIDs(), slots: slots() })
 }

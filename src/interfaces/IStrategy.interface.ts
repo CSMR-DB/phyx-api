@@ -24,7 +24,6 @@ export interface ILoadout {
 export interface IPlayer {
   [key: string]: any
 
-  internal_id: string
   name: string
   role: string
   positions: IPosition[]
@@ -46,7 +45,6 @@ export interface ITeam {
 }
 
 export interface IStrategy {
-  id: string
   map: string
   name: string
   side: string
