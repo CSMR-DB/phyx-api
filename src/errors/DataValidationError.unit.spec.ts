@@ -54,8 +54,6 @@ describe('ValidationError()', () => {
     )
     function firstLevelFunction(): void {
       try {
-        // throw testError
-        expect(true).toBe(false) // In case the throw itself fails, make sure the test fails. This code will otherwise be unreachable
         // tslint:disable-next-line: no-void-expression
         expect(secondLevelFunction()).toThrow()
       } catch (e) {
