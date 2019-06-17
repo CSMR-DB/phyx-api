@@ -14,26 +14,29 @@ import { sideValidator } from '~src/services/validators/modules/sideValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { slotValidator } from '~src/services/validators/modules/slotValidator'
 
-const dataManager: IGameDataManager<
-  ICSGOItem,
-  keyof ICSGOItem
-> = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
-
-const dataReducer: (strategy: ICSGOStrategy) => IStrategyDataTransposer = (
-  strategy: ICSGOStrategy
-): IStrategyDataTransposer => csgoStrategyDataTransposer(strategy)
-
 export const csgoStrategyValidator: (
   strategy: ICSGOStrategy
 ) => Promise<ValidatorReturnType> = async (
   strategy: ICSGOStrategy
 ): Promise<ValidatorReturnType> => {
+  const dataManager: IGameDataManager<
+    ICSGOItem,
+    keyof ICSGOItem
+  > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
+
+  const dataReducer: IStrategyDataTransposer & {
+    slots: {
+      internal_id: string
+      slot: string
+    }[]
+  } = csgoStrategyDataTransposer(strategy)
+
   try {
     return await strategyValidator([
-      itemsValidator(strategy, dataManager, dataReducer(strategy)),
+      itemsValidator(strategy, dataManager, dataReducer),
       csgoCostValidator(strategy, dataManager),
-      sideValidator(strategy, dataManager, dataReducer(strategy)),
-      slotValidator(strategy, dataManager, dataReducer(strategy))
+      sideValidator(strategy, dataManager, dataReducer),
+      slotValidator(strategy, dataManager, dataReducer)
     ]).execute()
   } catch (e) {
     return { result: false, errors: [ e ] }
