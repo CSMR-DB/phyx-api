@@ -9,10 +9,7 @@ import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mo
 import { csgoStrategyInvalidCost } from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
 import { csgoStrategyInvalidSide } from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
 import { csgoStrategyInvalidItems } from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
-import {
-  ICSGOStrategy,
-  ICSGOItem
-} from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
 import { siegeStrategyValid } from '~src/features/r6siege/mocks/r6siegeStrategyValid.mock'
 import {
   gameDataManager,
@@ -30,14 +27,17 @@ import { IValidator } from './IValidator.interface'
 
 describe('strategyValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOItem,
-    keyof ICSGOItem
-  > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item,
+    keyof ICSGOStrategyDocument.Item
+  > = gameDataManager<
+    ICSGOStrategyDocument.Item,
+    keyof ICSGOStrategyDocument.Item
+  >(CSGOFACTORY.getItems())
 
   // tslint:disable-next-line: typedef
   const csgoDataReducer: (
-    strategy: ICSGOStrategy
-  ) => IStrategyDataTransposer = (strategy: ICSGOStrategy) =>
+    strategy: ICSGOStrategyDocument.Strategy
+  ) => IStrategyDataTransposer = (strategy: ICSGOStrategyDocument.Strategy) =>
     csgoStrategyDataTransposer(strategy)
 
   const siegeDataManager: IGameDataManager<
@@ -137,11 +137,11 @@ describe('strategyValidator()', () => {
       //       result: false
       //     })
       //   )
-      const configuredStrategyValidator: IValidator = strategyValidator([
+      const configuredStrategyValidator: IValidator = strategyValidator(
         itemsValidator(strategy, dataManager, dataReducer(strategy)),
         csgoCostValidator(strategy, dataManager),
         sideValidator(strategy, dataManager, dataReducer(strategy))
-      ])
+      )
 
       await expect(configuredStrategyValidator.execute()).resolves.toEqual(
         expected
@@ -151,7 +151,7 @@ describe('strategyValidator()', () => {
 
   test('strategyValidator() mocked', async () => {
     await expect(
-      strategyValidator([ mockSideValidator, mockItemsValidator ]).execute()
+      strategyValidator(mockSideValidator, mockItemsValidator).execute()
     ).resolves.toEqual(mockExpected)
   })
 })

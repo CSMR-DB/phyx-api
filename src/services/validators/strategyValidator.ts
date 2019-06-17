@@ -6,7 +6,7 @@ import { isValidated } from './modules/isValidated'
  * @param validators: Array of all Validators to run, exposing an `execute()` method to comply with the IValidator contract.
  * @returns A `boolean` value
  */
-export function strategyValidator(validators: IValidator[]): IValidator {
+export function strategyValidator(...validators: IValidator[]): IValidator {
   async function execute(): Promise<ValidatorReturnType> {
     const resultPromises: Promise<ValidatorReturnType>[] = validators.map(
       (validator: IValidator) => validator.execute()
