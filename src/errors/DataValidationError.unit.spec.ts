@@ -54,10 +54,10 @@ describe('ValidationError()', () => {
     )
     function firstLevelFunction(): void {
       try {
-        const sf: void = secondLevelFunction()
         // throw testError
         expect(true).toBe(false) // In case the throw itself fails, make sure the test fails. This code will otherwise be unreachable
-        expect(sf).toThrow()
+        // tslint:disable-next-line: no-void-expression
+        expect(secondLevelFunction()).toThrow()
       } catch (e) {
         expect(e.message).toBe(
           `[CSGO] - USPZ is not a valid item (itemValidator())`
