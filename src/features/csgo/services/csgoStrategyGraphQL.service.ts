@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose'
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
-import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
+import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { MongoError } from 'mongodb'
 
 export interface IcsgoStrategyGraphQLService<T> {

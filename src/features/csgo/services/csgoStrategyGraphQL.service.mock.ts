@@ -1,9 +1,9 @@
 import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
 import { IcsgoStrategyGraphQLService } from './csgoStrategyGraphQL.service'
-import { csgoStrategyValidator } from '../validators/csgoStrategyValidator'
+import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
-const csgoStrategiesMockCollection: ICSGOStrategy[] = [
+const csgoStrategiesMockCollection: (ICSGOStrategy & { id?: string })[] = [
   {
     id: '1',
     name: 'Test',
@@ -15,7 +15,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
       players: {
         player_1: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'yellow',
@@ -26,7 +25,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_2: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'blue',
@@ -37,7 +35,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_3: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'purple',
@@ -48,7 +45,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_4: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'green',
@@ -59,7 +55,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_5: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'orange',
@@ -82,7 +77,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
       players: {
         player_1: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'yellow',
@@ -93,7 +87,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_2: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'blue',
@@ -104,7 +97,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_3: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'purple',
@@ -115,7 +107,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_4: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'green',
@@ -126,7 +117,6 @@ const csgoStrategiesMockCollection: ICSGOStrategy[] = [
         },
         player_5: {
           name: 'PHYD',
-          internal_id: 'phyd',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'orange',
@@ -153,7 +143,7 @@ export const csgoStrategyGraphQLServiceMock: IcsgoStrategyGraphQLService<
       id: string
     }): Promise<ICSGOStrategy | undefined> =>
       await csgoStrategiesMockCollection.find(
-        (strategy: ICSGOStrategy) => strategy.id === id
+        (strategy: ICSGOStrategy & { id?: string }) => strategy.id === id
       ),
 
     csgoStrategiesByMap: async ({

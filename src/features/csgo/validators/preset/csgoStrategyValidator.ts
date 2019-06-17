@@ -1,4 +1,4 @@
-import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategy } from '../../interfaces/ICSGOStrategy.interface'
 import { strategyValidator } from '~src/services/validators/strategyValidator'
 import { itemsValidator } from '~src/services/validators/modules/itemsValidator'
 import {
@@ -9,7 +9,7 @@ import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
-import { csgoCostValidator } from './modules/csgoCostValidator'
+import { csgoCostValidator } from '../modules/csgoCostValidator'
 import { sideValidator } from '~src/services/validators/modules/sideValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { slotValidator } from '~src/services/validators/modules/slotValidator'
