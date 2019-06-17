@@ -8,9 +8,9 @@
     "start": "nodemon lib/index.js",
     "deploy": "npm run build",
     "test": "jest",
-    "test:watchAll": "jest --watchAll",
-    "test:unit": "jest -c jest.unit.config.js --watchAll",
-    "test:integration": "jest -c jest.integration.config.js --watchAll"
+    "test:a": "jest --watchAll",
+    "test:u": "jest -c jest.unit.config.js --watchAll",
+    "test:i": "jest -c jest.integration.config.js --watchAll"
   },
   "main": "lib/index.js",
   "keywords": [],
