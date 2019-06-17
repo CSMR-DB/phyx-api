@@ -1,15 +1,17 @@
-import { IStrategy } from '~src/interfaces/IStrategy.interface'
+import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { IValidator } from '../IValidator.interface'
-import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'
 
-export function sideValidator(
+export function sideValidator<T extends IGameItem, K extends keyof T>(
   strategy: IStrategy,
-  gameDataManager: IGameDataManager<ICSGOItem, keyof ICSGOItem>,
+  gameDataManager: IGameDataManager<T, K>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
-  async function execute(): Promise<{ result: boolean; errors: Error[] | [] }> {
+  async function execute(): Promise<{
+    result: boolean
+    errors: Error[] | []
+  }> {
     const stratSide: string = strategy.side
 
     const errors: Error[] = []
@@ -17,7 +19,7 @@ export function sideValidator(
     const sides: ('ATK' | 'DEF')[] = []
 
     strategyDataTransposer.uniqueIDs.map((id: string) => {
-      const item: ICSGOItem | undefined = gameDataManager.getOneById(id)
+      const item: T | undefined = gameDataManager.getOneById(id)
 
       const itemSide: string | undefined =
         item !== undefined ? item.side : undefined

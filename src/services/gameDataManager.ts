@@ -1,16 +1,12 @@
-interface IItem {
-  [field: string]: any
+import { IGameItem } from '~src/interfaces/IStrategy.interface'
 
-  internal_id: string
-}
-
-export interface IGameDataManager<T extends IItem, K extends keyof T> {
+export interface IGameDataManager<T extends IGameItem, K extends keyof T> {
   hasID: (id: T['internal_id']) => boolean
   getOneById: (id: T['internal_id']) => T | undefined
   getField: (id: T['internal_id'], field: K, undefinedReturn: T[K]) => T[K]
 }
 
-export function gameDataManager<T extends IItem, K extends keyof T>(
+export function gameDataManager<T extends IGameItem, K extends keyof T>(
   items: T[]
 ): IGameDataManager<T, K> {
   function hasID(id: T['internal_id']): boolean {

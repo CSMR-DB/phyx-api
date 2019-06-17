@@ -1,12 +1,11 @@
 import { IValidator } from '../IValidator.interface'
-import { IStrategy } from '~src/interfaces/IStrategy.interface'
+import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'
-import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
 import { IStrategyDataTransposer } from './IStrategyDataTransposer.interface'
 
-export function slotValidator(
+export function slotValidator<T extends IGameItem, K extends keyof T>(
   strategy: IStrategy,
-  gameDataManager: IGameDataManager<ICSGOItem, keyof ICSGOItem>,
+  gameDataManager: IGameDataManager<T, K>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{
@@ -21,7 +20,7 @@ export function slotValidator(
     const errors: Error[] = []
 
     itemsInSlots.map((item: { slot: string; internal_id: string }) => {
-      const dataItem: ICSGOItem | undefined = gameDataManager.getOneById(
+      const dataItem: T | undefined = gameDataManager.getOneById(
         item.internal_id
       )
 

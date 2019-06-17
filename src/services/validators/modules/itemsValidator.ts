@@ -4,12 +4,15 @@ import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { isValidated } from './isValidated'
 
-export function itemsValidator(
+export function itemsValidator<T extends IGameItem, K extends keyof T>(
   strategy: IStrategy,
-  gameDataManager: IGameDataManager<IGameItem, keyof IGameItem>,
+  gameDataManager: IGameDataManager<T, K>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
-  async function execute(): Promise<{ result: boolean; errors: Error[] }> {
+  async function execute(): Promise<{
+    result: boolean
+    errors: Error[]
+  }> {
     const uniqueIDs: IGameItem['internal_id'][] =
       strategyDataTransposer.uniqueIDs
 
