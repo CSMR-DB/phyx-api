@@ -1,7 +1,6 @@
 import { csgoSchema } from './csgoStrategy.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoStrategyGraphQLServiceMock } from '../services/csgoStrategyGraphQL.service.mock'
-import { csgoStrategyGraphQLService } from '../services/csgoStrategyGraphQL.service'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 interface IGraphQLTestCase {

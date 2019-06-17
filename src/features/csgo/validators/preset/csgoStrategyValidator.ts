@@ -1,11 +1,10 @@
-import { ICSGOStrategy } from '../../interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategyDocument } from '../../interfaces/ICSGOStrategyDocument.interface'
 import { strategyValidator } from '~src/services/validators/strategyValidator'
 import { itemsValidator } from '~src/services/validators/modules/itemsValidator'
 import {
   gameDataManager,
   IGameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGOItem } from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
@@ -15,14 +14,17 @@ import { ValidatorReturnType } from '~src/services/validators/IValidator.interfa
 import { slotValidator } from '~src/services/validators/modules/slotValidator'
 
 export const csgoStrategyValidator: (
-  strategy: ICSGOStrategy
+  strategy: ICSGOStrategyDocument.Strategy
 ) => Promise<ValidatorReturnType> = async (
-  strategy: ICSGOStrategy
+  strategy: ICSGOStrategyDocument.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager: IGameDataManager<
-    ICSGOItem,
-    keyof ICSGOItem
-  > = gameDataManager<ICSGOItem, keyof ICSGOItem>(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item,
+    keyof ICSGOStrategyDocument.Item
+  > = gameDataManager<
+    ICSGOStrategyDocument.Item,
+    keyof ICSGOStrategyDocument.Item
+  >(CSGOFACTORY.getItems())
 
   const dataReducer: IStrategyDataTransposer & {
     slots: {
@@ -32,12 +34,12 @@ export const csgoStrategyValidator: (
   } = csgoStrategyDataTransposer(strategy)
 
   try {
-    return await strategyValidator([
+    return await strategyValidator(
       itemsValidator(strategy, dataManager, dataReducer),
       csgoCostValidator(strategy, dataManager),
       sideValidator(strategy, dataManager, dataReducer),
       slotValidator(strategy, dataManager, dataReducer)
-    ]).execute()
+    ).execute()
   } catch (e) {
     return { result: false, errors: [ e ] }
   }

@@ -1,9 +1,11 @@
-import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
 import { IcsgoStrategyGraphQLService } from './csgoStrategyGraphQL.service'
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
-const csgoStrategiesMockCollection: (ICSGOStrategy & { id?: string })[] = [
+const csgoStrategiesMockCollection: (ICSGOStrategyDocument.Strategy & {
+  id?: string
+})[] = [
   {
     id: '1',
     name: 'Test',
@@ -131,35 +133,36 @@ const csgoStrategiesMockCollection: (ICSGOStrategy & { id?: string })[] = [
 ]
 
 export const csgoStrategyGraphQLServiceMock: IcsgoStrategyGraphQLService<
-  ICSGOStrategy
+  ICSGOStrategyDocument.Strategy
 > = {
   Query: {
-    csgoStrategies: async (): Promise<ICSGOStrategy[]> =>
+    csgoStrategies: async (): Promise<ICSGOStrategyDocument.Strategy[]> =>
       await csgoStrategiesMockCollection,
 
     csgoStrategy: async ({
       id
     }: {
       id: string
-    }): Promise<ICSGOStrategy | undefined> =>
+    }): Promise<ICSGOStrategyDocument.Strategy | undefined> =>
       await csgoStrategiesMockCollection.find(
-        (strategy: ICSGOStrategy & { id?: string }) => strategy.id === id
+        (strategy: ICSGOStrategyDocument.Strategy & { id?: string }) =>
+          strategy.id === id
       ),
 
     csgoStrategiesByMap: async ({
       map
     }: {
       map: string
-    }): Promise<ICSGOStrategy[]> =>
+    }): Promise<ICSGOStrategyDocument.Strategy[]> =>
       await csgoStrategiesMockCollection.filter(
-        (strategy: ICSGOStrategy) => strategy.map === map
+        (strategy: ICSGOStrategyDocument.Strategy) => strategy.map === map
       )
   },
   Mutation: {
     submitCSGOStrategy: async ({
       strategy
     }: {
-      strategy: ICSGOStrategy
+      strategy: ICSGOStrategyDocument.Strategy
     }): Promise<{
       result: boolean
       errors: string[]

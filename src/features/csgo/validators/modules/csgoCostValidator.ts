@@ -1,10 +1,4 @@
-import {
-  ICSGOStrategy,
-  ICSGOPlayer,
-  ICSGOItem,
-  ICSGOLoadout,
-  ICSGOPlayers
-} from '~src/features/csgo/interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
 import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
@@ -15,26 +9,31 @@ import {
 import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
-  strategy: ICSGOStrategy,
-  gameDataManager: IGameDataManager<ICSGOItem, keyof ICSGOItem>
+  strategy: ICSGOStrategyDocument.Strategy,
+  gameDataManager: IGameDataManager<
+    ICSGOStrategyDocument.Item,
+    keyof ICSGOStrategyDocument.Item
+  >
 ): IValidator {
   const { budget }: { budget: number } = strategy
 
   const errors: Error[] = []
 
-  function validatePlayer(player: ICSGOPlayer): ValidatorReturnType {
+  function validatePlayer(
+    player: ICSGOStrategyDocument.Player
+  ): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
-    }: { loadout: ICSGOLoadout } = player
+    }: { loadout: ICSGOStrategyDocument.Loadout } = player
 
     function hasOrEmptyFn<T>(item: T | undefined): T {
       return item ? item : (([] as unknown) as T)
     }
-    const allPlayerItems: ICSGOItem[] = [
-      hasOrEmptyFn<ICSGOItem>(primary),
-      hasOrEmptyFn<ICSGOItem>(secondary),
-      ...hasOrEmptyFn<ICSGOItem[]>(gear),
-      ...hasOrEmptyFn<ICSGOItem[]>(utilities)
+    const allPlayerItems: ICSGOStrategyDocument.Item[] = [
+      hasOrEmptyFn(primary),
+      hasOrEmptyFn(secondary),
+      ...hasOrEmptyFn(gear),
+      ...hasOrEmptyFn(utilities)
     ]
 
     const allPlayerItemsCost: number[] = allPlayerItems.map(
@@ -58,12 +57,12 @@ export function csgoCostValidator(
   async function execute(): Promise<ValidatorReturnType> {
     const {
       team: { players }
-    }: { team: { players: ICSGOPlayers } } = strategy
+    }: { team: { players: ICSGOStrategyDocument.Players } } = strategy
 
-    const playersArray: ICSGOPlayer[] = objectToArray(players)
+    const playersArray: ICSGOStrategyDocument.Player[] = objectToArray(players)
 
     const results: ValidatorReturnType[] = playersArray.map(
-      (player: ICSGOPlayer) => validatePlayer(player)
+      (player: ICSGOStrategyDocument.Player) => validatePlayer(player)
     )
 
     return await {

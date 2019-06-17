@@ -2,7 +2,7 @@ import fs from 'fs'
 import { makeExecutableSchema } from 'apollo-server'
 import { GraphQLSchema } from 'graphql'
 import { Document } from 'mongoose'
-import { ICSGOStrategy } from '../interfaces/ICSGOStrategy.interface'
+import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
 import { csgoStrategyGraphQLServiceContext } from '../services/csgoStrategyGraphQL.service'
 
 // tslint:disable-next-line: typedef
@@ -32,7 +32,7 @@ const resolvers = {
   Mutation: {
     submitCSGOStrategy: async (
       _: any,
-      { strategy }: { strategy: ICSGOStrategy },
+      { strategy }: { strategy: ICSGOStrategyDocument.Strategy },
       ctx: csgoStrategyGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
       return await ctx.csgoStrategyGraphQLService.Mutation.submitCSGOStrategy({
