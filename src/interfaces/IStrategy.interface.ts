@@ -15,6 +15,12 @@ export interface IGameItem {
   side?: string
 }
 
+export interface IGameMap {
+  internal_id: string
+  mode: string
+  active: boolean
+}
+
 export interface ILoadout {
   primary?: IGameItem
   secondary?: IGameItem
