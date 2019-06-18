@@ -60,6 +60,7 @@ type Query {
 type ValidationReturn {
   result: Boolean
   errors: [String]
+  _id: String
 }
 
 # Define input model for submission

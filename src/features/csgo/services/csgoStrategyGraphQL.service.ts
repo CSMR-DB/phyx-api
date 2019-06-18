@@ -65,31 +65,43 @@ export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
       strategy
     }: {
       strategy: ICSGOStrategyDocument.Strategy
-    }): Promise<{ result: boolean; errors: string[] }> => {
+    }): Promise<{
+      result: boolean
+      errors: string[]
+      _id?: string | null
+    }> => {
       const result: {
         result: boolean
         errors: string[]
+        _id?: string | null
       } = await csgoStrategyValidator(strategy)
         .then(async (validatorResult: ValidatorReturnType) => {
-          const es: string[] = []
+          const errors: string[] = []
 
           validatorResult.errors.forEach((error: Error) =>
-            es.push(error.toString())
+            errors.push(error.toString())
           )
 
+          let _id: string | null = null
+
           if (validatorResult.errors.length === 0) {
-            await MongooseModelCSGOStrategy.create([ strategy ])
-              .then((mongoResult: mongoose.Document[]) => {
-                return mongoResult
+            await MongooseModelCSGOStrategy.create(strategy)
+              .then((mongoResult: mongoose.Document) => {
+                _id = mongoResult._id
+
+                return mongoResult._id
               })
               .catch((error: MongoError) => {
                 console.log(error)
+
+                errors.push(error.toString())
               })
           }
 
           return {
             result: validatorResult.errors.length > 0 ? false : true,
-            errors: validatorResult.errors.length > 0 ? es : []
+            errors: validatorResult.errors.length > 0 ? errors : [],
+            _id
           }
         })
         .catch((e: Error) => {
