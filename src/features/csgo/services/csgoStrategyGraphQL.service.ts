@@ -77,7 +77,7 @@ export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
             es.push(error.toString())
           )
 
-          if (result.errors.length === 0) {
+          if (validatorResult.errors.length === 0) {
             await MongooseModelCSGOStrategy.create([ strategy ])
               .then((mongoResult: mongoose.Document[]) => {
                 return mongoResult
@@ -88,8 +88,8 @@ export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
           }
 
           return {
-            result: result.errors.length > 0 ? false : true,
-            errors: result.errors.length > 0 ? es : []
+            result: validatorResult.errors.length > 0 ? false : true,
+            errors: validatorResult.errors.length > 0 ? es : []
           }
         })
         .catch((e: Error) => {
