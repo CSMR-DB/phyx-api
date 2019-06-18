@@ -7,7 +7,11 @@ export function csgoStrategyDataTransposer(
 ): IStrategyDataTransposer {
   const {
     team: { players }
-  }: { team: { players: ICSGOStrategyDocument.Players } } = strategy
+  }: {
+    team: {
+      players: ICSGOStrategyDocument.Players
+    }
+  } = strategy
 
   const playersArray: ICSGOStrategyDocument.Player[] = objectToArray(players)
   const loadoutArray: ICSGOStrategyDocument.Loadout[] = playersArray.map(
@@ -28,20 +32,24 @@ export function csgoStrategyDataTransposer(
       )
 
     const ids: ICSGOStrategyDocument.Item['internal_id'][] = items.map(
-      ({ internal_id }: { internal_id: string }) => internal_id
+      ({ internal_id }: ICSGOStrategyDocument.Item) => internal_id
     )
 
     return Array.from(new Set(ids))
   }
 
-  function slots(): { internal_id: string; slot: string }[] {
-    const items: {
-      slot: string
-      internal_id: string
-    }[] = loadoutArray.map((loadout: ICSGOStrategyDocument.Loadout) => ({
-      slot: 'secondary',
-      internal_id: loadout.secondary.internal_id
-    }))
+  type SlotObject = {
+    internal_id: string
+    slot: string
+  }
+
+  function slots(): SlotObject[] {
+    const items: SlotObject[] = loadoutArray.map(
+      (loadout: ICSGOStrategyDocument.Loadout) => ({
+        slot: 'secondary',
+        internal_id: loadout.secondary.internal_id
+      })
+    )
 
     loadoutArray.map((loadout: ICSGOStrategyDocument.Loadout) => {
       if (loadout.primary) {
@@ -73,17 +81,14 @@ export function csgoStrategyDataTransposer(
       }
     })
 
-    return Array.from(
-      new Set(
-        items.filter((item: { internal_id: string; slot: string }) => item)
-      )
-    )
+    return Array.from(new Set(items.filter((item: SlotObject) => item)))
   }
 
   return Object.freeze({
     uniqueIDs: uniqueIDs(),
     slots: slots(),
     map: strategy.map,
-    side: strategy.side
+    side: strategy.side,
+    budget: strategy.budget
   })
 }

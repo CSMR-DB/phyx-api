@@ -21,7 +21,7 @@ export function csgoCostValidator(
   ): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
-    }: { loadout: ICSGOStrategyDocument.Loadout } = player
+    }: ICSGOStrategyDocument.Player = player
 
     function hasOrEmptyFn<T>(item: T | undefined): T {
       return item ? item : (([] as unknown) as T)
@@ -54,7 +54,7 @@ export function csgoCostValidator(
   async function execute(): Promise<ValidatorReturnType> {
     const {
       team: { players }
-    }: { team: { players: ICSGOStrategyDocument.Players } } = strategy
+    }: ICSGOStrategyDocument.Strategy = strategy
 
     const playersArray: ICSGOStrategyDocument.Player[] = objectToArray(players)
 

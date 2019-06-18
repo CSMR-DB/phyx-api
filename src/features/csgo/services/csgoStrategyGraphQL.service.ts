@@ -66,14 +66,16 @@ export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
     }: {
       strategy: ICSGOStrategyDocument.Strategy
     }): Promise<{ result: boolean; errors: string[] }> => {
-      const validationResult: {
+      const result: {
         result: boolean
         errors: string[]
       } = await csgoStrategyValidator(strategy)
-        .then(async (result: ValidatorReturnType) => {
+        .then(async (validatorResult: ValidatorReturnType) => {
           const es: string[] = []
 
-          result.errors.forEach((error: Error) => es.push(error.toString()))
+          validatorResult.errors.forEach((error: Error) =>
+            es.push(error.toString())
+          )
 
           if (result.errors.length === 0) {
             await MongooseModelCSGOStrategy.create([ strategy ])
@@ -95,7 +97,7 @@ export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
         })
 
       // Return result of submission. TODO: insert to db -> get submitted result document from db -> return document
-      return validationResult
+      return result
     }
   }
 }
