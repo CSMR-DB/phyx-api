@@ -11,12 +11,8 @@ import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mo
 
 describe('slotValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  > = gameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item
+  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
 
   test('should validate a valid strategy', async () => {
     await expect(

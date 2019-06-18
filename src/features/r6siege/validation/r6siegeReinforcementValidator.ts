@@ -6,7 +6,7 @@ import { IValidator } from '~src/services/validators/IValidator.interface'
 import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function siegeReinforcementValidator(
-  gameDataManager: IGameDataManager<R6SIEGE.IMap, keyof R6SIEGE.IMap>,
+  gameDataManager: IGameDataManager<R6SIEGE.IMap>,
   strategyDataTransposer: IR6SiegeStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{ result: boolean; errors: Error[] }> {

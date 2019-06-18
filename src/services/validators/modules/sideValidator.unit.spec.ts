@@ -11,12 +11,8 @@ import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrate
 
 describe('SideValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  > = gameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item
+  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
 
   test('sideValidator() with imported mock data [valid]', async () => {
     await expect(

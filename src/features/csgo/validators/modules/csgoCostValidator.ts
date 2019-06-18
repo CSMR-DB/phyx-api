@@ -10,10 +10,7 @@ import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
   strategy: ICSGOStrategyDocument.Strategy,
-  gameDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >
+  gameDataManager: IGameDataManager<ICSGOStrategyDocument.Item>
 ): IValidator {
   const { budget }: { budget: number } = strategy
 

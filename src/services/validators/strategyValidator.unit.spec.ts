@@ -27,12 +27,8 @@ import { IValidator } from './IValidator.interface'
 
 describe('strategyValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  > = gameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item
+  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
 
   // tslint:disable-next-line: typedef
   const csgoDataReducer: (
@@ -40,10 +36,9 @@ describe('strategyValidator()', () => {
   ) => IStrategyDataTransposer = (strategy: ICSGOStrategyDocument.Strategy) =>
     csgoStrategyDataTransposer(strategy)
 
-  const siegeDataManager: IGameDataManager<
-    R6SIEGE.IOperator,
-    keyof R6SIEGE.IOperator
-  > = gameDataManager(R6SIEGEFACTORY.getOperators())
+  const siegeDataManager: IGameDataManager<R6SIEGE.IOperator> = gameDataManager(
+    R6SIEGEFACTORY.getOperators()
+  )
 
   // tslint:disable-next-line: typedef
   const siegeDataReducer = (strategy: IR6SiegeStrategy) =>

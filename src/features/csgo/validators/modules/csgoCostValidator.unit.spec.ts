@@ -10,12 +10,8 @@ import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrate
 
 describe('csgoCostValidator', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  > = gameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item
+  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
 
   test('should be within budget and return true', async () => {
     await expect(

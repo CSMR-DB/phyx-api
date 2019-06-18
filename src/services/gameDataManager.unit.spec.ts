@@ -80,8 +80,7 @@ describe('DataManager()', () => {
     `getOneById() should return full item, or undefined`,
     ({ dataToFind: { id }, dataArray, data }) => {
       const itemsManager: IGameDataManager<
-        ICSGOStrategyDocument.Item,
-        keyof ICSGOStrategyDocument.Item
+        ICSGOStrategyDocument.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.getOneById(id)).toEqual(data)
     }
@@ -91,8 +90,7 @@ describe('DataManager()', () => {
     `has() should return boolean if id exists`,
     ({ dataToFind: { id }, dataArray, has }) => {
       const itemsManager: IGameDataManager<
-        ICSGOStrategyDocument.Item,
-        keyof ICSGOStrategyDocument.Item
+        ICSGOStrategyDocument.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.hasID(id)).toEqual(has)
     }

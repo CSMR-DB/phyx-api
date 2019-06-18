@@ -19,12 +19,8 @@ export const csgoStrategyValidator: (
   strategy: ICSGOStrategyDocument.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  > = gameDataManager<
-    ICSGOStrategyDocument.Item,
-    keyof ICSGOStrategyDocument.Item
-  >(CSGOFACTORY.getItems())
+    ICSGOStrategyDocument.Item
+  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
 
   const dataReducer: IStrategyDataTransposer & {
     slots: {

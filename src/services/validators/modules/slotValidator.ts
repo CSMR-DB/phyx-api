@@ -3,9 +3,9 @@ import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'
 import { IStrategyDataTransposer } from './IStrategyDataTransposer.interface'
 
-export function slotValidator<T extends IGameItem, K extends keyof T>(
+export function slotValidator<T extends IGameItem>(
   strategy: IStrategy,
-  gameDataManager: IGameDataManager<T, K>,
+  gameDataManager: IGameDataManager<T>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
   async function execute(): Promise<{
