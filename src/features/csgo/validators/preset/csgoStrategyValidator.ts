@@ -27,19 +27,16 @@ export const csgoStrategyValidator: (
     ICSGOStrategyDocument.Map
   > = gameDataManager<ICSGOStrategyDocument.Map>(CSGOFACTORY.getMaps())
 
-  const dataReducer: IStrategyDataTransposer & {
-    slots: {
-      internal_id: string
-      slot: string
-    }[]
-  } = csgoStrategyDataTransposer(strategy)
+  const dataReducer: IStrategyDataTransposer = csgoStrategyDataTransposer(
+    strategy
+  )
 
   try {
     return await strategyValidator(
-      itemsValidator(strategy, dataManager_items, dataReducer),
+      itemsValidator(dataManager_items, dataReducer),
       csgoCostValidator(strategy, dataManager_items),
-      sideValidator(strategy, dataManager_items, dataReducer),
-      slotValidator(strategy, dataManager_items, dataReducer),
+      sideValidator(dataManager_items, dataReducer),
+      slotValidator(dataManager_items, dataReducer),
       mapValidator(dataManager_maps, dataReducer)
     ).execute()
   } catch (e) {

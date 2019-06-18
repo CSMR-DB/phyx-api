@@ -17,7 +17,6 @@ describe('SideValidator()', () => {
   test('sideValidator() with imported mock data [valid]', async () => {
     await expect(
       sideValidator(
-        csgoStrategyValid,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyValid)
       ).execute()
@@ -27,7 +26,6 @@ describe('SideValidator()', () => {
   test('sideValidator() with imported mock data [invalid]', async () => {
     await expect(
       sideValidator(
-        csgoStrategyInvalidSide,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyInvalidSide)
       ).execute()

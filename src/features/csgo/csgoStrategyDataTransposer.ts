@@ -80,9 +80,10 @@ export function csgoStrategyDataTransposer(
     )
   }
 
-  function map(): string {
-    return strategy.map
-  }
-
-  return Object.freeze({ uniqueIDs: uniqueIDs(), slots: slots(), map: map() })
+  return Object.freeze({
+    uniqueIDs: uniqueIDs(),
+    slots: slots(),
+    map: strategy.map,
+    side: strategy.side
+  })
 }

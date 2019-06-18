@@ -17,7 +17,6 @@ describe('ItemsValidator', () => {
   test('validates reduced items, valid', async () => {
     await expect(
       itemsValidator(
-        csgoStrategyValid,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyValid)
       ).execute()
@@ -27,7 +26,6 @@ describe('ItemsValidator', () => {
   test('validates reduced items, invalid', async () => {
     await expect(
       itemsValidator(
-        csgoStrategyInvalidItems,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyInvalidItems)
       ).execute()
@@ -40,7 +38,6 @@ describe('ItemsValidator', () => {
   test('validates reduced items, valid', async () => {
     await expect(
       itemsValidator(
-        csgoStrategyValid,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyValid)
       ).execute()

@@ -1,18 +1,15 @@
 import { IGameDataManager } from '~src/services/gameDataManager'
 import { IValidator } from '../IValidator.interface'
-import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
+import { IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { isValidated } from './isValidated'
+import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
 export function itemsValidator<T extends IGameItem>(
-  strategy: IStrategy,
   gameDataManager: IGameDataManager<T>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
-  async function execute(): Promise<{
-    result: boolean
-    errors: Error[]
-  }> {
+  async function execute(): Promise<ValidatorReturnType> {
     const uniqueIDs: IGameItem['internal_id'][] =
       strategyDataTransposer.uniqueIDs
 
@@ -31,5 +28,5 @@ export function itemsValidator<T extends IGameItem>(
     return await { result: isValidated(results), errors }
   }
 
-  return Object.freeze({ strategy, execute })
+  return Object.freeze({ execute })
 }

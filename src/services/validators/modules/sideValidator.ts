@@ -1,18 +1,15 @@
-import { IStrategy, IGameItem } from '~src/interfaces/IStrategy.interface'
+import { IGameItem } from '~src/interfaces/IStrategy.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 import { IValidator } from '../IValidator.interface'
 import { IGameDataManager } from '~src/services/gameDataManager'
+import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
 export function sideValidator<T extends IGameItem>(
-  strategy: IStrategy,
   gameDataManager: IGameDataManager<T>,
   strategyDataTransposer: IStrategyDataTransposer
 ): IValidator {
-  async function execute(): Promise<{
-    result: boolean
-    errors: Error[] | []
-  }> {
-    const stratSide: string = strategy.side
+  async function execute(): Promise<ValidatorReturnType> {
+    const stratSide: string = strategyDataTransposer.side
 
     const errors: Error[] = []
 
@@ -35,12 +32,12 @@ export function sideValidator<T extends IGameItem>(
 
     const uniqueSides: string[] = Array.from(new Set(sides))
 
-    const sideSet: Set<string> = new Set([ ...uniqueSides, strategy.side ])
+    const sideSet: Set<string> = new Set([ ...uniqueSides, stratSide ])
 
     const result: boolean = sideSet.size <= 1
 
     return await { result, errors }
   }
 
-  return Object.freeze({ strategy, execute })
+  return Object.freeze({ execute })
 }

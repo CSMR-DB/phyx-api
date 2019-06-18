@@ -17,7 +17,6 @@ describe('slotValidator()', () => {
   test('should validate a valid strategy', async () => {
     await expect(
       slotValidator(
-        csgoStrategyValid,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyValid)
       ).execute()
@@ -27,7 +26,6 @@ describe('slotValidator()', () => {
   test('should invalidate a strategy with item(s) in the wrong slot(s)', async () => {
     await expect(
       slotValidator(
-        csgoStrategyInvalidSlots,
         csgoDataManager,
         csgoStrategyDataTransposer(csgoStrategyInvalidSlots)
       ).execute()
