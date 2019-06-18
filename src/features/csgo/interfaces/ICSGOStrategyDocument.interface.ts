@@ -1,6 +1,13 @@
 import { IPosition } from '~src/interfaces/IStrategy.interface'
 
 export namespace ICSGOStrategyDocument {
+  export type Map = {
+    internal_id: string
+    name: string
+    mode: 'de' | 'hs'
+    active: boolean
+  }
+
   export type Item = {
     [key: string]: any
 

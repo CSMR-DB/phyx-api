@@ -4,9 +4,7 @@ import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrat
 
 export function csgoStrategyDataTransposer(
   strategy: ICSGOStrategyDocument.Strategy
-): IStrategyDataTransposer & {
-  slots: { internal_id: string; slot: string }[]
-} {
+): IStrategyDataTransposer {
   const {
     team: { players }
   }: { team: { players: ICSGOStrategyDocument.Players } } = strategy
@@ -82,5 +80,9 @@ export function csgoStrategyDataTransposer(
     )
   }
 
-  return Object.freeze({ uniqueIDs: uniqueIDs(), slots: slots() })
+  function map(): string {
+    return strategy.map
+  }
+
+  return Object.freeze({ uniqueIDs: uniqueIDs(), slots: slots(), map: map() })
 }

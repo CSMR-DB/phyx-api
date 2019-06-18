@@ -7,11 +7,13 @@ export namespace CSGO {
   >
   type WeaponCategory = Required<'pistol' | 'rifle' | 'heavy' | 'smg'>
   type EquipmentSlot = Required<'primary' | 'secondary' | 'gear' | 'utilities'>
+  type GameMode = 'de' | 'hs'
 
   export interface IMap {
     name: string
     internal_id: string
-    official: boolean
+    mode: GameMode
+    active: boolean
   }
 
   export interface IItem {
@@ -34,7 +36,7 @@ export namespace CSGO {
   }
 
   export interface IDataFactory {
-    addMap: (name: string, official: boolean) => void
+    addMap: (name: string, active: boolean, mode: GameMode) => void
     getMaps: () => IMap[]
     getMapByID: (id: string) => IMap | undefined
     addItem: (
@@ -66,9 +68,9 @@ export namespace CSGO {
       return options.idGenerator(name, { uppercase: true })
     }
 
-    function addMap(name: string, official: boolean): void {
+    function addMap(name: string, active: boolean, mode: GameMode): void {
       const internal_id: string = generateID(name)
-      const M: IMap = Object.freeze({ name, official, internal_id })
+      const M: IMap = Object.freeze({ name, active, internal_id, mode })
 
       // LOCAL_INVENTORY.MAPS.push(M)
 
@@ -209,13 +211,13 @@ CSGOFACTORY.addItem('UNI', 'Decoy Grenade', 50, 'utilities')
 CSGOFACTORY.addItem('ATK', 'Molotov', 400, 'utilities')
 CSGOFACTORY.addItem('DEF', 'Incendiary Grenade', 600, 'utilities')
 
-CSGOFACTORY.addMap('Mirage', true)
-CSGOFACTORY.addMap('Inferno', true)
-CSGOFACTORY.addMap('Nuke', true)
-CSGOFACTORY.addMap('Cache', true)
-CSGOFACTORY.addMap('Overpass', true)
-CSGOFACTORY.addMap('Cobblestone', false)
-CSGOFACTORY.addMap('Dust 2', true)
+CSGOFACTORY.addMap('Mirage', true, 'de')
+CSGOFACTORY.addMap('Inferno', true, 'de')
+CSGOFACTORY.addMap('Nuke', true, 'de')
+CSGOFACTORY.addMap('Cache', true, 'de')
+CSGOFACTORY.addMap('Overpass', true, 'de')
+CSGOFACTORY.addMap('Cobblestone', false, 'de')
+CSGOFACTORY.addMap('Dust 2', true, 'de')
 
 // console.log(CSGOFACTORY.getItems())
 

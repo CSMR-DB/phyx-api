@@ -7,7 +7,7 @@ describe('CSGOFACTORY', () => {
   })
 
   beforeAll(() => {
-    CSGOFACTORY.addMap('Mirage', true)
+    CSGOFACTORY.addMap('Mirage', true, 'de')
 
     CSGOFACTORY.addItem('ATK', 'Glock-18', 0, 'secondary')
 
@@ -31,7 +31,8 @@ describe('CSGOFACTORY', () => {
     expect(CSGOFACTORY.getMapByID('MIRAGE')).toEqual({
       internal_id: 'MIRAGE',
       name: 'Mirage',
-      official: true
+      active: true,
+      mode: 'de'
     })
   })
 
