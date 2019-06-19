@@ -83,9 +83,10 @@ beforeEach(async () => {
 
   if (mongoose.connection.readyState === 0) {
     await mongoose.connect(
-      `mongodb://localhost:27017/${process.env.TEST_SUITE}_test`,
+      `${process.env.DB_ROOT_URL}/${process.env.DB_COLLECTION_NAME}_test`,
       {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true
       }
     )
   }
