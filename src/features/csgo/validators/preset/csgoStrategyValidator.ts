@@ -1,4 +1,4 @@
-import { ICSGOStrategyDocument } from '../../interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '../../interfaces/ICSGODocuments.interface'
 import { strategyValidator } from '~src/services/validators/strategyValidator'
 import { itemsValidator } from '~src/services/validators/modules/itemsValidator'
 import {
@@ -15,17 +15,17 @@ import { slotValidator } from '~src/services/validators/modules/slotValidator'
 import { mapValidator } from '~src/services/validators/modules/mapValidator'
 
 export const csgoStrategyValidator: (
-  strategy: ICSGOStrategyDocument.Strategy
+  strategy: ICSGODocuments.Strategy
 ) => Promise<ValidatorReturnType> = async (
-  strategy: ICSGOStrategyDocument.Strategy
+  strategy: ICSGODocuments.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager_items: IGameDataManager<
-    ICSGOStrategyDocument.Item
-  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
+    ICSGODocuments.Item
+  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
 
   const dataManager_maps: IGameDataManager<
-    ICSGOStrategyDocument.Map
-  > = gameDataManager<ICSGOStrategyDocument.Map>(CSGOFACTORY.getMaps())
+    ICSGODocuments.Map
+  > = gameDataManager<ICSGODocuments.Map>(CSGOFACTORY.getMaps())
 
   const dataReducer: IStrategyDataTransposer = csgoStrategyDataTransposer(
     strategy

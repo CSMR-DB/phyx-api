@@ -1,9 +1,9 @@
-import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '../interfaces/ICSGODocuments.interface'
 import { IcsgoGraphQLService } from './csgoGraphQL.service'
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
-const csgoStrategiesMockCollection: (ICSGOStrategyDocument.Strategy & {
+const csgoStrategiesMockCollection: (ICSGODocuments.Strategy & {
   id?: string
 })[] = [
   {
@@ -133,19 +133,19 @@ const csgoStrategiesMockCollection: (ICSGOStrategyDocument.Strategy & {
 ]
 
 export const csgoGraphQLServiceMock: IcsgoGraphQLService<
-  ICSGOStrategyDocument.Strategy
+  ICSGODocuments.Strategy
 > = {
   Query: {
-    csgoStrategies: async (): Promise<ICSGOStrategyDocument.Strategy[]> =>
+    csgoStrategies: async (): Promise<ICSGODocuments.Strategy[]> =>
       await csgoStrategiesMockCollection,
 
     csgoStrategy: async ({
       id
     }: {
       id: string
-    }): Promise<ICSGOStrategyDocument.Strategy | undefined> =>
+    }): Promise<ICSGODocuments.Strategy | undefined> =>
       await csgoStrategiesMockCollection.find(
-        (strategy: ICSGOStrategyDocument.Strategy & { id?: string }) =>
+        (strategy: ICSGODocuments.Strategy & { id?: string }) =>
           strategy.id === id
       ),
 
@@ -153,16 +153,16 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService<
       map
     }: {
       map: string
-    }): Promise<ICSGOStrategyDocument.Strategy[]> =>
+    }): Promise<ICSGODocuments.Strategy[]> =>
       await csgoStrategiesMockCollection.filter(
-        (strategy: ICSGOStrategyDocument.Strategy) => strategy.map === map
+        (strategy: ICSGODocuments.Strategy) => strategy.map === map
       )
   },
   Mutation: {
     submitCSGOStrategy: async ({
       strategy
     }: {
-      strategy: ICSGOStrategyDocument.Strategy
+      strategy: ICSGODocuments.Strategy
     }): Promise<{
       result: boolean
       errors: string[]

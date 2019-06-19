@@ -4,10 +4,10 @@ import {
   ALLOPERATORS
 } from '~src/features/r6siege/data/r6siege-operators'
 import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
-import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 
 describe('DataManager()', () => {
-  const ALLITEMS: ICSGOStrategyDocument.Item[] = CSGOFACTORY.getItems()
+  const ALLITEMS: ICSGODocuments.Item[] = CSGOFACTORY.getItems()
 
   const testCases = [
     {
@@ -80,7 +80,7 @@ describe('DataManager()', () => {
     `getOneById() should return full item, or undefined`,
     ({ dataToFind: { id }, dataArray, data }) => {
       const itemsManager: IGameDataManager<
-        ICSGOStrategyDocument.Item
+        ICSGODocuments.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.getOneById(id)).toEqual(data)
     }
@@ -90,7 +90,7 @@ describe('DataManager()', () => {
     `has() should return boolean if id exists`,
     ({ dataToFind: { id }, dataArray, has }) => {
       const itemsManager: IGameDataManager<
-        ICSGOStrategyDocument.Item
+        ICSGODocuments.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.hasID(id)).toEqual(has)
     }

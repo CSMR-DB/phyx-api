@@ -1,6 +1,6 @@
 import { IPosition } from '~src/interfaces/IStrategy.interface'
 
-export namespace ICSGOStrategyDocument {
+export namespace ICSGODocuments {
   export type Map = {
     internal_id: string
     name: string

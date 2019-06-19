@@ -1,38 +1,38 @@
 import { objectToArray } from '~src/utils/objectToArray'
-import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 
 export function csgoStrategyDataTransposer(
-  strategy: ICSGOStrategyDocument.Strategy
+  strategy: ICSGODocuments.Strategy
 ): IStrategyDataTransposer {
   const {
     team: { players }
   }: {
     team: {
-      players: ICSGOStrategyDocument.Players
+      players: ICSGODocuments.Players
     }
   } = strategy
 
-  const playersArray: ICSGOStrategyDocument.Player[] = objectToArray(players)
-  const loadoutArray: ICSGOStrategyDocument.Loadout[] = playersArray.map(
-    (player: ICSGOStrategyDocument.Player) => player['loadout']
+  const playersArray: ICSGODocuments.Player[] = objectToArray(players)
+  const loadoutArray: ICSGODocuments.Loadout[] = playersArray.map(
+    (player: ICSGODocuments.Player) => player['loadout']
   )
 
-  function uniqueIDs(): ICSGOStrategyDocument.Item['internal_id'][] {
-    const items: ICSGOStrategyDocument.Item[] = loadoutArray
-      .map((loadout: ICSGOStrategyDocument.Loadout) => [
-        loadout.primary || ({} as ICSGOStrategyDocument.Item),
+  function uniqueIDs(): ICSGODocuments.Item['internal_id'][] {
+    const items: ICSGODocuments.Item[] = loadoutArray
+      .map((loadout: ICSGODocuments.Loadout) => [
+        loadout.primary || ({} as ICSGODocuments.Item),
         loadout.secondary,
-        ...(loadout.gear || ([] as ICSGOStrategyDocument.Item[])),
-        ...(loadout.utilities || ([] as ICSGOStrategyDocument.Item[]))
+        ...(loadout.gear || ([] as ICSGODocuments.Item[])),
+        ...(loadout.utilities || ([] as ICSGODocuments.Item[]))
       ])
       .reduce(
-        (pV: ICSGOStrategyDocument.Item[], cV: ICSGOStrategyDocument.Item[]) =>
+        (pV: ICSGODocuments.Item[], cV: ICSGODocuments.Item[]) =>
           pV.concat(cV)
       )
 
-    const ids: ICSGOStrategyDocument.Item['internal_id'][] = items.map(
-      ({ internal_id }: ICSGOStrategyDocument.Item) => internal_id
+    const ids: ICSGODocuments.Item['internal_id'][] = items.map(
+      ({ internal_id }: ICSGODocuments.Item) => internal_id
     )
 
     return Array.from(new Set(ids))
@@ -45,13 +45,13 @@ export function csgoStrategyDataTransposer(
 
   function slots(): SlotObject[] {
     const items: SlotObject[] = loadoutArray.map(
-      (loadout: ICSGOStrategyDocument.Loadout) => ({
+      (loadout: ICSGODocuments.Loadout) => ({
         slot: 'secondary',
         internal_id: loadout.secondary.internal_id
       })
     )
 
-    loadoutArray.map((loadout: ICSGOStrategyDocument.Loadout) => {
+    loadoutArray.map((loadout: ICSGODocuments.Loadout) => {
       if (loadout.primary) {
         items.push({
           slot: 'primary',
@@ -60,7 +60,7 @@ export function csgoStrategyDataTransposer(
       }
 
       if (loadout.gear) {
-        loadout.gear.map((item: ICSGOStrategyDocument.Item) => {
+        loadout.gear.map((item: ICSGODocuments.Item) => {
           if (item) {
             items.push({
               slot: 'gear',
@@ -70,7 +70,7 @@ export function csgoStrategyDataTransposer(
         })
       }
       if (loadout.utilities) {
-        loadout.utilities.map((item: ICSGOStrategyDocument.Item) => {
+        loadout.utilities.map((item: ICSGODocuments.Item) => {
           if (item) {
             items.push({
               slot: 'utilities',

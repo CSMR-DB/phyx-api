@@ -9,7 +9,7 @@ import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mo
 import { csgoStrategyInvalidCost } from '~src/features/csgo/mocks/csgoStrategyInvalidCost.mock'
 import { csgoStrategyInvalidSide } from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
 import { csgoStrategyInvalidItems } from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
-import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 import { siegeStrategyValid } from '~src/features/r6siege/mocks/r6siegeStrategyValid.mock'
 import {
   gameDataManager,
@@ -27,13 +27,13 @@ import { IValidator } from './IValidator.interface'
 
 describe('strategyValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item
-  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
+    ICSGODocuments.Item
+  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
 
   // tslint:disable-next-line: typedef
   const csgoDataReducer: (
-    strategy: ICSGOStrategyDocument.Strategy
-  ) => IStrategyDataTransposer = (strategy: ICSGOStrategyDocument.Strategy) =>
+    strategy: ICSGODocuments.Strategy
+  ) => IStrategyDataTransposer = (strategy: ICSGODocuments.Strategy) =>
     csgoStrategyDataTransposer(strategy)
 
   const siegeDataManager: IGameDataManager<R6SIEGE.IOperator> = gameDataManager(

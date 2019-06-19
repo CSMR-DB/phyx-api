@@ -1,4 +1,4 @@
-import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
@@ -9,24 +9,24 @@ import {
 import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
-  strategy: ICSGOStrategyDocument.Strategy,
-  gameDataManager: IGameDataManager<ICSGOStrategyDocument.Item>
+  strategy: ICSGODocuments.Strategy,
+  gameDataManager: IGameDataManager<ICSGODocuments.Item>
 ): IValidator {
   const { budget }: { budget: number } = strategy
 
   const errors: Error[] = []
 
   function validatePlayer(
-    player: ICSGOStrategyDocument.Player
+    player: ICSGODocuments.Player
   ): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
-    }: ICSGOStrategyDocument.Player = player
+    }: ICSGODocuments.Player = player
 
     function hasOrEmptyFn<T>(item: T | undefined): T {
       return item ? item : (([] as unknown) as T)
     }
-    const allPlayerItems: ICSGOStrategyDocument.Item[] = [
+    const allPlayerItems: ICSGODocuments.Item[] = [
       hasOrEmptyFn(primary),
       hasOrEmptyFn(secondary),
       ...hasOrEmptyFn(gear),
@@ -54,12 +54,12 @@ export function csgoCostValidator(
   async function execute(): Promise<ValidatorReturnType> {
     const {
       team: { players }
-    }: ICSGOStrategyDocument.Strategy = strategy
+    }: ICSGODocuments.Strategy = strategy
 
-    const playersArray: ICSGOStrategyDocument.Player[] = objectToArray(players)
+    const playersArray: ICSGODocuments.Player[] = objectToArray(players)
 
     const results: ValidatorReturnType[] = playersArray.map(
-      (player: ICSGOStrategyDocument.Player) => validatePlayer(player)
+      (player: ICSGODocuments.Player) => validatePlayer(player)
     )
 
     return await {

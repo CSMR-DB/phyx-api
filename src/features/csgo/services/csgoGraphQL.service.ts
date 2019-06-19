@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
-import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '../interfaces/ICSGODocuments.interface'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { MongoError } from 'mongodb'
@@ -15,7 +15,7 @@ export interface IcsgoGraphQLService<T> {
     submitCSGOStrategy: ({
       strategy
     }: {
-      strategy: ICSGOStrategyDocument.Strategy
+      strategy: ICSGODocuments.Strategy
     }) => Promise<{ result: boolean; errors: string[] }>
   }
 }
@@ -62,7 +62,7 @@ export const csgoGraphQLService: IcsgoGraphQLService<Document> = {
     submitCSGOStrategy: async ({
       strategy
     }: {
-      strategy: ICSGOStrategyDocument.Strategy
+      strategy: ICSGODocuments.Strategy
     }): Promise<{
       result: boolean
       errors: string[]

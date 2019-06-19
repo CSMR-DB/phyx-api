@@ -6,12 +6,12 @@ import {
   gameDataManager,
   IGameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGOStrategyDocument } from '~src/features/csgo/interfaces/ICSGOStrategyDocument.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 
 describe('csgoCostValidator', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGOStrategyDocument.Item
-  > = gameDataManager<ICSGOStrategyDocument.Item>(CSGOFACTORY.getItems())
+    ICSGODocuments.Item
+  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
 
   test('should be within budget and return true', async () => {
     await expect(
