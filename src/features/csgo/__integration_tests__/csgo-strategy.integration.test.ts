@@ -15,7 +15,7 @@ describe('Integration tests for CSGO Strategy', () => {
   test('should receive, validate and submit a valid strategy to the database', async () => {
     const mutation: string = `
         mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          submitCSGOStrategy(strategy: $strategy) {
+          createCSGOStrategy(strategy: $strategy) {
             result
             errors
           }
@@ -37,7 +37,7 @@ describe('Integration tests for CSGO Strategy', () => {
     )
 
     expect(execution).toEqual({
-      data: { submitCSGOStrategy: { errors: [], result: true } }
+      data: { createCSGOStrategy: { errors: [], result: true } }
     })
 
     const dbEntries: mongoose.Document[] = await MongooseModelCSGOStrategy.find(
@@ -68,7 +68,7 @@ describe('Integration tests for CSGO Strategy', () => {
   test('should receive, validate and NOT submit an invalid strategy to the database', async () => {
     const mutation: string = `
         mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          submitCSGOStrategy(strategy: $strategy) {
+          createCSGOStrategy(strategy: $strategy) {
             result
             errors
           }
@@ -91,7 +91,7 @@ describe('Integration tests for CSGO Strategy', () => {
 
     expect(execution).toEqual({
       data: {
-        submitCSGOStrategy: {
+        createCSGOStrategy: {
           errors: [
             'Error: GLOCKZZZZ18 does not exist',
             'Error: PHYD has spent too much on their loadout',
@@ -113,7 +113,7 @@ describe('Integration tests for CSGO Strategy', () => {
   test('should receive, validate and NOT submit an invalid strategy to the database', async () => {
     const mutation: string = `
         mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          submitCSGOStrategy(strategy: $strategy) {
+          createCSGOStrategy(strategy: $strategy) {
             result
             errors
           }
@@ -136,7 +136,7 @@ describe('Integration tests for CSGO Strategy', () => {
 
     expect(execution).toEqual({
       data: {
-        submitCSGOStrategy: {
+        createCSGOStrategy: {
           errors: [
             'Error: Cookie has spent too much on their loadout',
             'Error: P2000 is not equippable on ATK side',

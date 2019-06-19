@@ -12,7 +12,7 @@ export interface IcsgoGraphQLService<T> {
     csgoStrategiesByMap: ({ map }: { map: string }) => Promise<T[]>
   }
   Mutation: {
-    submitCSGOStrategy: ({
+    createCSGOStrategy: ({
       strategy
     }: {
       strategy: ICSGODocuments.Strategy
@@ -59,7 +59,7 @@ export const csgoGraphQLService: IcsgoGraphQLService<Document> = {
         })
   },
   Mutation: {
-    submitCSGOStrategy: async ({
+    createCSGOStrategy: async ({
       strategy
     }: {
       strategy: ICSGODocuments.Strategy

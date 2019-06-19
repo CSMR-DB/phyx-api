@@ -159,7 +159,7 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService<
       )
   },
   Mutation: {
-    submitCSGOStrategy: async ({
+    createCSGOStrategy: async ({
       strategy
     }: {
       strategy: ICSGODocuments.Strategy

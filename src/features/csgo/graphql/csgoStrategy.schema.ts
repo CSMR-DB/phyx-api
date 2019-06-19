@@ -30,12 +30,12 @@ const resolvers = {
       await ctx.csgoGraphQLService.Query.csgoStrategiesByMap({ map })
   },
   Mutation: {
-    submitCSGOStrategy: async (
+    createCSGOStrategy: async (
       _: any,
       { strategy }: { strategy: ICSGODocuments.Strategy },
       ctx: csgoGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
-      return await ctx.csgoGraphQLService.Mutation.submitCSGOStrategy({
+      return await ctx.csgoGraphQLService.Mutation.createCSGOStrategy({
         strategy
       })
     }

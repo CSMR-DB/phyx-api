@@ -111,5 +111,5 @@ input CSGOStrategyInput {
 }
 
 type Mutation {
-  submitCSGOStrategy(strategy: CSGOStrategyInput): ValidationReturn
+  createCSGOStrategy(strategy: CSGOStrategyInput): ValidationReturn
 }

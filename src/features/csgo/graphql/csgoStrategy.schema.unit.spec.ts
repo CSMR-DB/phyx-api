@@ -142,7 +142,7 @@ describe('CSGO Strategy GraphQL Schema', () => {
   test('should submit a valid document', async () => {
     const mutation: string = `
       mutation SUBMIT_NEW_STRATEGY($strategy: CSGOStrategyInput) {
-        submitCSGOStrategy(strategy: $strategy) {
+        createCSGOStrategy(strategy: $strategy) {
           result
           errors
         }
@@ -164,7 +164,7 @@ describe('CSGO Strategy GraphQL Schema', () => {
     )
 
     expect(result).toEqual({
-      data: { submitCSGOStrategy: { errors: [], result: true } }
+      data: { createCSGOStrategy: { errors: [], result: true } }
     })
   })
 })
