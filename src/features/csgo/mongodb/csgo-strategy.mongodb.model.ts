@@ -108,7 +108,7 @@ const schema: Schema<any> = new Schema(
 )
 
 export const MongooseModelCSGOStrategy: Model<Document, {}> = model(
-  'csgo',
+  'csgo_strategy',
   schema,
-  'csgo'
+  'csgo_strategies'
 )

@@ -5,7 +5,7 @@ import { ValidatorReturnType } from '~src/services/validators/IValidator.interfa
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { MongoError } from 'mongodb'
 
-export interface IcsgoStrategyGraphQLService<T> {
+export interface IcsgoGraphQLService<T> {
   Query: {
     csgoStrategy: ({ id }: { id: string }) => Promise<T | null | undefined>
     csgoStrategies: () => Promise<T[]>
@@ -20,13 +20,11 @@ export interface IcsgoStrategyGraphQLService<T> {
   }
 }
 
-export type csgoStrategyGraphQLServiceContext = {
-  csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<Document>
+export type csgoGraphQLServiceContext = {
+  csgoGraphQLService: IcsgoGraphQLService<Document>
 }
 
-export const csgoStrategyGraphQLService: IcsgoStrategyGraphQLService<
-  Document
-> = {
+export const csgoGraphQLService: IcsgoGraphQLService<Document> = {
   Query: {
     csgoStrategy: async ({
       id

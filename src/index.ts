@@ -1,13 +1,13 @@
 import { ApolloServer } from 'apollo-server'
 require('./mongodb')
 import { schemas } from './graphql'
-import { csgoStrategyGraphQLService } from './features/csgo/services/csgoStrategyGraphQL.service'
+import { csgoGraphQLService } from './features/csgo/services/csgoGraphQL.service'
 import { InMemoryLRUCache } from 'apollo-server-caching'
 
 const server: ApolloServer = new ApolloServer({
   schema: schemas,
   cors: true,
-  context: { csgoStrategyGraphQLService },
+  context: { csgoGraphQLService },
   cache: new InMemoryLRUCache({})
 })
 

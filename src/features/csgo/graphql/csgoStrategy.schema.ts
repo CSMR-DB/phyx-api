@@ -3,7 +3,7 @@ import { makeExecutableSchema } from 'apollo-server'
 import { GraphQLSchema } from 'graphql'
 import { Document } from 'mongoose'
 import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
-import { csgoStrategyGraphQLServiceContext } from '../services/csgoStrategyGraphQL.service'
+import { csgoGraphQLServiceContext } from '../services/csgoGraphQL.service'
 
 // tslint:disable-next-line: typedef
 const resolvers = {
@@ -11,31 +11,31 @@ const resolvers = {
     csgoStrategy: async (
       _: any,
       { id }: { id: string },
-      ctx: csgoStrategyGraphQLServiceContext
+      ctx: csgoGraphQLServiceContext
     ): Promise<Document | null | undefined> =>
-      await ctx.csgoStrategyGraphQLService.Query.csgoStrategy({ id }),
+      await ctx.csgoGraphQLService.Query.csgoStrategy({ id }),
 
     csgoStrategies: async (
       _: any,
       _args: any,
-      ctx: csgoStrategyGraphQLServiceContext
+      ctx: csgoGraphQLServiceContext
     ): Promise<Document[]> =>
-      await ctx.csgoStrategyGraphQLService.Query.csgoStrategies(),
+      await ctx.csgoGraphQLService.Query.csgoStrategies(),
 
     csgoStrategiesByMap: async (
       _: any,
       { map }: { map: string },
-      ctx: csgoStrategyGraphQLServiceContext
+      ctx: csgoGraphQLServiceContext
     ): Promise<Document[]> =>
-      await ctx.csgoStrategyGraphQLService.Query.csgoStrategiesByMap({ map })
+      await ctx.csgoGraphQLService.Query.csgoStrategiesByMap({ map })
   },
   Mutation: {
     submitCSGOStrategy: async (
       _: any,
       { strategy }: { strategy: ICSGOStrategyDocument.Strategy },
-      ctx: csgoStrategyGraphQLServiceContext
+      ctx: csgoGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
-      return await ctx.csgoStrategyGraphQLService.Mutation.submitCSGOStrategy({
+      return await ctx.csgoGraphQLService.Mutation.submitCSGOStrategy({
         strategy
       })
     }

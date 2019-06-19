@@ -1,6 +1,6 @@
 import { csgoSchema } from './csgoStrategy.schema'
 import { graphql, ExecutionResult } from 'graphql'
-import { csgoStrategyGraphQLServiceMock } from '../services/csgoStrategyGraphQL.service.mock'
+import { csgoGraphQLServiceMock } from '../services/csgoGraphQL.service.mock'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 interface IGraphQLTestCase {
@@ -23,7 +23,7 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
       }
     `,
     variables: {},
-    context: { csgoStrategyGraphQLService: csgoStrategyGraphQLServiceMock },
+    context: { csgoGraphQLService: csgoGraphQLServiceMock },
     expected: {
       data: {
         csgoStrategies: [
@@ -59,7 +59,7 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
       }
     `,
     variables: { id: '1' },
-    context: { csgoStrategyGraphQLService: csgoStrategyGraphQLServiceMock },
+    context: { csgoGraphQLService: csgoGraphQLServiceMock },
     expected: {
       data: {
         csgoStrategy: {
@@ -102,7 +102,7 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
       }
     `,
     variables: { map: 'Mirage' },
-    context: { csgoStrategyGraphQLService: csgoStrategyGraphQLServiceMock },
+    context: { csgoGraphQLService: csgoGraphQLServiceMock },
     expected: {
       data: {
         csgoStrategiesByMap: [
@@ -150,7 +150,7 @@ describe('CSGO Strategy GraphQL Schema', () => {
     `
 
     const context: {} = {
-      csgoStrategyGraphQLService: csgoStrategyGraphQLServiceMock
+      csgoGraphQLService: csgoGraphQLServiceMock
     }
 
     const variables: {} = { strategy: csgoStrategyValid }

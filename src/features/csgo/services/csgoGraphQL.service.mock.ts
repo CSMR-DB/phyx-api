@@ -1,5 +1,5 @@
 import { ICSGOStrategyDocument } from '../interfaces/ICSGOStrategyDocument.interface'
-import { IcsgoStrategyGraphQLService } from './csgoStrategyGraphQL.service'
+import { IcsgoGraphQLService } from './csgoGraphQL.service'
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 
@@ -132,7 +132,7 @@ const csgoStrategiesMockCollection: (ICSGOStrategyDocument.Strategy & {
   }
 ]
 
-export const csgoStrategyGraphQLServiceMock: IcsgoStrategyGraphQLService<
+export const csgoGraphQLServiceMock: IcsgoGraphQLService<
   ICSGOStrategyDocument.Strategy
 > = {
   Query: {
