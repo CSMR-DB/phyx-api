@@ -51,9 +51,9 @@ type CSGOStrategy {
 }
 
 type Query {
-  csgoStrategies: [CSGOStrategy!]!
-  csgoStrategiesByMap(map: String): [CSGOStrategy!]!
-  csgoStrategy(id: String): CSGOStrategy!
+  csgoStrategies: [CSGOStrategy]
+  csgoStrategiesByMap(map: String): [CSGOStrategy]
+  csgoStrategy(id: String): CSGOStrategy
 }
 
 # ValidationReturnType
