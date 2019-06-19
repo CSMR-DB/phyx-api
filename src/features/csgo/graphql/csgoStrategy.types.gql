@@ -1,13 +1,13 @@
-type Item {
+type StrategyItem {
   internal_id: String!
 }
 
 type Loadout {
   cost: Int!
-  primary: Item
-  secondary: Item!
-  gear: [Item]
-  utilities: [Item]
+  primary: StrategyItem
+  secondary: StrategyItem!
+  gear: [StrategyItem]
+  utilities: [StrategyItem]
 }
 
 type Position {
@@ -64,15 +64,15 @@ type ValidationReturn {
 }
 
 # Define input model for submission
-input ItemInput {
+input StrategyItemInput {
   internal_id: String
 }
 
 input LoadoutInput {
-  primary: ItemInput
-  secondary: ItemInput
-  gear: [ItemInput]
-  utilities: [ItemInput]
+  primary: StrategyItemInput
+  secondary: StrategyItemInput
+  gear: [StrategyItemInput]
+  utilities: [StrategyItemInput]
 }
 
 input PositionInput {
