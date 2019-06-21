@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
-import { csgoSchema } from '../graphql/csgo.schema'
+import { csgoSchema } from './csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'
-import { MongooseModelCSGOMap } from './../mongodb/csgo-map.mongodb.model'
+import { MongooseModelCSGOMap } from '../mongodb/csgo-map.mongodb.model'
 import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
 
 describe('Integration tests for CSGO Map', () => {

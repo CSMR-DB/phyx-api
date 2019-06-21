@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
-import { csgoSchema } from '../graphql/csgo.schema'
+import { csgoSchema } from './csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'
-import { MongooseModelCSGOStrategy } from './../mongodb/csgo-strategy.mongodb.model'
+import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { csgoStrategyInvalidItems } from '../mocks/csgoStrategyInvalidItems.mock'
 import { csgoStrategyInvalidSide } from '../mocks/csgoStrategyInvalidSide.mock'
 
