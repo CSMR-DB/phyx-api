@@ -3,6 +3,7 @@ import { IcsgoGraphQLService } from './csgoGraphQL.service'
 import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { Document } from 'mongoose'
+import { idGenerator } from '~src/utils/idGenerator'
 
 const csgoMapsMockCollection: (ICSGODocuments.Map & { id?: string })[] = [
   {
@@ -230,12 +231,14 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
     createCSGOMap: async ({
       map
     }: {
-      map: ICSGODocuments.Map
+      map: ICSGODocuments.NewMap
     }): Promise<{
       result: boolean
       errors: string[]
     }> => {
-      await csgoMapsMockCollection.push(map)
+      await csgoMapsMockCollection.push(Object.assign(map, {
+        internal_id: idGenerator(map.name, { uppercase: true })
+      }) as ICSGODocuments.Map)
 
       return { result: true, errors: [] }
     },
@@ -243,12 +246,14 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
     createCSGOItem: async ({
       item
     }: {
-      item: ICSGODocuments.Item
+      item: ICSGODocuments.NewItem
     }): Promise<{
       result: boolean
       errors: string[]
     }> => {
-      await csgoItemsMockCollection.push(item)
+      await csgoItemsMockCollection.push(Object.assign(item, {
+        internal_id: idGenerator(item.name, { uppercase: true })
+      }) as ICSGODocuments.Item)
 
       return { result: true, errors: [] }
     }

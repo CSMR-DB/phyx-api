@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { csgoSchema } from '../graphql/csgo.schema'
-import { graphql, ExecutionResult, Source } from 'graphql'
+import { graphql, ExecutionResult } from 'graphql'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'
 import { MongooseModelCSGOMap } from './../mongodb/csgo-map.mongodb.model'
 import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
@@ -9,8 +9,7 @@ describe('Integration tests for CSGO Map', () => {
   require('~src/testing/__test_mongodb_preload__')
 
   test('should submit a valid map to the database', async () => {
-    const testMap: ICSGODocuments.Map = {
-      internal_id: 'MIRAGE',
+    const testMap: ICSGODocuments.NewMap = {
       name: 'Mirage',
       mode: 'de',
       active: true
@@ -52,6 +51,7 @@ describe('Integration tests for CSGO Map', () => {
     const dbEntry: typeof testMap & {
       __v: number
       _id: Schema.Types.ObjectId
+      internal_id: string
       createdAt: Date
       updatedAt: Date
     } = dbEntries[0].toJSON()
@@ -59,6 +59,7 @@ describe('Integration tests for CSGO Map', () => {
     const responseDocument: typeof dbEntry = Object.assign(testMap, {
       __v: dbEntry.__v,
       _id: dbEntry._id,
+      internal_id: testMap.name.toLocaleUpperCase(),
       createdAt: dbEntry.createdAt,
       updatedAt: dbEntry.updatedAt
     })
@@ -69,15 +70,13 @@ describe('Integration tests for CSGO Map', () => {
   })
 
   test('should not submit an invalid map (duplicate ID) to the database', async () => {
-    const testMap: ICSGODocuments.Map = {
-      internal_id: 'MIRAGE',
+    const testMap: ICSGODocuments.NewMap = {
       name: 'Mirage',
       mode: 'de',
       active: true
     }
-    const testMapDuplicateID: ICSGODocuments.Map = {
-      internal_id: 'MIRAGE',
-      name: 'Nuke',
+    const testMapDuplicateID: ICSGODocuments.NewMap = {
+      name: 'Mirage',
       mode: 'de',
       active: true
     }
@@ -130,6 +129,7 @@ describe('Integration tests for CSGO Map', () => {
     const dbEntry: typeof testMap & {
       __v: number
       _id: Schema.Types.ObjectId
+      internal_id: string
       createdAt: Date
       updatedAt: Date
     } = dbEntries[0].toJSON()
@@ -137,6 +137,7 @@ describe('Integration tests for CSGO Map', () => {
     const responseDocument: typeof dbEntry = Object.assign(testMap, {
       __v: dbEntry.__v,
       _id: dbEntry._id,
+      internal_id: testMap.name.toLocaleUpperCase(),
       createdAt: dbEntry.createdAt,
       updatedAt: dbEntry.updatedAt
     })

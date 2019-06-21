@@ -7,6 +7,7 @@ import { MongoError } from 'mongodb'
 import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { MongooseModelCSGOMap } from './../mongodb/csgo-map.mongodb.model'
 import { MongooseModelCSGOItem } from '../mongodb/csgo-item.mongodb.model'
+import { idGenerator } from '~src/utils/idGenerator'
 
 export interface IcsgoGraphQLService {
   Query: {
@@ -34,13 +35,13 @@ export interface IcsgoGraphQLService {
     createCSGOMap: ({
       map
     }: {
-      map: ICSGODocuments.Map
+      map: ICSGODocuments.NewMap
     }) => Promise<{ result: boolean; errors: string[] }>
 
     createCSGOItem: ({
       item
     }: {
-      item: ICSGODocuments.Item
+      item: ICSGODocuments.NewItem
     }) => Promise<{ result: boolean; errors: string[] }>
   }
 }
@@ -178,7 +179,7 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     createCSGOMap: async ({
       map
     }: {
-      map: ICSGODocuments.Map
+      map: ICSGODocuments.NewMap
     }): Promise<{
       result: boolean
       errors: string[]
@@ -189,6 +190,10 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
         errors: string[]
         _id?: string | null
       } = { result: false, errors: [] }
+
+      Object.assign(map, {
+        internal_id: idGenerator(map.name, { uppercase: true })
+      })
 
       await MongooseModelCSGOMap.create(map)
         .then((mongoResult: mongoose.Document) => {
@@ -208,7 +213,7 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     createCSGOItem: async ({
       item
     }: {
-      item: ICSGODocuments.Item
+      item: ICSGODocuments.NewItem
     }): Promise<{
       result: boolean
       errors: string[]
@@ -218,6 +223,10 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
         errors: string[]
         _id?: string | null
       } = { result: false, errors: [] }
+
+      Object.assign(item, {
+        internal_id: idGenerator(item.name, { uppercase: true })
+      })
 
       await MongooseModelCSGOItem.create(item)
         .then((mongoResult: mongoose.Document) => {

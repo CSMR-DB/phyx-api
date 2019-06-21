@@ -68,7 +68,7 @@ const resolvers = {
 
     createCSGOMap: async (
       _: any,
-      { map }: { map: ICSGODocuments.Map },
+      { map }: { map: ICSGODocuments.NewMap },
       ctx: csgoGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
       return await ctx.csgoGraphQLService.Mutation.createCSGOMap({
@@ -78,7 +78,7 @@ const resolvers = {
 
     createCSGOItem: async (
       _: any,
-      { item }: { item: ICSGODocuments.Item },
+      { item }: { item: ICSGODocuments.NewItem },
       ctx: csgoGraphQLServiceContext
     ): Promise<{ result: boolean; errors: string[] }> => {
       return await ctx.csgoGraphQLService.Mutation.createCSGOItem({

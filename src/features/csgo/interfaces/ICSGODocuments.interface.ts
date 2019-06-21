@@ -8,6 +8,12 @@ export namespace ICSGODocuments {
     active: boolean
   }
 
+  export type NewMap = {
+    name: Map['name']
+    mode: Map['mode']
+    active: Map['active']
+  }
+
   export type Item = {
     [key: string]: any
 
@@ -15,6 +21,12 @@ export namespace ICSGODocuments {
     name?: string
     side?: string
     cost?: number
+  }
+
+  export type NewItem = {
+    name: NonNullable<Item['name']>
+    side: NonNullable<Item['side']>
+    cost: NonNullable<Item['cost']>
   }
 
   export type Loadout = {
