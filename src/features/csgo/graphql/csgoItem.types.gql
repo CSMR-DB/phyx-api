@@ -1,0 +1,22 @@
+type Item {
+  internal_id: String!
+  name: String!
+  cost: Int!
+  side: String!
+}
+
+extend type Query {
+  csgoItems: [Item!]!
+  csgoItem(id: String): Item
+}
+
+input ItemInput {
+  internal_id: String!
+  name: String!
+  cost: Int!
+  side: String!
+}
+
+extend type Mutation {
+  createCSGOItem(item: ItemInput): ValidationReturn
+}

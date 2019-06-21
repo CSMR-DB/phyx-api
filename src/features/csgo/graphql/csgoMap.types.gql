@@ -1,0 +1,22 @@
+type Map {
+  internal_id: String!
+  name: String!
+  mode: String!
+  active: Boolean!
+}
+
+extend type Query {
+  csgoMaps: [Map!]!
+  csgoMap(id: String): Map
+}
+
+input MapInput {
+  internal_id: String!
+  name: String!
+  mode: String!
+  active: Boolean!
+}
+
+extend type Mutation {
+  createCSGOMap(map: MapInput): ValidationReturn
+}

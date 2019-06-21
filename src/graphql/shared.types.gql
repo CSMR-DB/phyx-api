@@ -1,0 +1,6 @@
+# ValidationReturnType
+type ValidationReturn {
+  result: Boolean
+  errors: [String]
+  _id: String
+}

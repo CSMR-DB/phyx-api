@@ -1,4 +1,4 @@
-import { csgoSchema } from './csgoStrategy.schema'
+import { csgoSchema } from './csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoGraphQLServiceMock } from '../services/csgoGraphQL.service.mock'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'

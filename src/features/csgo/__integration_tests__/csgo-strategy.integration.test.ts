@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import { csgoSchema } from '../graphql/csgoStrategy.schema'
+import { csgoSchema } from '../graphql/csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'

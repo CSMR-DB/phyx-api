@@ -56,13 +56,6 @@ type Query {
   csgoStrategy(id: String): CSGOStrategy
 }
 
-# ValidationReturnType
-type ValidationReturn {
-  result: Boolean
-  errors: [String]
-  _id: String
-}
-
 # Define input model for submission
 input StrategyItemInput {
   internal_id: String
