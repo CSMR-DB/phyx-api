@@ -172,7 +172,6 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
           return { result: false, errors: [ e.toString() ] }
         })
 
-      // Return result of submission. TODO: insert to db -> get submitted result document from db -> return document
       return result
     },
 
