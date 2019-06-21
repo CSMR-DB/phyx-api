@@ -14,13 +14,13 @@ describe('Integration tests for CSGO Strategy', () => {
 
   test('should receive, validate and submit a valid strategy to the database', async () => {
     const mutation: string = `
-        mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          createCSGOStrategy(strategy: $strategy) {
-            result
-            errors
-          }
+      mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
+        createCSGOStrategy(strategy: $strategy) {
+          result
+          errors
         }
-      `
+      }
+    `
 
     const context: {} = {
       csgoGraphQLService
@@ -67,13 +67,13 @@ describe('Integration tests for CSGO Strategy', () => {
 
   test('should receive, validate and NOT submit an invalid strategy to the database', async () => {
     const mutation: string = `
-        mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          createCSGOStrategy(strategy: $strategy) {
-            result
-            errors
-          }
+      mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
+        createCSGOStrategy(strategy: $strategy) {
+          result
+          errors
         }
-      `
+      }
+    `
 
     const context: {} = {
       csgoGraphQLService
@@ -112,13 +112,13 @@ describe('Integration tests for CSGO Strategy', () => {
 
   test('should receive, validate and NOT submit an invalid strategy to the database', async () => {
     const mutation: string = `
-        mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
-          createCSGOStrategy(strategy: $strategy) {
-            result
-            errors
-          }
+      mutation SUBMIT_CSGO_STRATEGY($strategy: CSGOStrategyInput) {
+        createCSGOStrategy(strategy: $strategy) {
+          result
+          errors
         }
-      `
+      }
+    `
 
     const context: {} = {
       csgoGraphQLService

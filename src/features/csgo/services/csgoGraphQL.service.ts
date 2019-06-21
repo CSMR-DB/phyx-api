@@ -97,7 +97,7 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     }: {
       id: string
     }): Promise<Document | null | undefined> =>
-      await MongooseModelCSGOMap.findOne({ id })
+      await MongooseModelCSGOMap.findOne({ internal_id: id })
         .exec()
         .then((doc: Document | null) => doc)
         .catch((error: Error) => {
@@ -117,7 +117,7 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     }: {
       id: string
     }): Promise<Document | null | undefined> =>
-      await MongooseModelCSGOItem.findOne({ id })
+      await MongooseModelCSGOItem.findOne({ internal_id: id })
         .exec()
         .then((doc: Document | null) => doc)
         .catch((error: Error) => {

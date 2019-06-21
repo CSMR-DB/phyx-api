@@ -16,13 +16,13 @@ describe('Integration tests for CSGO Map', () => {
     }
 
     const mutation: string = `
-        mutation SUBMIT_CSGO_MAP($map: MapInput) {
-          createCSGOMap(map: $map) {
-            result
-            errors
-          }
+      mutation SUBMIT_CSGO_MAP($map: MapInput) {
+        createCSGOMap(map: $map) {
+          result
+          errors
         }
-      `
+      }
+    `
 
     const context: {} = {
       csgoGraphQLService
@@ -82,13 +82,13 @@ describe('Integration tests for CSGO Map', () => {
     }
 
     const mutation: string = `
-        mutation SUBMIT_CSGO_MAP($map: MapInput) {
-          createCSGOMap(map: $map) {
-            result
-            errors
-          }
+      mutation SUBMIT_CSGO_MAP($map: MapInput) {
+        createCSGOMap(map: $map) {
+          result
+          errors
         }
-      `
+      }
+    `
 
     const context: {} = {
       csgoGraphQLService
@@ -145,5 +145,21 @@ describe('Integration tests for CSGO Map', () => {
     expect(dbEntry).toEqual(responseDocument)
 
     expect(dbEntry.name).toBe('Mirage')
+
+    const mapByInternalID: ExecutionResult = await graphql(
+      csgoSchema,
+      `
+        query MAP_BY_ID($id: String!) {
+          csgoMap(id: $id) {
+            name
+          }
+        }
+      `,
+      null,
+      context,
+      { id: 'MIRAGE' }
+    )
+
+    expect(mapByInternalID).toEqual({ data: { csgoMap: { name: 'Mirage' } } })
   })
 })
