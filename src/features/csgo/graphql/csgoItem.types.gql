@@ -1,8 +1,25 @@
+enum ItemSide {
+  ATK
+  DEF
+  UNI
+}
+
+enum ItemSlot {
+  gear
+  utilities
+  primary
+  secondary
+}
+
 type Item {
+  _id: ID!
   internal_id: String!
   name: String!
   cost: Int!
-  side: String!
+  side: ItemSide!
+  slot: ItemSlot!
+  createdAt: String!
+  updatedAt: String!
 }
 
 extend type Query {
@@ -13,9 +30,11 @@ extend type Query {
 input ItemInput {
   name: String!
   cost: Int!
-  side: String!
+  side: ItemSide!
+  slot: ItemSlot!
 }
 
 extend type Mutation {
-  createCSGOItem(item: ItemInput): ValidationReturn
+  createCSGOItem(item: ItemInput): MutationReturn
+  createCSGOItems(items: [ItemInput]): [MutationReturn]
 }

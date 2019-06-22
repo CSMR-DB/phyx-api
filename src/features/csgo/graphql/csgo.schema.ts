@@ -60,31 +60,55 @@ const resolvers = {
       _: any,
       { strategy }: { strategy: ICSGODocuments.Strategy },
       ctx: csgoGraphQLServiceContext
-    ): Promise<{ result: boolean; errors: string[] }> => {
-      return await ctx.csgoGraphQLService.Mutation.createCSGOStrategy({
+    ): Promise<{ result: boolean; errors: string[] }> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOStrategy({
         strategy
-      })
-    },
+      }),
+
+    createCSGOStrategies: async (
+      _: any,
+      { strategies }: { strategies: ICSGODocuments.Strategy[] },
+      ctx: csgoGraphQLServiceContext
+    ): Promise<{ result: boolean; errors: string[] }[]> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOStrategies({
+        strategies
+      }),
 
     createCSGOMap: async (
       _: any,
       { map }: { map: ICSGODocuments.NewMap },
       ctx: csgoGraphQLServiceContext
-    ): Promise<{ result: boolean; errors: string[] }> => {
-      return await ctx.csgoGraphQLService.Mutation.createCSGOMap({
+    ): Promise<{ result: boolean; errors: string[] }> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOMap({
         map
-      })
-    },
+      }),
+
+    createCSGOMaps: async (
+      _: any,
+      { maps }: { maps: ICSGODocuments.NewMap[] },
+      ctx: csgoGraphQLServiceContext
+    ): Promise<{ result: boolean; errors: string[] }[]> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOMaps({
+        maps
+      }),
 
     createCSGOItem: async (
       _: any,
       { item }: { item: ICSGODocuments.NewItem },
       ctx: csgoGraphQLServiceContext
-    ): Promise<{ result: boolean; errors: string[] }> => {
-      return await ctx.csgoGraphQLService.Mutation.createCSGOItem({
+    ): Promise<{ result: boolean; errors: string[] }> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOItem({
         item
+      }),
+
+    createCSGOItems: async (
+      _: any,
+      { items }: { items: ICSGODocuments.NewItem[] },
+      ctx: csgoGraphQLServiceContext
+    ): Promise<{ result: boolean; errors: string[] }[]> =>
+      await ctx.csgoGraphQLService.Mutation.createCSGOItems({
+        items
       })
-    }
   }
 }
 

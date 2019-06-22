@@ -8,6 +8,7 @@ import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.mode
 import { MongooseModelCSGOMap } from './../mongodb/csgo-map.mongodb.model'
 import { MongooseModelCSGOItem } from '../mongodb/csgo-item.mongodb.model'
 import { idGenerator } from '~src/utils/idGenerator'
+import { GraphQLMutationResult } from '~src/graphql/shared.types'
 
 export interface IcsgoGraphQLService {
   Query: {
@@ -30,24 +31,152 @@ export interface IcsgoGraphQLService {
       strategy
     }: {
       strategy: ICSGODocuments.Strategy
-    }) => Promise<{ result: boolean; errors: string[] }>
+    }) => Promise<GraphQLMutationResult>
+
+    createCSGOStrategies: ({
+      strategies
+    }: {
+      strategies: ICSGODocuments.Strategy[]
+    }) => Promise<GraphQLMutationResult[]>
 
     createCSGOMap: ({
       map
     }: {
       map: ICSGODocuments.NewMap
-    }) => Promise<{ result: boolean; errors: string[] }>
+    }) => Promise<GraphQLMutationResult>
+
+    createCSGOMaps: ({
+      maps
+    }: {
+      maps: ICSGODocuments.NewMap[]
+    }) => Promise<GraphQLMutationResult[]>
 
     createCSGOItem: ({
       item
     }: {
       item: ICSGODocuments.NewItem
-    }) => Promise<{ result: boolean; errors: string[] }>
+    }) => Promise<GraphQLMutationResult>
+
+    createCSGOItems: ({
+      items
+    }: {
+      items: ICSGODocuments.NewItem[]
+    }) => Promise<GraphQLMutationResult[]>
   }
 }
 
 export type csgoGraphQLServiceContext = {
   csgoGraphQLService: IcsgoGraphQLService
+}
+
+async function createCSGOStrategy({
+  strategy
+}: {
+  strategy: ICSGODocuments.Strategy
+}): Promise<GraphQLMutationResult> {
+  return await csgoStrategyValidator(strategy)
+    .then(async (validatorResult: ValidatorReturnType) => {
+      const errors: string[] = validatorResult.errors.map((error: Error) =>
+        error.toString()
+      )
+
+      if (validatorResult.errors.length === 0) {
+        await MongooseModelCSGOStrategy.create(strategy)
+          .then(() => {
+            console.log('Strategy validated & submitted 😃')
+          })
+          .catch((error: MongoError) => {
+            errors.push(error.toString())
+          })
+      }
+
+      return {
+        result: validatorResult.errors.length > 0 ? false : true,
+        errors
+      }
+    })
+    .catch((error: Error) => {
+      return { result: false, errors: [ error.toString() ] }
+    })
+}
+
+async function createCSGOStrategies({
+  strategies
+}: {
+  strategies: ICSGODocuments.Strategy[]
+}): Promise<GraphQLMutationResult[]> {
+  return await Promise.all(
+    strategies.map(
+      async (strategy: ICSGODocuments.Strategy) =>
+        await createCSGOStrategy({ strategy })
+    )
+  )
+}
+
+async function createCSGOMap({
+  map
+}: {
+  map: ICSGODocuments.NewMap
+}): Promise<GraphQLMutationResult> {
+  Object.assign(map, {
+    internal_id: idGenerator(map.name, {
+      uppercase: true
+    })
+  })
+
+  return await MongooseModelCSGOMap.create(map)
+    .then(() => ({
+      result: true,
+      errors: [] as string[]
+    }))
+    .catch((error: MongoError) => ({
+      result: true,
+      errors: [ error.toString() ]
+    }))
+}
+
+async function createCSGOMaps({
+  maps
+}: {
+  maps: ICSGODocuments.NewMap[]
+}): Promise<GraphQLMutationResult[]> {
+  return await Promise.all(
+    maps.map(async (map: ICSGODocuments.NewMap) => {
+      return await createCSGOMap({ map })
+    })
+  )
+}
+
+async function createCSGOItem({
+  item
+}: {
+  item: ICSGODocuments.NewItem
+}): Promise<GraphQLMutationResult> {
+  Object.assign(item, {
+    internal_id: idGenerator(item.name, { uppercase: true })
+  })
+
+  return await MongooseModelCSGOItem.create(item)
+    .then(() => ({
+      result: true,
+      errors: [] as string[]
+    }))
+    .catch((error: MongoError) => ({
+      result: true,
+      errors: [ error.toString() ]
+    }))
+}
+
+async function createCSGOItems({
+  items
+}: {
+  items: ICSGODocuments.NewItem[]
+}): Promise<GraphQLMutationResult[]> {
+  return Promise.all(
+    items.map(async (item: ICSGODocuments.NewItem) => {
+      return await createCSGOItem({ item })
+    })
+  )
 }
 
 export const csgoGraphQLService: IcsgoGraphQLService = {
@@ -125,121 +254,16 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
         })
   },
   Mutation: {
-    createCSGOStrategy: async ({
-      strategy
-    }: {
-      strategy: ICSGODocuments.Strategy
-    }): Promise<{
-      result: boolean
-      errors: string[]
-      _id?: string | null
-    }> => {
-      const result: {
-        result: boolean
-        errors: string[]
-        _id?: string | null
-      } = await csgoStrategyValidator(strategy)
-        .then(async (validatorResult: ValidatorReturnType) => {
-          const errors: string[] = []
+    createCSGOStrategy,
 
-          validatorResult.errors.forEach((error: Error) =>
-            errors.push(error.toString())
-          )
+    createCSGOStrategies,
 
-          let _id: string | null = null
+    createCSGOMap,
 
-          if (validatorResult.errors.length === 0) {
-            await MongooseModelCSGOStrategy.create(strategy)
-              .then((mongoResult: mongoose.Document) => {
-                _id = mongoResult._id
+    createCSGOMaps,
 
-                return mongoResult._id
-              })
-              .catch((error: MongoError) => {
-                console.log(error)
+    createCSGOItem,
 
-                errors.push(error.toString())
-              })
-          }
-
-          return {
-            result: validatorResult.errors.length > 0 ? false : true,
-            errors: validatorResult.errors.length > 0 ? errors : [],
-            _id
-          }
-        })
-        .catch((e: Error) => {
-          return { result: false, errors: [ e.toString() ] }
-        })
-
-      return result
-    },
-
-    createCSGOMap: async ({
-      map
-    }: {
-      map: ICSGODocuments.NewMap
-    }): Promise<{
-      result: boolean
-      errors: string[]
-      _id?: string | null
-    }> => {
-      const result: {
-        result: boolean
-        errors: string[]
-        _id?: string | null
-      } = { result: false, errors: [] }
-
-      Object.assign(map, {
-        internal_id: idGenerator(map.name, { uppercase: true })
-      })
-
-      await MongooseModelCSGOMap.create(map)
-        .then((mongoResult: mongoose.Document) => {
-          result.result = true
-
-          result._id = mongoResult._id
-        })
-        .catch((error: MongoError) => {
-          console.log(error)
-
-          result.errors.push(error.toString())
-        })
-
-      return result
-    },
-
-    createCSGOItem: async ({
-      item
-    }: {
-      item: ICSGODocuments.NewItem
-    }): Promise<{
-      result: boolean
-      errors: string[]
-    }> => {
-      const result: {
-        result: boolean
-        errors: string[]
-        _id?: string | null
-      } = { result: false, errors: [] }
-
-      Object.assign(item, {
-        internal_id: idGenerator(item.name, { uppercase: true })
-      })
-
-      await MongooseModelCSGOItem.create(item)
-        .then((mongoResult: mongoose.Document) => {
-          result.result = true
-
-          result._id = mongoResult._id
-        })
-        .catch((error: MongoError) => {
-          console.log(error)
-
-          result.errors.push(error.toString())
-        })
-
-      return result
-    }
+    createCSGOItems
   }
 }

@@ -219,6 +219,6 @@ CSGOFACTORY.addMap('Overpass', true, 'de')
 CSGOFACTORY.addMap('Cobblestone', false, 'de')
 CSGOFACTORY.addMap('Dust 2', true, 'de')
 
-// console.log(CSGOFACTORY.getItems())
+console.log(CSGOFACTORY.getItems())
 
 export { CSGOFACTORY }

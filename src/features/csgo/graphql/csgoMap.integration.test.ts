@@ -56,13 +56,14 @@ describe('Integration tests for CSGO Map', () => {
       updatedAt: Date
     } = dbEntries[0].toJSON()
 
-    const responseDocument: typeof dbEntry = Object.assign(testMap, {
+    const responseDocument: typeof dbEntry = {
+      ...testMap,
       __v: dbEntry.__v,
       _id: dbEntry._id,
       internal_id: testMap.name.toLocaleUpperCase(),
       createdAt: dbEntry.createdAt,
       updatedAt: dbEntry.updatedAt
-    })
+    }
 
     expect(dbEntry).toEqual(responseDocument)
 
@@ -134,13 +135,14 @@ describe('Integration tests for CSGO Map', () => {
       updatedAt: Date
     } = dbEntries[0].toJSON()
 
-    const responseDocument: typeof dbEntry = Object.assign(testMap, {
+    const responseDocument: typeof dbEntry = {
+      ...testMap,
       __v: dbEntry.__v,
       _id: dbEntry._id,
       internal_id: testMap.name.toLocaleUpperCase(),
       createdAt: dbEntry.createdAt,
       updatedAt: dbEntry.updatedAt
-    })
+    }
 
     expect(dbEntry).toEqual(responseDocument)
 
@@ -161,5 +163,60 @@ describe('Integration tests for CSGO Map', () => {
     )
 
     expect(mapByInternalID).toEqual({ data: { csgoMap: { name: 'Mirage' } } })
+  })
+
+  test('should submit an array of valid maps to the database', async () => {
+    const testMaps: ICSGODocuments.NewMap[] = [
+      {
+        name: 'Vertigo',
+        mode: 'de',
+        active: true
+      },
+      {
+        name: 'Cobblestone',
+        mode: 'de',
+        active: false
+      }
+    ]
+
+    const mutation: string = `
+      mutation SUBMIT_CSGO_MAPS($maps: [MapInput]) {
+        createCSGOMaps(maps: $maps) {
+          result
+          errors
+        }
+      }
+    `
+
+    const context: {} = {
+      csgoGraphQLService
+    }
+
+    const variables: {} = {
+      maps: testMaps
+    }
+
+    const execution: ExecutionResult = await graphql(
+      csgoSchema,
+      mutation,
+      null,
+      context,
+      variables
+    )
+
+    console.log(execution)
+
+    expect(execution).toEqual({
+      data: {
+        createCSGOMaps: [
+          { errors: [], result: true },
+          { errors: [], result: true }
+        ]
+      }
+    })
+
+    const dbEntries: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+
+    expect(dbEntries.length).toBe(2)
   })
 })

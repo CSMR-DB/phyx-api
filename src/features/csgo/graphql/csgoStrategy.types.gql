@@ -1,3 +1,8 @@
+enum StrategySide {
+  ATK
+  DEF
+}
+
 type StrategyItem {
   internal_id: String!
 }
@@ -43,7 +48,7 @@ type CSGOStrategy {
   name: String!
   map: String!
   description: String
-  side: String!
+  side: StrategySide!
   team: Team!
   budget: Int
   createdAt: String!
@@ -96,7 +101,7 @@ input TeamInput {
 
 input CSGOStrategyInput {
   name: String!
-  side: String!
+  side: StrategySide!
   description: String
   map: String!
   team: TeamInput
@@ -104,5 +109,6 @@ input CSGOStrategyInput {
 }
 
 type Mutation {
-  createCSGOStrategy(strategy: CSGOStrategyInput): ValidationReturn
+  createCSGOStrategy(strategy: CSGOStrategyInput): MutationReturn
+  createCSGOStrategies(strategies: [CSGOStrategyInput]): [MutationReturn]
 }

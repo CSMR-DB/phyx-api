@@ -1,8 +1,16 @@
+enum MapMode {
+  de
+  hs
+}
+
 type Map {
+  _id: ID!
   internal_id: String!
   name: String!
-  mode: String!
+  mode: MapMode!
   active: Boolean!
+  createdAt: String!
+  updatedAt: String!
 }
 
 extend type Query {
@@ -12,10 +20,11 @@ extend type Query {
 
 input MapInput {
   name: String!
-  mode: String!
+  mode: MapMode!
   active: Boolean!
 }
 
 extend type Mutation {
-  createCSGOMap(map: MapInput): ValidationReturn
+  createCSGOMap(map: MapInput): MutationReturn
+  createCSGOMaps(maps: [MapInput]): [MutationReturn]
 }

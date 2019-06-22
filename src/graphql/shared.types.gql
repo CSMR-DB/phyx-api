@@ -1,6 +1,5 @@
 # ValidationReturnType
-type ValidationReturn {
+type MutationReturn {
   result: Boolean
   errors: [String]
-  _id: String
 }

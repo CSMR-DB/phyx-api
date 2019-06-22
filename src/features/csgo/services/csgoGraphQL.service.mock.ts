@@ -5,7 +5,9 @@ import { ValidatorReturnType } from '~src/services/validators/IValidator.interfa
 import { Document } from 'mongoose'
 import { idGenerator } from '~src/utils/idGenerator'
 
-const csgoMapsMockCollection: (ICSGODocuments.Map & { id?: string })[] = [
+const csgoMapsMockCollection: (ICSGODocuments.Map & {
+  internal_id?: string
+})[] = [
   {
     internal_id: 'MIRAGE',
     name: 'Mirage',
@@ -20,7 +22,9 @@ const csgoMapsMockCollection: (ICSGODocuments.Map & { id?: string })[] = [
   }
 ]
 
-const csgoItemsMockCollection: (ICSGODocuments.Item & { id?: string })[] = [
+const csgoItemsMockCollection: (ICSGODocuments.Item & {
+  internal_id?: string
+})[] = [
   {
     internal_id: 'P250',
     name: 'P-250',
@@ -228,6 +232,36 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       return { result: result.result, errors: es }
     },
 
+    createCSGOStrategies: async ({
+      strategies
+    }: {
+      strategies: ICSGODocuments.Strategy[]
+    }): Promise<
+      {
+        result: boolean
+        errors: string[]
+      }[]
+    > => {
+      await csgoStrategiesMockCollection.push(...strategies)
+
+      const result: ValidatorReturnType[] = await Promise.all(
+        strategies.map(
+          async (strategy: ICSGODocuments.Strategy) =>
+            await csgoStrategyValidator(strategy)
+        )
+      )
+
+      return result.map((res: ValidatorReturnType) => {
+        const es: string[] = []
+
+        res.errors.forEach((error: Error) => {
+          es.push(error.toString())
+        })
+
+        return { result: res.result, errors: es }
+      })
+    },
+
     createCSGOMap: async ({
       map
     }: {
@@ -243,6 +277,28 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       return { result: true, errors: [] }
     },
 
+    createCSGOMaps: async ({
+      maps
+    }: {
+      maps: ICSGODocuments.NewMap[]
+    }): Promise<
+      {
+        result: boolean
+        errors: string[]
+      }[]
+    > => {
+      const mapsWithIDs: ICSGODocuments.Map[] = maps.map(
+        (m: ICSGODocuments.NewMap) => ({
+          ...m,
+          internal_id: idGenerator(m.name, { uppercase: true })
+        })
+      )
+
+      await csgoMapsMockCollection.push(...mapsWithIDs)
+
+      return [ { result: true, errors: [] } ]
+    },
+
     createCSGOItem: async ({
       item
     }: {
@@ -256,6 +312,28 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       }) as ICSGODocuments.Item)
 
       return { result: true, errors: [] }
+    },
+
+    createCSGOItems: async ({
+      items
+    }: {
+      items: ICSGODocuments.NewItem[]
+    }): Promise<
+      {
+        result: boolean
+        errors: string[]
+      }[]
+    > => {
+      const itemsWithIDs: ICSGODocuments.Item[] = items.map(
+        (m: ICSGODocuments.NewItem) => ({
+          ...m,
+          internal_id: idGenerator(m.name, { uppercase: true })
+        })
+      )
+
+      await csgoItemsMockCollection.push(...itemsWithIDs)
+
+      return [ { result: true, errors: [] } ]
     }
   }
 }
