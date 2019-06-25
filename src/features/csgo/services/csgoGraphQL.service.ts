@@ -309,12 +309,13 @@ async function createCSGOItem({
 }: {
   item: ICSGODocuments.NewItem
 }): Promise<GraphQLMutationResult> {
-  const itemWithID = {
-    ...item,
-    internal_id: idGenerator(item.name, { uppercase: true })
-  }
+  Object.assign(item, {
+    internal_id: idGenerator(item.name, {
+      uppercase: true
+    })
+  })
 
-  return await MongooseModelCSGOItem.create(itemWithID)
+  return await MongooseModelCSGOItem.create(item)
     .then(() => ({
       result: true,
       errors: [] as string[]
