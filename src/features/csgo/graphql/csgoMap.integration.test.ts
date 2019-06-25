@@ -1,18 +1,46 @@
-import mongoose, { Schema } from 'mongoose'
 import { csgoSchema } from './csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'
-import { MongooseModelCSGOMap } from '../mongodb/csgo-map.mongodb.model'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import {
+  ICSGODocuments,
+  MongooseDocumentExtensionsCSGO
+} from '~src/features/csgo/interfaces'
+
+process.env.DB_TEST_COLLECTION = 'csgoMapIntegrationTest'
 
 describe('Integration tests for CSGO Map', () => {
   require('~src/testing/__test_mongodb_preload__')
 
+  function mapQuery(): Promise<
+    ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }>
+  > {
+    return graphql(
+      csgoSchema,
+      `
+        query QUERY_CSGO_MAPS {
+          csgoMaps {
+            _id
+            internal_id
+            name
+            mode
+            active
+          }
+        }
+      `,
+      null,
+      {
+        csgoGraphQLService
+      }
+    )
+  }
+
   test('should submit a valid map to the database', async () => {
     const testMap: ICSGODocuments.NewMap = {
-      name: 'Mirage',
+      name: 'Airplane',
       mode: 'de',
-      active: true
+      active: false
     }
 
     const mutation: string = `
@@ -44,17 +72,14 @@ describe('Integration tests for CSGO Map', () => {
       data: { createCSGOMap: { errors: [], result: true } }
     })
 
-    const dbEntries: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const dbEntries: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
 
-    expect(dbEntries.length).toBe(1)
+    expect(dbEntries.data!.csgoMaps.length).toBe(1)
 
-    const dbEntry: typeof testMap & {
-      __v: number
-      _id: Schema.Types.ObjectId
-      internal_id: string
-      createdAt: Date
-      updatedAt: Date
-    } = dbEntries[0].toJSON()
+    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseMap &
+      any = dbEntries.data!.csgoMaps[0]
 
     const responseDocument: typeof dbEntry = {
       ...testMap,
@@ -67,19 +92,19 @@ describe('Integration tests for CSGO Map', () => {
 
     expect(dbEntry).toEqual(responseDocument)
 
-    expect(dbEntry.name).toBe('Mirage')
+    expect(dbEntry.name).toBe('Airplane')
   })
 
   test('should not submit an invalid map (duplicate ID) to the database', async () => {
     const testMap: ICSGODocuments.NewMap = {
-      name: 'Mirage',
+      name: 'Zoo',
       mode: 'de',
-      active: true
+      active: false
     }
     const testMapDuplicateID: ICSGODocuments.NewMap = {
-      name: 'Mirage',
+      name: 'Zoo',
       mode: 'de',
-      active: true
+      active: false
     }
 
     const mutation: string = `
@@ -123,17 +148,14 @@ describe('Integration tests for CSGO Map', () => {
       data: { createCSGOMap: { errors: [], result: true } }
     })
 
-    const dbEntries: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const dbEntries: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
 
-    expect(dbEntries.length).toBe(1)
+    expect(dbEntries.data!.csgoMaps.length).toBe(1)
 
-    const dbEntry: typeof testMap & {
-      __v: number
-      _id: Schema.Types.ObjectId
-      internal_id: string
-      createdAt: Date
-      updatedAt: Date
-    } = dbEntries[0].toJSON()
+    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseMap &
+      any = dbEntries.data!.csgoMaps[0]
 
     const responseDocument: typeof dbEntry = {
       ...testMap,
@@ -146,7 +168,7 @@ describe('Integration tests for CSGO Map', () => {
 
     expect(dbEntry).toEqual(responseDocument)
 
-    expect(dbEntry.name).toBe('Mirage')
+    expect(dbEntry.name).toBe('Zoo')
 
     const mapByInternalID: ExecutionResult = await graphql(
       csgoSchema,
@@ -159,21 +181,21 @@ describe('Integration tests for CSGO Map', () => {
       `,
       null,
       context,
-      { id: 'MIRAGE' }
+      { id: 'ZOO' }
     )
 
-    expect(mapByInternalID).toEqual({ data: { csgoMap: { name: 'Mirage' } } })
+    expect(mapByInternalID).toEqual({ data: { csgoMap: { name: 'Zoo' } } })
   })
 
   test('should submit an array of valid maps to the database', async () => {
     const testMaps: ICSGODocuments.NewMap[] = [
       {
-        name: 'Vertigo',
+        name: 'Subzero',
         mode: 'de',
-        active: true
+        active: false
       },
       {
-        name: 'Cobblestone',
+        name: 'Marine',
         mode: 'de',
         active: false
       }
@@ -204,8 +226,6 @@ describe('Integration tests for CSGO Map', () => {
       variables
     )
 
-    console.log(execution)
-
     expect(execution).toEqual({
       data: {
         createCSGOMaps: [
@@ -215,8 +235,165 @@ describe('Integration tests for CSGO Map', () => {
       }
     })
 
-    const dbEntries: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const dbEntries: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
 
-    expect(dbEntries.length).toBe(2)
+    expect(dbEntries.data!.csgoMaps.length).toBe(2)
+  })
+
+  test('should update a map in the database', async () => {
+    const testMaps: ICSGODocuments.NewMap[] = [
+      {
+        name: 'Subzero',
+        mode: 'de',
+        active: false
+      },
+      {
+        name: 'Marine',
+        mode: 'de',
+        active: false
+      }
+    ]
+
+    await graphql(
+      csgoSchema,
+      `
+        mutation SUBMIT_CSGO_MAPS($maps: [MapInput]) {
+          createCSGOMaps(maps: $maps) {
+            result
+            errors
+          }
+        }
+      `,
+      null,
+      {
+        csgoGraphQLService
+      },
+      {
+        maps: testMaps
+      }
+    )
+
+    const dbEntryToModify: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
+
+    const mutation: string = `
+        mutation UPDATE_CSGO_MAP($id: String, $map: MapInput) {
+          updateCSGOMap(id: $id, map: $map) {
+            result
+            errors
+          }
+        }
+      `
+
+    const variables: { id: string; map: Partial<ICSGODocuments.NewMap> } = {
+      id: dbEntryToModify.data!.csgoMaps[0]._id.toString(),
+      map: {
+        name: 'Subzero',
+        mode: 'de',
+        active: true
+      }
+    }
+
+    const execution: ExecutionResult = await graphql(
+      csgoSchema,
+      mutation,
+      null,
+      {
+        csgoGraphQLService
+      },
+      variables
+    )
+
+    expect(execution).toEqual({
+      data: {
+        updateCSGOMap: { errors: [], result: true }
+      }
+    })
+
+    const dbEntries: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
+
+    expect(dbEntries.data!.csgoMaps.length).toBe(2)
+
+    expect(dbEntries.data!.csgoMaps[0].active).toBe(true)
+  })
+
+  test('should delete a map from the database', async () => {
+    const testMaps: ICSGODocuments.NewMap[] = [
+      {
+        name: 'Subzero',
+        mode: 'de',
+        active: false
+      },
+      {
+        name: 'Marine',
+        mode: 'de',
+        active: false
+      }
+    ]
+
+    await graphql(
+      csgoSchema,
+      `
+        mutation SUBMIT_CSGO_MAPS($maps: [MapInput]) {
+          createCSGOMaps(maps: $maps) {
+            result
+            errors
+          }
+        }
+      `,
+      null,
+      {
+        csgoGraphQLService
+      },
+      {
+        maps: testMaps
+      }
+    )
+
+    const dbEntryToModify: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
+
+    const mutation: string = `
+        mutation DELETE_CSGO_MAP($id: String) {
+          deleteCSGOMap(id: $id) {
+            result
+            errors
+          }
+        }
+      `
+
+    const variables: { id: string } = {
+      id: dbEntryToModify.data!.csgoMaps[0]._id.toString()
+    }
+
+    const execution: ExecutionResult = await graphql(
+      csgoSchema,
+      mutation,
+      null,
+      {
+        csgoGraphQLService
+      },
+      variables
+    )
+
+    expect(execution).toEqual({
+      data: {
+        deleteCSGOMap: { errors: [], result: true }
+      }
+    })
+
+    const dbEntries: ExecutionResult<{
+      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+    }> = await mapQuery()
+
+    expect(dbEntries.data!.csgoMaps.length).toBe(1)
+
+    expect(dbEntries.data!.csgoMaps[0].name).toBe('Marine')
   })
 })

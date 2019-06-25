@@ -1,7 +1,4 @@
-import {
-  ICSGODocuments,
-  MongooseDocumentExtensionsCSGO
-} from '../../interfaces'
+import { ICSGODocuments } from '../../interfaces'
 import { strategyValidator } from '~src/services/validators/strategyValidator'
 import { itemsValidator } from '~src/services/validators/modules/itemsValidator'
 import {
@@ -15,21 +12,21 @@ import { sideValidator } from '~src/services/validators/modules/sideValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
 import { slotValidator } from '~src/services/validators/modules/slotValidator'
 import { mapValidator } from '~src/services/validators/modules/mapValidator'
-import { MongooseModelCSGOItem } from '../../mongodb/csgo-item.mongodb.model'
-import { MongooseModelCSGOMap } from '../../mongodb/csgo-map.mongodb.model'
+import { csgoItems } from '../../data/csgoItems'
+import { csgoMaps } from '../../data/csgoMaps'
 
-export const csgoStrategyValidator: (
+export const csgoStrategyValidatorMock: (
   strategy: ICSGODocuments.Strategy
 ) => Promise<ValidatorReturnType> = async (
   strategy: ICSGODocuments.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager_items: IGameDataManager<
-    MongooseDocumentExtensionsCSGO.IMongooseItem
-  > = gameDataManager(await MongooseModelCSGOItem.find({}))
+    ICSGODocuments.Item
+  > = gameDataManager(csgoItems)
 
   const dataManager_maps: IGameDataManager<
-    MongooseDocumentExtensionsCSGO.IMongooseMap
-  > = gameDataManager(await MongooseModelCSGOMap.find({}))
+    ICSGODocuments.Map
+  > = gameDataManager<ICSGODocuments.Map>(csgoMaps)
 
   const dataReducer: IStrategyDataTransposer = csgoStrategyDataTransposer(
     strategy

@@ -27,4 +27,6 @@ input MapInput {
 extend type Mutation {
   createCSGOMap(map: MapInput): MutationReturn
   createCSGOMaps(maps: [MapInput]): [MutationReturn]
+  updateCSGOMap(id: String, map: MapInput): MutationReturn
+  deleteCSGOMap(id: String): MutationReturn
 }

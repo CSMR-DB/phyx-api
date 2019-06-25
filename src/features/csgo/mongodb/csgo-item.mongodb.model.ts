@@ -1,10 +1,13 @@
-import { Schema, model, Model, Document, SchemaTypes } from 'mongoose'
+import { Schema, model, Model, SchemaTypes } from 'mongoose'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
+import { idGenerator } from '~src/utils/idGenerator'
 
 const schema: Schema<any> = new Schema(
   {
     _id: {
       type: SchemaTypes.ObjectId,
       auto: true
+      // unique: true
     },
     internal_id: {
       type: String,
@@ -35,8 +38,16 @@ const schema: Schema<any> = new Schema(
   { timestamps: true }
 )
 
-export const MongooseModelCSGOItem: Model<Document, {}> = model(
-  'csgo_item',
-  schema,
-  'csgo_items'
-)
+// schema.pre('save', function(next: Function): void {
+//   // tslint:disable-next-line: no-invalid-this
+//   const record: MongooseDocumentExtensionsCSGO.IMongooseItem = this as MongooseDocumentExtensionsCSGO.IMongooseItem
+
+//   record._id = idGenerator(record.name!, { uppercase: true })
+
+//   next()
+// })
+
+export const MongooseModelCSGOItem: Model<
+  MongooseDocumentExtensionsCSGO.IMongooseItem,
+  {}
+> = model('csgo_item', schema, 'csgo_items')

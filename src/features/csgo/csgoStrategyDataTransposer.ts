@@ -1,5 +1,5 @@
 import { objectToArray } from '~src/utils/objectToArray'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 
 export function csgoStrategyDataTransposer(

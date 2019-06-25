@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
 import { MongoError } from 'mongodb'
 import { MongooseModelCSGOStrategy } from './csgo-strategy.mongodb.model'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
+import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 require('dotenv').config()
 
@@ -71,14 +72,18 @@ describe('CSGO Strategy MongoDB Model', () => {
         }
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+      )
       .catch((error: Error) => error)
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOStrategy.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
 
     expect(docs.length).toEqual(1)
 
-    expect(docs[0].toJSON().map).toEqual('Mirage')
+    expect(docs[0].map).toEqual('Mirage')
   })
 
   test('should throw an error on submission of invalid strategy, one where path `team` is not provided', async () => {
@@ -92,14 +97,18 @@ describe('CSGO Strategy MongoDB Model', () => {
         // team: {...} <-- required, should throw error
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+      )
       .catch((error: MongoError) => {
         expect(error).toBeDefined()
 
         expect(error.message).toContain('Path `team` is required')
       })
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOStrategy.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
 
     expect(docs.length).toEqual(0)
   })
@@ -169,7 +178,9 @@ describe('CSGO Strategy MongoDB Model', () => {
         }
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+      )
       .catch((error: MongoError) => {
         expect(error).toBeDefined()
 
@@ -178,8 +189,57 @@ describe('CSGO Strategy MongoDB Model', () => {
         )
       })
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOStrategy.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
 
-    expect(docs.length).toEqual(0)
+    expect(docs.length).toBe(0)
+  })
+
+  test('should delete a strategy', async () => {
+    await MongooseModelCSGOStrategy.create([ csgoStrategyValid ])
+
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    expect(docs.length).toBe(1)
+
+    expect(docs[0].description).toBe(
+      'Execute with smokes to CT, Stairs and Jungle'
+    )
+
+    await MongooseModelCSGOStrategy.updateOne(
+      { _id: docs[0]._id },
+      { ...csgoStrategyValid, description: 'Split A' }
+    )
+
+    const docsAfterUpdate: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    expect(docsAfterUpdate.length).toBe(1)
+
+    expect(docsAfterUpdate[0].description).toBe('Split A')
+  })
+
+  test('should delete a strategy', async () => {
+    await MongooseModelCSGOStrategy.create([ csgoStrategyValid ])
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+      )
+      .catch((error: Error) => error)
+
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    await MongooseModelCSGOStrategy.deleteOne({ _id: docs[0]._id })
+
+    const docsAfterDelete: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    expect(docsAfterDelete.length).toBe(0)
   })
 })

@@ -1,18 +1,18 @@
 import { sideValidator } from './sideValidator'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
-import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
 import { csgoStrategyInvalidSide } from '~src/features/csgo/mocks/csgoStrategyInvalidSide.mock'
 import {
   gameDataManager,
   IGameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
+import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('SideValidator()', () => {
   const csgoDataManager: IGameDataManager<
     ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
+  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
 
   test('sideValidator() with imported mock data [valid]', async () => {
     await expect(

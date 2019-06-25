@@ -1,4 +1,7 @@
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import {
+  ICSGODocuments,
+  MongooseDocumentExtensionsCSGO
+} from '~src/features/csgo/interfaces'
 import { sumArray } from '~src/utils/sumArray'
 import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
@@ -10,15 +13,15 @@ import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
   strategy: ICSGODocuments.Strategy,
-  gameDataManager: IGameDataManager<ICSGODocuments.Item>
+  gameDataManager: IGameDataManager<
+    ICSGODocuments.Item & any | MongooseDocumentExtensionsCSGO.IMongooseItem
+  >
 ): IValidator {
   const { budget }: { budget: number } = strategy
 
   const errors: Error[] = []
 
-  function validatePlayer(
-    player: ICSGODocuments.Player
-  ): ValidatorReturnType {
+  function validatePlayer(player: ICSGODocuments.Player): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
     }: ICSGODocuments.Player = player

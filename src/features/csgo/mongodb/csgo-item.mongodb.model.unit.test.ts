@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
 import { MongooseModelCSGOItem } from './csgo-item.mongodb.model'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 
 describe('CSGO Item MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')
@@ -7,48 +7,52 @@ describe('CSGO Item MongoDB Model', () => {
   test('should store valid items', async () => {
     await MongooseModelCSGOItem.create([
       {
-        internal_id: 'P250',
-        name: 'P-250',
-        cost: 300,
+        _id: 'R99',
+        internal_id: 'R99',
+        name: 'R-99',
+        cost: 6900,
         side: 'UNI',
-        slot: 'secondary'
+        slot: 'primary'
       },
       {
-        internal_id: 'USPS',
-        name: 'USP-S',
-        cost: 0,
-        side: 'DEF',
-        slot: 'secondary'
+        _id: 'R301',
+        internal_id: 'R301',
+        name: 'R-301',
+        cost: 6900,
+        side: 'UNI',
+        slot: 'primary'
       }
     ])
-      .then((result: mongoose.Document[]) => result)
-      .catch((error: Error) => error)
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOItem.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+      {}
+    )
 
     expect(docs.length).toEqual(2)
 
-    expect(docs[0].toJSON().name).toEqual('P-250')
+    expect(docs[0].name).toEqual('R-99')
+
+    expect(docs[0]._id).toEqual('R99')
   })
 
   test('should not store invalid items', async () => {
     await MongooseModelCSGOItem.create([
       {
-        internal_id: 'USPS',
-        name: 'USP-S',
+        internal_id: 'PEACEKEEPER',
+        name: 'Peacekeeper',
         slot: 'secondary'
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then((result: MongooseDocumentExtensionsCSGO.IMongooseItem[]) => result)
       .catch((error: Error) => {
-        console.log(error)
-
         expect(error.message).toEqual(
           'csgo_item validation failed: cost: Path `cost` is required., side: Path `side` is required.'
         )
       })
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOItem.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+      {}
+    )
 
     expect(docs.length).toEqual(0)
   })

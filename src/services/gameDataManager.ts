@@ -17,15 +17,11 @@ export function gameDataManager<T extends IGameItem>(
   items.map((item: T) => itemsMap.set(item.internal_id, item))
 
   function hasID(id: T['internal_id']): boolean {
-    const result: boolean = itemsMap.has(id)
-
-    return result
+    return itemsMap.has(id)
   }
 
   function getOneById(id: T['internal_id']): T | undefined {
-    const result: T | undefined = itemsMap.get(id)
-
-    return result
+    return itemsMap.get(id)
   }
 
   function getField(
@@ -33,11 +29,7 @@ export function gameDataManager<T extends IGameItem>(
     field: keyof T,
     undefinedReturn: T[keyof T]
   ): T[keyof T] {
-    const result: T[keyof T] = itemsMap.has(id)
-      ? itemsMap.get(id)![field]
-      : undefinedReturn
-
-    return result
+    return itemsMap.has(id) ? itemsMap.get(id)![field] : undefinedReturn
   }
 
   return Object.freeze({ hasID, getOneById, getField })

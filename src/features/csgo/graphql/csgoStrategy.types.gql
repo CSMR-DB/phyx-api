@@ -3,16 +3,19 @@ enum StrategySide {
   DEF
 }
 
-type StrategyItem {
+type CSGOStrategyItem {
   internal_id: String!
+  # name: String
+  # cost: Int
+  # slot: String
 }
 
-type Loadout {
+type CSGOLoadout {
   cost: Int!
-  primary: StrategyItem
-  secondary: StrategyItem!
-  gear: [StrategyItem]
-  utilities: [StrategyItem]
+  primary: CSGOStrategyItem!
+  secondary: CSGOStrategyItem!
+  gear: [CSGOStrategyItem!]!
+  utilities: [CSGOStrategyItem!]!
 }
 
 type Position {
@@ -25,7 +28,7 @@ type Player {
   color: String!
   name: String!
   role: String
-  loadout: Loadout!
+  loadout: CSGOLoadout!
   positions: [Position!]!
 }
 
@@ -62,15 +65,15 @@ type Query {
 }
 
 # Define input model for submission
-input StrategyItemInput {
+input CSGOStrategyItemInput {
   internal_id: String
 }
 
 input LoadoutInput {
-  primary: StrategyItemInput
-  secondary: StrategyItemInput
-  gear: [StrategyItemInput]
-  utilities: [StrategyItemInput]
+  primary: CSGOStrategyItemInput
+  secondary: CSGOStrategyItemInput
+  gear: [CSGOStrategyItemInput]
+  utilities: [CSGOStrategyItemInput]
 }
 
 input PositionInput {
@@ -111,4 +114,7 @@ input CSGOStrategyInput {
 type Mutation {
   createCSGOStrategy(strategy: CSGOStrategyInput): MutationReturn
   createCSGOStrategies(strategies: [CSGOStrategyInput]): [MutationReturn]
+  updateCSGOStrategy(id: String, strategy: CSGOStrategyInput): MutationReturn
+  deleteCSGOStrategy(id: String): MutationReturn
+  deleteCSGOStrategies(ids: [String]): MutationReturn
 }

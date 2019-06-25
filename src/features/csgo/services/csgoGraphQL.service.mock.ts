@@ -1,13 +1,12 @@
-import { ICSGODocuments } from '../interfaces/ICSGODocuments.interface'
 import { IcsgoGraphQLService } from './csgoGraphQL.service'
-import { csgoStrategyValidator } from '../validators/preset/csgoStrategyValidator'
 import { ValidatorReturnType } from '~src/services/validators/IValidator.interface'
-import { Document } from 'mongoose'
 import { idGenerator } from '~src/utils/idGenerator'
+import { csgoStrategyValidatorMock } from '../validators/preset/csgoStrategyValidator.mock'
+import { GraphQLMutationResult } from '~src/graphql/shared.types'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
+import { Types } from 'mongoose'
 
-const csgoMapsMockCollection: (ICSGODocuments.Map & {
-  internal_id?: string
-})[] = [
+const csgoMapsMockCollection: (WithID<ICSGODocuments.Map>)[] = [
   {
     internal_id: 'MIRAGE',
     name: 'Mirage',
@@ -22,9 +21,7 @@ const csgoMapsMockCollection: (ICSGODocuments.Map & {
   }
 ]
 
-const csgoItemsMockCollection: (ICSGODocuments.Item & {
-  internal_id?: string
-})[] = [
+const csgoItemsMockCollection: (WithID<ICSGODocuments.Item>)[] = [
   {
     internal_id: 'P250',
     name: 'P-250',
@@ -39,9 +36,7 @@ const csgoItemsMockCollection: (ICSGODocuments.Item & {
   }
 ]
 
-const csgoStrategiesMockCollection: (ICSGODocuments.Strategy & {
-  id?: string
-})[] = [
+const csgoStrategiesMockCollection: (WithID<ICSGODocuments.Strategy>)[] = [
   {
     id: '1',
     name: 'Test',
@@ -168,60 +163,70 @@ const csgoStrategiesMockCollection: (ICSGODocuments.Strategy & {
   }
 ]
 
+type WithID<T> = T & { id?: string }
+
 export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
   Query: {
-    csgoStrategies: async (): Promise<Document[]> =>
-      ((await csgoStrategiesMockCollection) as unknown) as Document[],
+    csgoStrategies: async (): Promise<
+      (WithID<ICSGODocuments.Strategy> & any)[]
+    > => await csgoStrategiesMockCollection,
 
     csgoStrategy: async ({
       id
     }: {
       id: string
-    }): Promise<Document | undefined> =>
-      ((await csgoStrategiesMockCollection.find(
-        (strategy: ICSGODocuments.Strategy & { id?: string }) =>
-          strategy.id === id
-      )) as unknown) as Document,
+    }): Promise<WithID<ICSGODocuments.Strategy> & any | undefined> =>
+      await csgoStrategiesMockCollection.find(
+        (strategy: WithID<ICSGODocuments.Strategy>) => strategy.id === id
+      ),
 
     csgoStrategiesByMap: async ({
       map
     }: {
       map: string
-    }): Promise<Document[]> =>
-      ((await csgoStrategiesMockCollection.filter(
+    }): Promise<(ICSGODocuments.Strategy & any)[]> =>
+      await csgoStrategiesMockCollection.filter(
         (strategy: ICSGODocuments.Strategy) => strategy.map === map
-      )) as unknown) as Document[],
+      ),
 
-    csgoMaps: async (): Promise<Document[]> =>
-      ((await csgoMapsMockCollection) as unknown) as Document[],
+    csgoMaps: async (): Promise<(ICSGODocuments.Map & any)[]> =>
+      await csgoMapsMockCollection,
 
-    csgoMap: async ({ id }: { id: string }) =>
-      ((await csgoMapsMockCollection.find(
-        (map: ICSGODocuments.Map & { id?: string }) =>
-          map.internal_id === id.toLocaleUpperCase()
-      )) as unknown) as Document,
+    csgoMap: async ({
+      id
+    }: {
+      id: string
+    }): Promise<ICSGODocuments.Map & any | null | undefined> =>
+      await csgoMapsMockCollection.find(
+        (map: ICSGODocuments.Map) => map.internal_id === id.toLocaleUpperCase()
+      ),
 
-    csgoItems: async (): Promise<Document[]> =>
-      ((await csgoItemsMockCollection) as unknown) as Document[],
+    csgoItems: async (): Promise<(ICSGODocuments.Item & any)[]> =>
+      await csgoItemsMockCollection,
 
-    csgoItem: async ({ id }: { id: string }) =>
-      ((await csgoItemsMockCollection.find(
-        (item: ICSGODocuments.Item & { id?: string }) =>
+    csgoItem: async ({
+      id
+    }: {
+      id: string
+    }): Promise<ICSGODocuments.Item & any | null | undefined> =>
+      await csgoItemsMockCollection.find(
+        (item: ICSGODocuments.Item) =>
           item.internal_id === id.toLocaleUpperCase()
-      )) as unknown) as Document
+      )
   },
   Mutation: {
     createCSGOStrategy: async ({
       strategy
     }: {
       strategy: ICSGODocuments.Strategy
-    }): Promise<{
-      result: boolean
-      errors: string[]
-    }> => {
-      await csgoStrategiesMockCollection.push(strategy)
+    }): Promise<GraphQLMutationResult> => {
+      const result: ValidatorReturnType = await csgoStrategyValidatorMock(
+        strategy
+      )
 
-      const result: ValidatorReturnType = await csgoStrategyValidator(strategy)
+      if (result.result) {
+        await csgoStrategiesMockCollection.push(strategy)
+      }
 
       const es: string[] = []
 
@@ -236,18 +241,13 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       strategies
     }: {
       strategies: ICSGODocuments.Strategy[]
-    }): Promise<
-      {
-        result: boolean
-        errors: string[]
-      }[]
-    > => {
+    }): Promise<GraphQLMutationResult[]> => {
       await csgoStrategiesMockCollection.push(...strategies)
 
       const result: ValidatorReturnType[] = await Promise.all(
         strategies.map(
           async (strategy: ICSGODocuments.Strategy) =>
-            await csgoStrategyValidator(strategy)
+            await csgoStrategyValidatorMock(strategy)
         )
       )
 
@@ -262,17 +262,47 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       })
     },
 
+    updateCSGOStrategy: async ({
+      id,
+      strategy
+    }: {
+      id: Types.ObjectId
+      strategy: ICSGODocuments.Strategy
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id, strategy)
+
+      return { result: true, errors: [] }
+    },
+
+    deleteCSGOStrategy: async ({
+      id
+    }: {
+      id: Types.ObjectId
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id)
+
+      return { result: true, errors: [] }
+    },
+
+    deleteCSGOStrategies: async ({
+      ids
+    }: {
+      ids: Types.ObjectId[]
+    }): Promise<GraphQLMutationResult> => {
+      console.log(ids)
+
+      return { result: true, errors: [] }
+    },
+
     createCSGOMap: async ({
       map
     }: {
       map: ICSGODocuments.NewMap
-    }): Promise<{
-      result: boolean
-      errors: string[]
-    }> => {
-      await csgoMapsMockCollection.push(Object.assign(map, {
+    }): Promise<GraphQLMutationResult> => {
+      await csgoMapsMockCollection.push({
+        ...map,
         internal_id: idGenerator(map.name, { uppercase: true })
-      }) as ICSGODocuments.Map)
+      })
 
       return { result: true, errors: [] }
     },
@@ -281,16 +311,11 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       maps
     }: {
       maps: ICSGODocuments.NewMap[]
-    }): Promise<
-      {
-        result: boolean
-        errors: string[]
-      }[]
-    > => {
+    }): Promise<GraphQLMutationResult[]> => {
       const mapsWithIDs: ICSGODocuments.Map[] = maps.map(
-        (m: ICSGODocuments.NewMap) => ({
-          ...m,
-          internal_id: idGenerator(m.name, { uppercase: true })
+        (map: ICSGODocuments.NewMap) => ({
+          ...map,
+          internal_id: idGenerator(map.name, { uppercase: true })
         })
       )
 
@@ -299,17 +324,37 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       return [ { result: true, errors: [] } ]
     },
 
+    updateCSGOMap: async ({
+      id,
+      map
+    }: {
+      id: Types.ObjectId
+      map: ICSGODocuments.NewMap
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id, map)
+
+      return { result: true, errors: [] }
+    },
+
+    deleteCSGOMap: async ({
+      id
+    }: {
+      id: Types.ObjectId
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id)
+
+      return { result: true, errors: [] }
+    },
+
     createCSGOItem: async ({
       item
     }: {
       item: ICSGODocuments.NewItem
-    }): Promise<{
-      result: boolean
-      errors: string[]
-    }> => {
-      await csgoItemsMockCollection.push(Object.assign(item, {
+    }): Promise<GraphQLMutationResult> => {
+      await csgoItemsMockCollection.push({
+        ...item,
         internal_id: idGenerator(item.name, { uppercase: true })
-      }) as ICSGODocuments.Item)
+      })
 
       return { result: true, errors: [] }
     },
@@ -318,22 +363,39 @@ export const csgoGraphQLServiceMock: IcsgoGraphQLService = {
       items
     }: {
       items: ICSGODocuments.NewItem[]
-    }): Promise<
-      {
-        result: boolean
-        errors: string[]
-      }[]
-    > => {
+    }): Promise<GraphQLMutationResult[]> => {
       const itemsWithIDs: ICSGODocuments.Item[] = items.map(
-        (m: ICSGODocuments.NewItem) => ({
-          ...m,
-          internal_id: idGenerator(m.name, { uppercase: true })
+        (item: ICSGODocuments.NewItem) => ({
+          ...item,
+          internal_id: idGenerator(item.name, { uppercase: true })
         })
       )
 
       await csgoItemsMockCollection.push(...itemsWithIDs)
 
       return [ { result: true, errors: [] } ]
+    },
+
+    updateCSGOItem: async ({
+      id,
+      item
+    }: {
+      id: Types.ObjectId
+      item: ICSGODocuments.NewItem
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id, item)
+
+      return { result: true, errors: [] }
+    },
+
+    deleteCSGOItem: async ({
+      id
+    }: {
+      id: Types.ObjectId
+    }): Promise<GraphQLMutationResult> => {
+      console.log(id)
+
+      return { result: true, errors: [] }
     }
   }
 }

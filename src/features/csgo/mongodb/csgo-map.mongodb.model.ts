@@ -1,4 +1,5 @@
-import { Schema, model, Model, Document, SchemaTypes } from 'mongoose'
+import { Schema, model, Model, SchemaTypes } from 'mongoose'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 
 const schema: Schema<any> = new Schema(
   {
@@ -28,8 +29,7 @@ const schema: Schema<any> = new Schema(
   { timestamps: true }
 )
 
-export const MongooseModelCSGOMap: Model<Document, {}> = model(
-  'csgo_map',
-  schema,
-  'csgo_maps'
-)
+export const MongooseModelCSGOMap: Model<
+  MongooseDocumentExtensionsCSGO.IMongooseMap,
+  {}
+> = model('csgo_map', schema, 'csgo_maps')

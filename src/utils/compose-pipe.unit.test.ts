@@ -10,13 +10,13 @@ const uppercase: (v: string) => string = (v: string): string =>
 const removeSymbols: (v: string) => string = (v: string): string =>
   v.replace(/\W/gi, '')
 
-const trace: <T>(label: string) => (value: T) => T = <T>(
-  label: string
-): ((value: T) => T) => (value: T): T => {
-  console.log(`${label}: ${value}`)
+// const trace: <T>(label: string) => (value: T) => T = <T>(
+//   label: string
+// ): ((value: T) => T) => (value: T): T => {
+//   console.log(`${label}: ${value}`)
 
-  return value
-}
+//   return value
+// }
 
 interface IObject {
   name: string
@@ -58,7 +58,7 @@ describe('compose()', () => {
     expect(
       compose(
         removeSymbols,
-        trace('after uppercase'),
+        // trace('after uppercase'),
         uppercase
       )('abcd1234&*^%')
     ).toBe('ABCD1234')
@@ -79,7 +79,7 @@ describe('pipe()', () => {
     expect(
       pipe(
         removeSymbols,
-        trace('after removeSymbols'),
+        // trace('after removeSymbols'),
         uppercase
       )('abcd1234&*^%')
     ).toBe('ABCD1234')
@@ -89,7 +89,7 @@ describe('pipe()', () => {
     expect(
       pipe(
         improveSkill,
-        trace('after improveskill'),
+        // trace('after improveskill'),
         levelify
       )(object)
     ).toEqual({

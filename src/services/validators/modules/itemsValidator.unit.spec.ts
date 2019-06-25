@@ -2,17 +2,17 @@ import { itemsValidator } from './itemsValidator'
 import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
 import { csgoStrategyInvalidItems } from '~src/features/csgo/mocks/csgoStrategyInvalidItems.mock'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
-import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
 import {
   gameDataManager,
   IGameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
+import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('ItemsValidator', () => {
   const csgoDataManager: IGameDataManager<
     ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
+  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
 
   test('validates reduced items, valid', async () => {
     await expect(

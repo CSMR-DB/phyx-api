@@ -4,15 +4,15 @@ import {
   IGameDataManager,
   gameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
-import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('slotValidator()', () => {
   const csgoDataManager: IGameDataManager<
     ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(CSGOFACTORY.getItems())
+  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
 
   test('should validate a valid strategy', async () => {
     await expect(

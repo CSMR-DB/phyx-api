@@ -37,4 +37,6 @@ input ItemInput {
 extend type Mutation {
   createCSGOItem(item: ItemInput): MutationReturn
   createCSGOItems(items: [ItemInput]): [MutationReturn]
+  updateCSGOItem(id: String, item: ItemInput): MutationReturn
+  deleteCSGOItem(id: String): MutationReturn
 }

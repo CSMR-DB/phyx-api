@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
 import { MongooseModelCSGOMap } from './csgo-map.mongodb.model'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
+
+require('~src/testing/__test_mongodb_preload__')
 
 describe('CSGO Item MongoDB Model', () => {
-  require('~src/testing/__test_mongodb_preload__')
-
   test('should store valid items', async () => {
     await MongooseModelCSGOMap.create([
       {
@@ -13,14 +13,16 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
       .catch((error: Error) => error)
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+      {}
+    )
 
     expect(docs.length).toEqual(1)
 
-    expect(docs[0].toJSON().name).toEqual('Mirage')
+    expect(docs[0].name).toEqual('Mirage')
   })
 
   test('should not store invalid items', async () => {
@@ -31,16 +33,16 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
       .catch((error: Error) => {
-        console.log(error)
-
         expect(error.message).toEqual(
           'csgo_map validation failed: mode: Path `mode` is required.'
         )
       })
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+      {}
+    )
 
     expect(docs.length).toEqual(0)
   })
@@ -66,14 +68,14 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: mongoose.Document[]) => result)
+      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
       .catch((error: Error) => {
-        console.log(error)
-
         expect(error.message.includes('duplicate key error')).toBe(true)
       })
 
-    const docs: mongoose.Document[] = await MongooseModelCSGOMap.find({})
+    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+      {}
+    )
 
     expect(docs.length).toEqual(2)
   })

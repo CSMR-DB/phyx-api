@@ -3,15 +3,15 @@ import {
   IGameDataManager,
   gameDataManager
 } from '~src/services/gameDataManager'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
-import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { csgoStrategyDataTransposer } from '~src/features/csgo/csgoStrategyDataTransposer'
 import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mock'
+import { csgoMaps } from '~src/features/csgo/data/csgoMaps'
 
 describe('mapValidator', () => {
-  const csgoDataManager: IGameDataManager<
+  const csgoDataManager: IGameDataManager<ICSGODocuments.Map> = gameDataManager<
     ICSGODocuments.Map
-  > = gameDataManager<ICSGODocuments.Map>(CSGOFACTORY.getMaps())
+  >(csgoMaps)
 
   test('should validate existing maps', async () => {
     await expect(

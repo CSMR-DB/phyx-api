@@ -71,6 +71,10 @@ require('dotenv').config()
 // // })
 
 // import mongoose from 'mongoose'
+import { MongooseModelCSGOItem } from '~src/features/csgo/mongodb/csgo-item.mongodb.model'
+import { csgoItems } from '~src/features/csgo/data/csgoItems'
+import { MongooseModelCSGOMap } from './../features/csgo/mongodb/csgo-map.mongodb.model'
+import { csgoMaps } from '~src/features/csgo/data/csgoMaps'
 
 beforeEach(async () => {
   async function clearDB(): Promise<void> {
@@ -83,7 +87,9 @@ beforeEach(async () => {
 
   if (mongoose.connection.readyState === 0) {
     await mongoose.connect(
-      `${process.env.DB_ROOT_URL}/${process.env.DB_COLLECTION_NAME}_test`,
+      `${process.env.DB_ROOT_URL}/${process.env.DB_COLLECTION_NAME}_${
+        process.env.DB_TEST_COLLECTION
+      }`,
       {
         useNewUrlParser: true,
         useCreateIndex: true
@@ -91,6 +97,9 @@ beforeEach(async () => {
     )
   }
   await clearDB()
+
+  // await MongooseModelCSGOItem.create(csgoItems)
+  // await MongooseModelCSGOMap.create(csgoMaps)
 })
 
 afterEach(async () => {

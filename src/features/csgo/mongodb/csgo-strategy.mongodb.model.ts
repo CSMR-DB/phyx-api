@@ -1,8 +1,9 @@
-import { Schema, model, Model, Document, SchemaTypes } from 'mongoose'
+import { Schema, model, Model, SchemaTypes } from 'mongoose'
+import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 
 const Item: Schema<any> = new Schema(
   {
-    internal_id: String
+    internal_id: { type: String, ref: 'csgo_item' }
   },
   { _id: false }
 )
@@ -67,7 +68,11 @@ const Team: Schema<any> = new Schema(
       required: true,
       maxlength: 20
     },
-    players: { type: Players, required: true }
+    players: {
+      type: Players,
+      required: true
+      // validate: [ val => val.length === 5, '{PATH} has too many players' ]
+    }
   },
   { _id: false }
 )
@@ -107,8 +112,7 @@ const schema: Schema<any> = new Schema(
   { timestamps: true }
 )
 
-export const MongooseModelCSGOStrategy: Model<Document, {}> = model(
-  'csgo_strategy',
-  schema,
-  'csgo_strategies'
-)
+export const MongooseModelCSGOStrategy: Model<
+  MongooseDocumentExtensionsCSGO.IMongooseStrategy,
+  {}
+> = model('csgo_strategy', schema, 'csgo_strategies')

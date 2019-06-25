@@ -3,11 +3,11 @@ import {
   Attackers,
   ALLOPERATORS
 } from '~src/features/r6siege/data/r6siege-operators'
-import { CSGOFACTORY } from '~src/features/csgo/data/dataFactory'
-import { ICSGODocuments } from '~src/features/csgo/interfaces/ICSGODocuments.interface'
+import { ICSGODocuments } from '~src/features/csgo/interfaces'
+import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('DataManager()', () => {
-  const ALLITEMS: ICSGODocuments.Item[] = CSGOFACTORY.getItems()
+  const ALLITEMS: ICSGODocuments.Item[] = csgoItems
 
   const testCases = [
     {
@@ -18,8 +18,7 @@ describe('DataManager()', () => {
         cost: 0,
         side: 'ATK',
         slot: 'secondary',
-        internal_id: 'GLOCK18',
-        categories: [ 'weapon', 'pistol' ]
+        internal_id: 'GLOCK18'
       },
       has: true
     },
@@ -31,8 +30,7 @@ describe('DataManager()', () => {
         cost: 2700,
         side: 'ATK',
         slot: 'primary',
-        internal_id: 'AK47',
-        categories: [ 'weapon', 'rifle' ]
+        internal_id: 'AK47'
       },
       has: true
     },
@@ -56,8 +54,7 @@ describe('DataManager()', () => {
         cost: 300,
         side: 'UNI',
         slot: 'utilities',
-        internal_id: 'FRAGGRENADE',
-        categories: [ 'utilities' ]
+        internal_id: 'FRAGGRENADE'
       },
       has: true
     },
