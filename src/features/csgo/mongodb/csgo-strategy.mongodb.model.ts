@@ -1,22 +1,29 @@
 import { Schema, model, Model, SchemaTypes } from 'mongoose'
-import { MongooseDocumentExtensionsCSGO } from '../interfaces'
-
-const Item: Schema<any> = new Schema(
-  {
-    internal_id: { type: String, ref: 'csgo_item' }
-  },
-  { _id: false }
-)
+import { MongooseDocumentExtensionsCSGO, ICSGODocuments } from '../interfaces'
 
 const Loadout: Schema<any> = new Schema(
   {
     secondary: {
-      type: Item,
-      required: true
+      type: String,
+      required: true,
+      ref: 'csgo_item'
     },
-    primary: Item,
-    gear: [ Item ],
-    utilities: [ Item ]
+    primary: {
+      type: String,
+      ref: 'csgo_item'
+    },
+    gear: [
+      {
+        type: String,
+        ref: 'csgo_item'
+      }
+    ],
+    utilities: [
+      {
+        type: String,
+        ref: 'csgo_item'
+      }
+    ]
   },
   { _id: false }
 )
@@ -29,33 +36,21 @@ const Position: Schema<any> = new Schema(
   { _id: false }
 )
 
-const Player: (color: string) => Schema<any> = (color: String): Schema<any> =>
-  new Schema(
-    {
-      internal_id: String,
-      color: {
-        type: String,
-        default: color
-      },
-      name: { type: String, required: true, maxlength: 24 },
-      role: {
-        type: String,
-        enum: [ 'AWPer', 'Support', 'Entry Fragger', 'Lurker', 'IGL' ],
-        default: 'Support'
-      },
-      loadout: Loadout,
-      positions: { type: [ Position ], required: true }
-    },
-    { _id: false }
-  )
-
-const Players: Schema<any> = new Schema(
+const Player: Schema<any> = new Schema(
   {
-    player_1: { type: Player('blue'), required: true },
-    player_2: { type: Player('purple'), required: true },
-    player_3: { type: Player('green'), required: true },
-    player_4: { type: Player('orange'), required: true },
-    player_5: { type: Player('yellow'), required: true }
+    internal_id: String,
+    color: {
+      type: String,
+      enum: [ 'blue', 'purple', 'green', 'orange', 'yellow' ]
+    },
+    name: { type: String, required: true, maxlength: 24 },
+    role: {
+      type: String,
+      enum: [ 'AWPer', 'Support', 'Entry Fragger', 'Lurker', 'IGL' ],
+      default: 'Support'
+    },
+    loadout: Loadout,
+    positions: { type: [ Position ], required: true }
   },
   { _id: false }
 )
@@ -69,9 +64,12 @@ const Team: Schema<any> = new Schema(
       maxlength: 20
     },
     players: {
-      type: Players,
-      required: true
-      // validate: [ val => val.length === 5, '{PATH} has too many players' ]
+      type: [ Player ],
+      required: true,
+      validate: [
+        (val: ICSGODocuments.Player[]): boolean => val.length === 5,
+        '{PATH} has too many players'
+      ]
     }
   },
   { _id: false }

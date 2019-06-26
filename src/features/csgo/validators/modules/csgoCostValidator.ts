@@ -3,7 +3,6 @@ import {
   MongooseDocumentExtensionsCSGO
 } from '~src/features/csgo/interfaces'
 import { sumArray } from '~src/utils/sumArray'
-import { objectToArray } from '~src/utils/objectToArray'
 import { IGameDataManager } from '~src/services/gameDataManager'
 import {
   IValidator,
@@ -29,16 +28,15 @@ export function csgoCostValidator(
     function hasOrEmptyFn<T>(item: T | undefined): T {
       return item ? item : (([] as unknown) as T)
     }
-    const allPlayerItems: ICSGODocuments.Item[] = [
+    const allPlayerItems: ICSGODocuments.Item['internal_id'][] = [
       hasOrEmptyFn(primary),
       hasOrEmptyFn(secondary),
       ...hasOrEmptyFn(gear),
       ...hasOrEmptyFn(utilities)
     ]
 
-    const allPlayerItemsCost: number[] = allPlayerItems.map(
-      ({ internal_id }: { internal_id: string }) =>
-        gameDataManager.getField(internal_id, 'cost', 0)
+    const allPlayerItemsCost: number[] = allPlayerItems.map((id: string) =>
+      gameDataManager.getField(id, 'cost', 0)
     )
 
     const totalPlayerCost: number = sumArray(allPlayerItemsCost)
@@ -59,9 +57,7 @@ export function csgoCostValidator(
       team: { players }
     }: ICSGODocuments.Strategy = strategy
 
-    const playersArray: ICSGODocuments.Player[] = objectToArray(players)
-
-    const results: ValidatorReturnType[] = playersArray.map(
+    const results: ValidatorReturnType[] = players.map(
       (player: ICSGODocuments.Player) => validatePlayer(player)
     )
 

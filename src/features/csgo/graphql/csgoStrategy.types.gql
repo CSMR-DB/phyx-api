@@ -3,19 +3,12 @@ enum StrategySide {
   DEF
 }
 
-type CSGOStrategyItem {
-  internal_id: String!
-  # name: String
-  # cost: Int
-  # slot: String
-}
-
 type CSGOLoadout {
   cost: Int!
-  primary: CSGOStrategyItem!
-  secondary: CSGOStrategyItem!
-  gear: [CSGOStrategyItem!]!
-  utilities: [CSGOStrategyItem!]!
+  primary: String!
+  secondary: String!
+  gear: [String!]!
+  utilities: [String!]!
 }
 
 type Position {
@@ -24,7 +17,7 @@ type Position {
 }
 
 type Player {
-  internal_id: ID!
+  internal_id: ID
   color: String!
   name: String!
   role: String
@@ -32,18 +25,10 @@ type Player {
   positions: [Position!]!
 }
 
-type Players {
-  player_1: Player!
-  player_2: Player!
-  player_3: Player!
-  player_4: Player!
-  player_5: Player!
-}
-
 type Team {
   team_id: ID
   name: String
-  players: Players!
+  players: [Player!]!
 }
 
 type CSGOStrategy {
@@ -65,15 +50,11 @@ type Query {
 }
 
 # Define input model for submission
-input CSGOStrategyItemInput {
-  internal_id: String
-}
-
 input LoadoutInput {
-  primary: CSGOStrategyItemInput
-  secondary: CSGOStrategyItemInput
-  gear: [CSGOStrategyItemInput]
-  utilities: [CSGOStrategyItemInput]
+  primary: String
+  secondary: String
+  gear: [String]
+  utilities: [String]
 }
 
 input PositionInput {
@@ -89,17 +70,9 @@ input PlayerInput {
   positions: [PositionInput]
 }
 
-input PlayersInput {
-  player_1: PlayerInput
-  player_2: PlayerInput
-  player_3: PlayerInput
-  player_4: PlayerInput
-  player_5: PlayerInput
-}
-
 input TeamInput {
   name: String
-  players: PlayersInput
+  players: [PlayerInput]
 }
 
 input CSGOStrategyInput {

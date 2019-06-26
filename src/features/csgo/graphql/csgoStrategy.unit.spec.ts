@@ -42,16 +42,10 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
           map
           team {
             players {
-              player_1 {
-                name
-                loadout {
-                  primary {
-                    internal_id
-                  }
-                  secondary {
-                    internal_id
-                  }
-                }
+              name
+              loadout {
+                primary 
+                secondary 
               }
             }
           }
@@ -66,19 +60,43 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
           name: 'Test',
           map: 'Mirage',
           team: {
-            players: {
-              player_1: {
+            players: [
+              {
+                name: 'Zombie115m',
+                loadout: {
+                  primary: 'SG551',
+                  secondary: 'P250'
+                }
+              },
+              {
+                name: 'Cookiegalaxy',
+                loadout: {
+                  primary: 'SG551',
+                  secondary: 'P250'
+                }
+              },
+              {
+                name: 'Night',
+                loadout: {
+                  primary: 'SG551',
+                  secondary: 'P250'
+                }
+              },
+              {
+                name: 'Blurael',
+                loadout: {
+                  primary: 'SG551',
+                  secondary: 'P250'
+                }
+              },
+              {
                 name: 'PHYD',
                 loadout: {
-                  primary: {
-                    internal_id: 'SG551'
-                  },
-                  secondary: {
-                    internal_id: 'P250'
-                  }
+                  primary: 'SG551',
+                  secondary: 'P250'
                 }
               }
-            }
+            ]
           }
         }
       }
@@ -93,28 +111,38 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
           map
           team {
             players {
-              player_1 {
-                name
-              }
+              name
             }
           }
         }
       }
     `,
-    variables: { map: 'Mirage' },
+    variables: { map: 'Nuke' },
     context: { csgoGraphQLService: csgoGraphQLServiceMock },
     expected: {
       data: {
         csgoStrategiesByMap: [
           {
-            name: 'Test',
-            map: 'Mirage',
+            name: 'Default',
+            map: 'Nuke',
             team: {
-              players: {
-                player_1: {
+              players: [
+                {
+                  name: 'Zombie115m'
+                },
+                {
+                  name: 'Cookiegalaxy'
+                },
+                {
+                  name: 'Night'
+                },
+                {
+                  name: 'Blurael'
+                },
+                {
                   name: 'PHYD'
                 }
-              }
+              ]
             }
           }
         ]

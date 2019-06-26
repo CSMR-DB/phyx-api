@@ -47,7 +47,7 @@ export interface IPlayers {
 
 export interface ITeam {
   name: string
-  players: IPlayers
+  players: IPlayer[]
 }
 
 export interface IStrategy {

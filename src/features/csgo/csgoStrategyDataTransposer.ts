@@ -1,4 +1,3 @@
-import { objectToArray } from '~src/utils/objectToArray'
 import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 
@@ -9,30 +8,27 @@ export function csgoStrategyDataTransposer(
     team: { players }
   }: {
     team: {
-      players: ICSGODocuments.Players
+      players: ICSGODocuments.Player[]
     }
   } = strategy
 
-  const playersArray: ICSGODocuments.Player[] = objectToArray(players)
-  const loadoutArray: ICSGODocuments.Loadout[] = playersArray.map(
+  // const playersArray: ICSGODocuments.Player[] = objectToArray(players)
+  const loadoutArray: ICSGODocuments.Loadout[] = players.map(
     (player: ICSGODocuments.Player) => player['loadout']
   )
 
   function uniqueIDs(): ICSGODocuments.Item['internal_id'][] {
-    const items: ICSGODocuments.Item[] = loadoutArray
+    const items: ICSGODocuments.Item['internal_id'][] = loadoutArray
       .map((loadout: ICSGODocuments.Loadout) => [
-        loadout.primary || ({} as ICSGODocuments.Item),
+        loadout.primary || ({} as ICSGODocuments.Item['internal_id']),
         loadout.secondary,
-        ...(loadout.gear || ([] as ICSGODocuments.Item[])),
-        ...(loadout.utilities || ([] as ICSGODocuments.Item[]))
+        ...(loadout.gear || ([] as ICSGODocuments.Item['internal_id'][])),
+        ...(loadout.utilities || ([] as ICSGODocuments.Item['internal_id'][]))
       ])
-      .reduce(
-        (pV: ICSGODocuments.Item[], cV: ICSGODocuments.Item[]) =>
-          pV.concat(cV)
-      )
+      .reduce((pV: string[], cV: string[]) => pV.concat(cV))
 
     const ids: ICSGODocuments.Item['internal_id'][] = items.map(
-      ({ internal_id }: ICSGODocuments.Item) => internal_id
+      (item: string) => item
     )
 
     return Array.from(new Set(ids))
@@ -47,7 +43,7 @@ export function csgoStrategyDataTransposer(
     const items: SlotObject[] = loadoutArray.map(
       (loadout: ICSGODocuments.Loadout) => ({
         slot: 'secondary',
-        internal_id: loadout.secondary.internal_id
+        internal_id: loadout.secondary
       })
     )
 
@@ -55,26 +51,26 @@ export function csgoStrategyDataTransposer(
       if (loadout.primary) {
         items.push({
           slot: 'primary',
-          internal_id: loadout.primary.internal_id
+          internal_id: loadout.primary
         })
       }
 
       if (loadout.gear) {
-        loadout.gear.map((item: ICSGODocuments.Item) => {
-          if (item) {
+        loadout.gear.map((id: string) => {
+          if (id) {
             items.push({
               slot: 'gear',
-              internal_id: item.internal_id
+              internal_id: id
             })
           }
         })
       }
       if (loadout.utilities) {
-        loadout.utilities.map((item: ICSGODocuments.Item) => {
-          if (item) {
+        loadout.utilities.map((id: string) => {
+          if (id) {
             items.push({
               slot: 'utilities',
-              internal_id: item.internal_id
+              internal_id: id
             })
           }
         })

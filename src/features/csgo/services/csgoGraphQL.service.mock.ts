@@ -45,58 +45,58 @@ const csgoStrategiesMockCollection: (WithID<ICSGODocuments.Strategy>)[] = [
     budget: 6000,
     team: {
       name: 'Plebs',
-      players: {
-        player_1: {
-          name: 'PHYD',
+      players: [
+        {
+          name: 'Zombie115m',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'yellow',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_2: {
-          name: 'PHYD',
+        {
+          name: 'Cookiegalaxy',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'blue',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_3: {
-          name: 'PHYD',
+        {
+          name: 'Night',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'purple',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_4: {
-          name: 'PHYD',
+        {
+          name: 'Blurael',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'green',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_5: {
+        {
           name: 'PHYD',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'orange',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         }
-      }
+      ]
     }
   },
   {
@@ -107,58 +107,58 @@ const csgoStrategiesMockCollection: (WithID<ICSGODocuments.Strategy>)[] = [
     budget: 6000,
     team: {
       name: 'Plebs',
-      players: {
-        player_1: {
-          name: 'PHYD',
+      players: [
+        {
+          name: 'Zombie115m',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'yellow',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_2: {
-          name: 'PHYD',
+        {
+          name: 'Cookiegalaxy',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'blue',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_3: {
-          name: 'PHYD',
+        {
+          name: 'Night',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'purple',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_4: {
-          name: 'PHYD',
+        {
+          name: 'Blurael',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'green',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         },
-        player_5: {
+        {
           name: 'PHYD',
           role: 'Lurker',
           positions: [ { x: 1, y: 1 } ],
           color: 'orange',
           loadout: {
-            primary: { internal_id: 'SG551' },
-            secondary: { internal_id: 'P250' }
+            primary: 'SG551',
+            secondary: 'P250'
           }
         }
-      }
+      ]
     }
   }
 ]

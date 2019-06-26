@@ -70,8 +70,8 @@ describe('strategyValidator()', () => {
       expected: {
         errors: [
           Error('Cookie has spent too much on their loadout'),
-          Error('P2000 is not equippable on ATK side'),
-          Error('M4A4 is not equippable on ATK side')
+          Error('M4A4 is not equippable on ATK side'),
+          Error('P2000 is not equippable on ATK side')
         ],
         result: false
       }
@@ -84,9 +84,7 @@ describe('strategyValidator()', () => {
         result: false,
         errors: [
           Error('GLOCKZZZZ18 does not exist'),
-          Error('PHYD has spent too much on their loadout'),
-          Error('GLOCKZZZZ18 is not equippable on ATK side'),
-          Error('AUG is not equippable on ATK side')
+          Error('GLOCKZZZZ18 is not equippable on ATK side')
         ]
       }
     }
@@ -121,17 +119,6 @@ describe('strategyValidator()', () => {
   test.each(testCases)(
     'strategyValidator() case',
     async ({ strategy, dataManager, dataReducer, expected }: any) => {
-      // jest // < Cannot assign to 'execute' because of Object.freeze({...})
-      //   .spyOn(
-      //     sideValidator(strategy, dataReducer(strategy), dataManager),
-      //     "execute"
-      //   )
-      //   .mockReturnValue(
-      //     Promise.resolve({
-      //       errors: [Error("M4A4 is not equippable on ATK side")],
-      //       result: false
-      //     })
-      //   )
       const configuredStrategyValidator: IValidator = strategyValidator(
         itemsValidator(dataManager, dataReducer(strategy)),
         csgoCostValidator(strategy, dataManager),

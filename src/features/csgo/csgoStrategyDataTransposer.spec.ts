@@ -13,7 +13,7 @@ describe('CSGOStrategyDataTransposer()', () => {
   test('should reduce items to a unique set of IDs', () => {
     expect(
       csgoStrategyDataTransposer(csgoStrategyInvalidItems).uniqueIDs
-    ).toContain('AUG')
+    ).toContain('GLOCKZZZZ18')
   })
 
   test('should create an object combining itemIDs with their slots as submitted', () => {

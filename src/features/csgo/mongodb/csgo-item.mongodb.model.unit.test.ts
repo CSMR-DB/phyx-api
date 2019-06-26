@@ -7,7 +7,6 @@ describe('CSGO Item MongoDB Model', () => {
   test('should store valid items', async () => {
     await MongooseModelCSGOItem.create([
       {
-        _id: 'R99',
         internal_id: 'R99',
         name: 'R-99',
         cost: 6900,
@@ -15,7 +14,6 @@ describe('CSGO Item MongoDB Model', () => {
         slot: 'primary'
       },
       {
-        _id: 'R301',
         internal_id: 'R301',
         name: 'R-301',
         cost: 6900,

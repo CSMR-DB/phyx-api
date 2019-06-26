@@ -33,10 +33,10 @@ export namespace ICSGODocuments {
   }
 
   export type Loadout = {
-    gear?: Item[]
-    primary?: Item
-    secondary: Item
-    utilities?: Item[]
+    gear?: string[]
+    primary?: string
+    secondary: string
+    utilities?: string[]
   }
 
   export type Player = {
@@ -47,20 +47,20 @@ export namespace ICSGODocuments {
     positions: IPosition[]
   }
 
-  export type Players = {
-    [key: string]: Player
+  // export type Players = {
+  //   [key: string]: Player
 
-    player_1: Player
-    player_2: Player
-    player_3: Player
-    player_4: Player
-    player_5: Player
-  }
+  //   player_1: Player
+  //   player_2: Player
+  //   player_3: Player
+  //   player_4: Player
+  //   player_5: Player
+  // }
 
   export type Team = {
     team_id?: string
     name: string
-    players: Players
+    players: Player[]
   }
 
   export type Strategy = {

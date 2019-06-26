@@ -17,58 +17,58 @@ describe('CSGO Strategy MongoDB Model', () => {
         budget: 6000,
         team: {
           name: 'Plebs',
-          players: {
-            player_1: {
+          players: [
+            {
               name: 'PHYD',
               internal_id: 'phyd',
               role: 'AWPer',
               positions: [ { x: 1, y: 1 } ],
               loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
+                primary: 'SG551',
+                secondary: 'P250'
               }
             },
-            player_2: {
+            {
               name: 'PHYD',
               internal_id: 'phyd',
               role: 'Lurker',
               positions: [ { x: 1, y: 1 } ],
               loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
+                primary: 'SG551',
+                secondary: 'P250'
               }
             },
-            player_3: {
+            {
               name: 'PHYD',
               internal_id: 'phyd',
               role: 'Lurker',
               positions: [ { x: 1, y: 1 } ],
               loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
+                primary: 'SG551',
+                secondary: 'P250'
               }
             },
-            player_4: {
+            {
               name: 'PHYD',
               internal_id: 'phyd',
               role: 'Entry Fragger',
               positions: [ { x: 1, y: 1 } ],
               loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
+                primary: 'SG551',
+                secondary: 'P250'
               }
             },
-            player_5: {
+            {
               name: 'PHYD',
               internal_id: 'phyd',
               role: 'Lurker',
               positions: [ { x: 1, y: 1 } ],
               loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
+                primary: 'SG551',
+                secondary: 'P250'
               }
             }
-          }
+          ]
         }
       }
     ])
@@ -206,7 +206,7 @@ describe('CSGO Strategy MongoDB Model', () => {
     expect(docs.length).toBe(1)
 
     expect(docs[0].description).toBe(
-      'Execute with smokes to CT, Stairs and Jungle'
+      'Execute with smokes to CT, Stairs and Connector'
     )
 
     await MongooseModelCSGOStrategy.updateOne(

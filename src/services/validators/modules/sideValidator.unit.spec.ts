@@ -31,8 +31,8 @@ describe('SideValidator()', () => {
       ).execute()
     ).resolves.toEqual({
       errors: [
-        Error('P2000 is not equippable on ATK side'),
-        Error('M4A4 is not equippable on ATK side')
+        Error('M4A4 is not equippable on ATK side'),
+        Error('P2000 is not equippable on ATK side')
       ],
       result: false
     })

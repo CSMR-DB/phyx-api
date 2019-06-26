@@ -23,34 +23,6 @@ describe('Integration tests for CSGO Strategy', () => {
     return graphql(
       csgoSchema,
       `
-        fragment ItemFragment on CSGOStrategyItem {
-          internal_id
-        }
-
-        fragment PlayerFragment on Player {
-          name
-          role
-          color
-          positions {
-            x
-            y
-          }
-          loadout {
-            primary {
-              ...ItemFragment
-            }
-            secondary {
-              ...ItemFragment
-            }
-            gear {
-              ...ItemFragment
-            }
-            utilities {
-              ...ItemFragment
-            }
-          }
-        }
-
         query QUERY_CSGO_STRATEGIES {
           csgoStrategies {
             _id
@@ -64,20 +36,18 @@ describe('Integration tests for CSGO Strategy', () => {
             team {
               name
               players {
-                player_1 {
-                  ...PlayerFragment
+                name
+                role
+                color
+                positions {
+                  x
+                  y
                 }
-                player_2 {
-                  ...PlayerFragment
-                }
-                player_3 {
-                  ...PlayerFragment
-                }
-                player_4 {
-                  ...PlayerFragment
-                }
-                player_5 {
-                  ...PlayerFragment
+                loadout {
+                  primary
+                  secondary
+                  gear
+                  utilities
                 }
               }
             }
@@ -173,9 +143,7 @@ describe('Integration tests for CSGO Strategy', () => {
         createCSGOStrategy: {
           errors: [
             'Error: GLOCKZZZZ18 does not exist',
-            'Error: PHYD has spent too much on their loadout',
-            'Error: GLOCKZZZZ18 is not equippable on ATK side',
-            'Error: AUG is not equippable on ATK side'
+            'Error: GLOCKZZZZ18 is not equippable on ATK side'
           ],
           result: false
         }
@@ -218,8 +186,8 @@ describe('Integration tests for CSGO Strategy', () => {
         createCSGOStrategy: {
           errors: [
             'Error: Cookie has spent too much on their loadout',
-            'Error: P2000 is not equippable on ATK side',
-            'Error: M4A4 is not equippable on ATK side'
+            'Error: M4A4 is not equippable on ATK side',
+            'Error: P2000 is not equippable on ATK side'
           ],
           result: false
         }
@@ -266,8 +234,8 @@ describe('Integration tests for CSGO Strategy', () => {
           {
             errors: [
               'Error: Cookie has spent too much on their loadout',
-              'Error: P2000 is not equippable on ATK side',
-              'Error: M4A4 is not equippable on ATK side'
+              'Error: M4A4 is not equippable on ATK side',
+              'Error: P2000 is not equippable on ATK side'
             ],
             result: false
           }
@@ -309,7 +277,7 @@ describe('Integration tests for CSGO Strategy', () => {
     expect(dbEntriesBeforeUpdate.data!.csgoStrategies.length).toBe(1)
 
     expect(dbEntriesBeforeUpdate.data!.csgoStrategies[0].description).toBe(
-      'Execute with smokes to CT, Stairs and Jungle'
+      'Execute with smokes to CT, Stairs and Connector'
     )
 
     const mutation: string = `

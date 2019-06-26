@@ -1,32 +1,21 @@
 export const csgoStrategyInvalidCost = {
   map: 'Nuke',
   name: 'Default A',
-  description: 'Execute with smokes to CT, Stairs and Jungle',
+  description: 'Execute with smokes to CT, Stairs and Connector',
   side: 'ATK',
   budget: 5000,
   team: {
     name: 'NUBBS',
-    players: {
-      player_1: {
+    players: [
+      {
         name: 'Zombie',
         role: 'AWPer',
         color: 'blue',
         loadout: {
-          primary: {
-            internal_id: 'AWP'
-          },
-          secondary: {
-            internal_id: 'GLOCK18'
-          },
+          primary: 'AWP',
+          secondary: 'GLOCK18',
           gear: [],
-          utilities: [
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'DECOYGRENADE'
-            }
-          ]
+          utilities: [ 'FLASHGRENADE', 'DECOYGRENADE' ]
         },
         positions: [
           {
@@ -35,38 +24,19 @@ export const csgoStrategyInvalidCost = {
           }
         ]
       },
-      player_2: {
+      {
         name: 'Cookie',
         color: 'purple',
         role: 'Entry Fragger',
         loadout: {
-          primary: {
-            internal_id: 'AWP'
-          },
-          secondary: {
-            internal_id: 'GLOCK18'
-          },
-          gear: [
-            {
-              internal_id: 'HELMET'
-            },
-            {
-              internal_id: 'KEVLAR'
-            }
-          ],
+          primary: 'AWP',
+          secondary: 'DESERTEAGLE',
+          gear: [ 'HELMET', 'KEVLAR', 'ZEUS' ],
           utilities: [
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FRAGGRENADE'
-            },
-            {
-              internal_id: 'SMOKEGRENADE'
-            }
+            'FLASHGRENADE',
+            'FLASHGRENADE',
+            'FRAGGRENADE',
+            'SMOKEGRENADE'
           ]
         },
         positions: [
@@ -76,38 +46,19 @@ export const csgoStrategyInvalidCost = {
           }
         ]
       },
-      player_3: {
+      {
         name: 'Night',
         color: 'green',
         role: 'Entry Fragger',
         loadout: {
-          primary: {
-            internal_id: 'AK47'
-          },
-          secondary: {
-            internal_id: 'GLOCK18'
-          },
-          gear: [
-            {
-              internal_id: 'HELMET'
-            },
-            {
-              internal_id: 'KEVLAR'
-            }
-          ],
+          primary: 'AK47',
+          secondary: 'GLOCK18',
+          gear: [ 'HELMET', 'KEVLAR' ],
           utilities: [
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FRAGGRENADE'
-            },
-            {
-              internal_id: 'SMOKEGRENADE'
-            }
+            'FLASHGRENADE',
+            'FLASHGRENADE',
+            'FRAGGRENADE',
+            'SMOKEGRENADE'
           ]
         },
         positions: [
@@ -117,38 +68,19 @@ export const csgoStrategyInvalidCost = {
           }
         ]
       },
-      player_4: {
+      {
         name: 'Alun',
         color: 'orange',
         role: 'Support',
         loadout: {
-          primary: {
-            internal_id: 'P90'
-          },
-          secondary: {
-            internal_id: 'GLOCK18'
-          },
-          gear: [
-            {
-              internal_id: 'HELMET'
-            },
-            {
-              internal_id: 'KEVLAR'
-            }
-          ],
+          primary: 'GALILAR',
+          secondary: 'GLOCK18',
+          gear: [ 'HELMET', 'KEVLAR' ],
           utilities: [
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'DECOYGRENADE'
-            },
-            {
-              internal_id: 'FRAGGRENADE'
-            }
+            'FLASHGRENADE',
+            'FLASHGRENADE',
+            'DECOYGRENADE',
+            'FRAGGRENADE'
           ]
         },
         positions: [
@@ -158,40 +90,15 @@ export const csgoStrategyInvalidCost = {
           }
         ]
       },
-      player_5: {
+      {
         name: 'PHYD',
         color: 'yellow',
         role: 'Lurker',
         loadout: {
-          primary: {
-            internal_id: 'SG553'
-          },
-          secondary: {
-            internal_id: 'GLOCK18'
-          },
-          gear: [
-            {
-              internal_id: 'HELMET'
-            },
-            {
-              internal_id: 'KEVLAR'
-            }
-          ],
-          utilities: [
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FLASHGRENADE'
-            },
-            {
-              internal_id: 'FRAGGRENADE'
-            },
-            {
-              name: 'Molotov',
-              internal_id: 'MOLOTOV'
-            }
-          ]
+          primary: 'SG553',
+          secondary: 'GLOCK18',
+          gear: [ 'HELMET', 'KEVLAR' ],
+          utilities: [ 'FLASHGRENADE', 'FLASHGRENADE', 'FRAGGRENADE', 'MOLOTOV' ]
         },
         positions: [
           {
@@ -200,6 +107,6 @@ export const csgoStrategyInvalidCost = {
           }
         ]
       }
-    }
+    ]
   }
 }
