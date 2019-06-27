@@ -9,7 +9,10 @@ import {
 import { MongooseDocumentExtensionsCSGO } from '~src/features/csgo/interfaces'
 import { MongooseModelCSGOItem } from '~src/features/csgo/mongodb/csgo-item.mongodb.model'
 
-process.env.DB_TEST_COLLECTION = 'itemsValidatorIntegrationTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('ItemsValidator', () => {
   require('~src/testing/__test_mongodb_preload__')

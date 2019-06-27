@@ -1,6 +1,11 @@
 import { MongooseModelCSGOItem } from './csgo-item.mongodb.model'
 import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
+
 describe('CSGO Item MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')
 

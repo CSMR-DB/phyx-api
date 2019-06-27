@@ -1,9 +1,13 @@
 import { MongooseModelCSGOMap } from './csgo-map.mongodb.model'
 import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 
-require('~src/testing/__test_mongodb_preload__')
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('CSGO Item MongoDB Model', () => {
+  require('~src/testing/__test_mongodb_preload__')
   test('should store valid items', async () => {
     await MongooseModelCSGOMap.create([
       {

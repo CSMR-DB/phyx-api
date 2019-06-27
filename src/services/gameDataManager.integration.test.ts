@@ -3,7 +3,10 @@ import { MongooseModelCSGOMap } from './../features/csgo/mongodb/csgo-map.mongod
 import { MongooseModelCSGOItem } from './../features/csgo/mongodb/csgo-item.mongodb.model'
 import { MongooseDocumentExtensionsCSGO } from '~src/features/csgo/interfaces'
 
-process.env.DB_TEST_COLLECTION = 'gameDataManagerIntegrationTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('gameDataManager()', () => {
   require('~src/testing/__test_mongodb_preload__')

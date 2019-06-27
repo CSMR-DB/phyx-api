@@ -1,7 +1,10 @@
 import { csgoStrategyValidator } from './csgoStrategyValidator'
 import { csgoStrategyValid } from '../../mocks/csgoStrategyValid.mock'
 
-process.env.DB_TEST_COLLECTION = 'csgoStrategyValidatorIntegrationTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('csgoStrategyValidator', () => {
   require('~src/testing/__test_mongodb_preload__')

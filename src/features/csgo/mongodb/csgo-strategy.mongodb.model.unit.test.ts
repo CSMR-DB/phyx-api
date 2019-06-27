@@ -5,7 +5,10 @@ import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 require('dotenv').config()
 
-process.env.DB_TEST_COLLECTION = 'csgoStrategyMongoDBUnitTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('CSGO Strategy MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')

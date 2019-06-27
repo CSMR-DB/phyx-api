@@ -6,7 +6,10 @@ import {
   MongooseDocumentExtensionsCSGO
 } from '~src/features/csgo/interfaces'
 
-process.env.DB_TEST_COLLECTION = 'csgoItemIntegrationTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('csgoItem Integration Test', () => {
   require('~src/testing/__test_mongodb_preload__')

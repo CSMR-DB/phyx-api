@@ -7,7 +7,10 @@ import { csgoStrategyInvalidSide } from '../mocks/csgoStrategyInvalidSide.mock'
 import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 import { csgoStrategyValidUpdated } from '../mocks/csgoStrategyValidUpdated.mock'
 
-process.env.DB_TEST_COLLECTION = 'csgoStrategyIntegrationTest'
+import path from 'path'
+process.env.DB_TEST_COLLECTION = path
+  .basename(__filename, '.ts')
+  .replace(/\./g, '_')
 
 describe('Integration tests for CSGO Strategy', () => {
   require('~src/testing/__test_mongodb_preload__')
