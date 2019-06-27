@@ -17,18 +17,19 @@ import { slotValidator } from '~src/services/validators/modules/slotValidator'
 import { mapValidator } from '~src/services/validators/modules/mapValidator'
 import { MongooseModelCSGOItem } from '../../mongodb/csgo-item.mongodb.model'
 import { MongooseModelCSGOMap } from '../../mongodb/csgo-map.mongodb.model'
+import { Document } from 'mongoose'
 
 export const csgoStrategyValidator: (
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 ) => Promise<ValidatorReturnType> = async (
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager_items: IGameDataManager<
-    MongooseDocumentExtensionsCSGO.IMongooseItem
+    MongooseDocumentExtensionsCSGO.Output.IMongooseItem & Document
   > = gameDataManager(await MongooseModelCSGOItem.find({}))
 
   const dataManager_maps: IGameDataManager<
-    MongooseDocumentExtensionsCSGO.IMongooseMap
+    MongooseDocumentExtensionsCSGO.Output.IMongooseMap & Document
   > = gameDataManager(await MongooseModelCSGOMap.find({}))
 
   const dataReducer: IStrategyDataTransposer = csgoStrategyDataTransposer(

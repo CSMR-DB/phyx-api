@@ -27,14 +27,15 @@ import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('strategyValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
+    ICSGODocuments.Output.Item
+  > = gameDataManager<ICSGODocuments.Output.Item>(csgoItems)
 
   // tslint:disable-next-line: typedef
   const csgoDataReducer: (
-    strategy: ICSGODocuments.Strategy
-  ) => IStrategyDataTransposer = (strategy: ICSGODocuments.Strategy) =>
-    csgoStrategyDataTransposer(strategy)
+    strategy: ICSGODocuments.Input.Strategy
+  ) => IStrategyDataTransposer = (
+    strategy: ICSGODocuments.Input.Strategy
+  ): IStrategyDataTransposer => csgoStrategyDataTransposer(strategy)
 
   const siegeDataManager: IGameDataManager<R6SIEGE.IOperator> = gameDataManager(
     R6SIEGEFACTORY.getOperators()
@@ -93,7 +94,7 @@ describe('strategyValidator()', () => {
   const mockSideValidator: {
     execute: () => Promise<{ errors: Error[]; result: boolean }>
   } = {
-    execute: () =>
+    execute: (): Promise<{ errors: Error[]; result: boolean }> =>
       Promise.resolve({
         errors: [],
         result: true
@@ -103,7 +104,7 @@ describe('strategyValidator()', () => {
   const mockItemsValidator: {
     execute: () => Promise<{ errors: Error[]; result: boolean }>
   } = {
-    execute: () =>
+    execute: (): Promise<{ errors: Error[]; result: boolean }> =>
       Promise.resolve({
         errors: [ Error('AUG is not equippable on ATK side') ],
         result: false

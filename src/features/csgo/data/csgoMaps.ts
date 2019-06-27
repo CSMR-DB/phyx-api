@@ -1,6 +1,6 @@
 import { ICSGODocuments } from '../interfaces'
 
-export const csgoMaps: ICSGODocuments.Map[] = [
+export const csgoMaps: ICSGODocuments.Output.Map[] = [
   {
     internal_id: 'MIRAGE',
     name: 'Mirage',

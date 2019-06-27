@@ -16,12 +16,12 @@ describe('ItemsValidator', () => {
   require('~src/testing/__test_csgo_mongodb_prepopulate__')
 
   test('validates reduced items with data from DB', async () => {
-    const dbItems: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+    const dbItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[] = await MongooseModelCSGOItem.find(
       {}
     )
 
     const csgoDataManagerDB: IGameDataManager<
-      MongooseDocumentExtensionsCSGO.IMongooseItem
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem
     > = gameDataManager(dbItems)
 
     await expect(
@@ -33,12 +33,12 @@ describe('ItemsValidator', () => {
   })
 
   test('invalidates reduced items with data from DB', async () => {
-    const dbItems: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+    const dbItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[] = await MongooseModelCSGOItem.find(
       {}
     )
 
     const csgoDataManagerDB: IGameDataManager<
-      MongooseDocumentExtensionsCSGO.IMongooseItem
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem
     > = gameDataManager(dbItems)
 
     await expect(

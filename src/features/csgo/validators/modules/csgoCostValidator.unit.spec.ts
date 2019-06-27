@@ -10,8 +10,8 @@ import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('csgoCostValidator', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
+    ICSGODocuments.Output.Item
+  > = gameDataManager(csgoItems)
 
   test('should be within budget and return true', async () => {
     await expect(

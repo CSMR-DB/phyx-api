@@ -11,8 +11,8 @@ import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('slotValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
+    ICSGODocuments.Output.Item
+  > = gameDataManager(csgoItems)
 
   test('should validate a valid strategy', async () => {
     await expect(

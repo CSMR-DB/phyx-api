@@ -7,7 +7,7 @@ import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('DataManager()', () => {
-  const ALLITEMS: ICSGODocuments.Item[] = csgoItems
+  const ALLITEMS: ICSGODocuments.Output.Item[] = csgoItems
 
   const testCases = [
     {
@@ -18,6 +18,7 @@ describe('DataManager()', () => {
         cost: 0,
         side: 'ATK',
         slot: 'secondary',
+        _id: 'GLOCK18',
         internal_id: 'GLOCK18'
       },
       has: true
@@ -30,6 +31,7 @@ describe('DataManager()', () => {
         cost: 2700,
         side: 'ATK',
         slot: 'primary',
+        _id: 'AK47',
         internal_id: 'AK47'
       },
       has: true
@@ -54,30 +56,31 @@ describe('DataManager()', () => {
         cost: 300,
         side: 'UNI',
         slot: 'utilities',
+        _id: 'FRAGGRENADE',
         internal_id: 'FRAGGRENADE'
       },
       has: true
-    },
-
-    {
-      dataToFind: { id: 'ASH' },
-      dataArray: ALLOPERATORS,
-      data: Attackers.ASH,
-      has: true
-    },
-    {
-      dataToFind: { id: 'USH' },
-      dataArray: ALLOPERATORS,
-      data: undefined,
-      has: false
     }
+
+    // {
+    //   dataToFind: { id: 'ASH' },
+    //   dataArray: ALLOPERATORS,
+    //   data: Attackers.ASH,
+    //   has: true
+    // },
+    // {
+    //   dataToFind: { id: 'USH' },
+    //   dataArray: ALLOPERATORS,
+    //   data: undefined,
+    //   has: false
+    // }
   ]
 
   test.each(testCases)(
     `getOneById() should return full item, or undefined`,
     ({ dataToFind: { id }, dataArray, data }) => {
       const itemsManager: IGameDataManager<
-        ICSGODocuments.Item
+        ICSGODocuments.Output.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.getOneById(id)).toEqual(data)
     }
@@ -87,7 +90,7 @@ describe('DataManager()', () => {
     `has() should return boolean if id exists`,
     ({ dataToFind: { id }, dataArray, has }) => {
       const itemsManager: IGameDataManager<
-        ICSGODocuments.Item
+        ICSGODocuments.Output.Item
       > = gameDataManager(dataArray)
       expect(itemsManager.hasID(id)).toEqual(has)
     }

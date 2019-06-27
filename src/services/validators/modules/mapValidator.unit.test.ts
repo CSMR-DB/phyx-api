@@ -9,9 +9,9 @@ import { csgoStrategyValid } from '~src/features/csgo/mocks/csgoStrategyValid.mo
 import { csgoMaps } from '~src/features/csgo/data/csgoMaps'
 
 describe('mapValidator', () => {
-  const csgoDataManager: IGameDataManager<ICSGODocuments.Map> = gameDataManager<
-    ICSGODocuments.Map
-  >(csgoMaps)
+  const csgoDataManager: IGameDataManager<
+    ICSGODocuments.Output.Map
+  > = gameDataManager<ICSGODocuments.Output.Map>(csgoMaps)
 
   test('should validate existing maps', async () => {
     await expect(

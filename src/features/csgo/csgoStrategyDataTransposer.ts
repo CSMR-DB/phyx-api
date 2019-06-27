@@ -2,34 +2,27 @@ import { ICSGODocuments } from '~src/features/csgo/interfaces'
 import { IStrategyDataTransposer } from '~src/services/validators/modules/IStrategyDataTransposer.interface'
 
 export function csgoStrategyDataTransposer(
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 ): IStrategyDataTransposer {
   const {
     team: { players }
-  }: {
-    team: {
-      players: ICSGODocuments.Player[]
-    }
-  } = strategy
+  }: ICSGODocuments.Input.Strategy = strategy
 
-  // const playersArray: ICSGODocuments.Player[] = objectToArray(players)
-  const loadoutArray: ICSGODocuments.Loadout[] = players.map(
-    (player: ICSGODocuments.Player) => player['loadout']
+  const loadoutArray: ICSGODocuments.Input.Loadout[] = players.map(
+    (player: ICSGODocuments.Input.Player) => player['loadout']
   )
 
-  function uniqueIDs(): ICSGODocuments.Item['internal_id'][] {
-    const items: ICSGODocuments.Item['internal_id'][] = loadoutArray
-      .map((loadout: ICSGODocuments.Loadout) => [
-        loadout.primary || ({} as ICSGODocuments.Item['internal_id']),
+  function uniqueIDs(): string[] {
+    const items: string[] = loadoutArray
+      .map((loadout: ICSGODocuments.Input.Loadout) => [
+        loadout.primary || ({} as string),
         loadout.secondary,
-        ...(loadout.gear || ([] as ICSGODocuments.Item['internal_id'][])),
-        ...(loadout.utilities || ([] as ICSGODocuments.Item['internal_id'][]))
+        ...(loadout.gear || ([] as string[])),
+        ...(loadout.utilities || ([] as string[]))
       ])
       .reduce((pV: string[], cV: string[]) => pV.concat(cV))
 
-    const ids: ICSGODocuments.Item['internal_id'][] = items.map(
-      (item: string) => item
-    )
+    const ids: string[] = items.map((item: string) => item)
 
     return Array.from(new Set(ids))
   }
@@ -41,13 +34,13 @@ export function csgoStrategyDataTransposer(
 
   function slots(): SlotObject[] {
     const items: SlotObject[] = loadoutArray.map(
-      (loadout: ICSGODocuments.Loadout) => ({
+      (loadout: ICSGODocuments.Input.Loadout) => ({
         slot: 'secondary',
         internal_id: loadout.secondary
       })
     )
 
-    loadoutArray.map((loadout: ICSGODocuments.Loadout) => {
+    loadoutArray.map((loadout: ICSGODocuments.Input.Loadout) => {
       if (loadout.primary) {
         items.push({
           slot: 'primary',

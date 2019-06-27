@@ -12,7 +12,7 @@ enum ItemSlot {
 }
 
 type Item {
-  _id: ID!
+  _id: String!
   internal_id: String!
   name: String!
   cost: Int!

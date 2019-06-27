@@ -16,17 +16,17 @@ import { csgoItems } from '../../data/csgoItems'
 import { csgoMaps } from '../../data/csgoMaps'
 
 export const csgoStrategyValidatorMock: (
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 ) => Promise<ValidatorReturnType> = async (
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 ): Promise<ValidatorReturnType> => {
   const dataManager_items: IGameDataManager<
-    ICSGODocuments.Item
+    ICSGODocuments.Output.Item
   > = gameDataManager(csgoItems)
 
   const dataManager_maps: IGameDataManager<
-    ICSGODocuments.Map
-  > = gameDataManager<ICSGODocuments.Map>(csgoMaps)
+    ICSGODocuments.Output.Map
+  > = gameDataManager(csgoMaps)
 
   const dataReducer: IStrategyDataTransposer = csgoStrategyDataTransposer(
     strategy

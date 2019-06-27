@@ -44,8 +44,14 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
             players {
               name
               loadout {
-                primary 
-                secondary 
+                primary {
+                  name
+                  cost
+                }
+                secondary {
+                  name
+                  cost
+                }
               }
             }
           }
@@ -64,36 +70,36 @@ const csgoStrategyQueryCases: IGraphQLTestCase[] = [
               {
                 name: 'Zombie115m',
                 loadout: {
-                  primary: 'SG551',
-                  secondary: 'P250'
+                  primary: { name: 'SG-551', cost: 2750 },
+                  secondary: { name: 'P-250', cost: 300 }
                 }
               },
               {
                 name: 'Cookiegalaxy',
                 loadout: {
-                  primary: 'SG551',
-                  secondary: 'P250'
+                  primary: { name: 'SG-551', cost: 2750 },
+                  secondary: { name: 'P-250', cost: 300 }
                 }
               },
               {
                 name: 'Night',
                 loadout: {
-                  primary: 'SG551',
-                  secondary: 'P250'
+                  primary: { name: 'SG-551', cost: 2750 },
+                  secondary: { name: 'P-250', cost: 300 }
                 }
               },
               {
                 name: 'Blurael',
                 loadout: {
-                  primary: 'SG551',
-                  secondary: 'P250'
+                  primary: { name: 'SG-551', cost: 2750 },
+                  secondary: { name: 'P-250', cost: 300 }
                 }
               },
               {
                 name: 'PHYD',
                 loadout: {
-                  primary: 'SG551',
-                  secondary: 'P250'
+                  primary: { name: 'SG-551', cost: 2750 },
+                  secondary: { name: 'P-250', cost: 300 }
                 }
               }
             ]

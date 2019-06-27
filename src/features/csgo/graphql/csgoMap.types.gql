@@ -4,7 +4,7 @@ enum MapMode {
 }
 
 type Map {
-  _id: ID!
+  _id: String!
   internal_id: String!
   name: String!
   mode: MapMode!

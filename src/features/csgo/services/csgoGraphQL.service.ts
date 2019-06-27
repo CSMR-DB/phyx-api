@@ -17,46 +17,50 @@ export interface IcsgoGraphQLService {
     }: {
       id: string
     }) => Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseStrategy | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy | null | undefined
     >
     csgoStrategies: () => Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     >
     csgoStrategiesByMap: ({
       map
     }: {
       map: string
-    }) => Promise<MongooseDocumentExtensionsCSGO.IMongooseStrategy[]>
+    }) => Promise<MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]>
 
-    csgoMaps: () => Promise<MongooseDocumentExtensionsCSGO.IMongooseMap[]>
+    csgoMaps: () => Promise<
+      MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
+    >
     csgoMap: ({
       id
     }: {
       id: string
     }) => Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseMap | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseMap | null | undefined
     >
 
-    csgoItems: () => Promise<MongooseDocumentExtensionsCSGO.IMongooseItem[]>
+    csgoItems: () => Promise<
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
+    >
     csgoItem: ({
       id
     }: {
       id: string
     }) => Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseItem | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem | null | undefined
     >
   }
   Mutation: {
     createCSGOStrategy: ({
       strategy
     }: {
-      strategy: ICSGODocuments.Strategy
+      strategy: ICSGODocuments.Input.Strategy
     }) => Promise<GraphQLMutationResult>
 
     createCSGOStrategies: ({
       strategies
     }: {
-      strategies: ICSGODocuments.Strategy[]
+      strategies: ICSGODocuments.Input.Strategy[]
     }) => Promise<GraphQLMutationResult[]>
 
     updateCSGOStrategy: ({
@@ -64,7 +68,7 @@ export interface IcsgoGraphQLService {
       strategy
     }: {
       id: Types.ObjectId
-      strategy: ICSGODocuments.Strategy
+      strategy: ICSGODocuments.Input.Strategy
     }) => Promise<GraphQLMutationResult>
 
     deleteCSGOStrategy: ({
@@ -82,13 +86,13 @@ export interface IcsgoGraphQLService {
     createCSGOMap: ({
       map
     }: {
-      map: ICSGODocuments.NewMap
+      map: ICSGODocuments.Input.Map
     }) => Promise<GraphQLMutationResult>
 
     createCSGOMaps: ({
       maps
     }: {
-      maps: ICSGODocuments.NewMap[]
+      maps: ICSGODocuments.Input.Map[]
     }) => Promise<GraphQLMutationResult[]>
 
     updateCSGOMap: ({
@@ -96,7 +100,7 @@ export interface IcsgoGraphQLService {
       map
     }: {
       id: Types.ObjectId
-      map: ICSGODocuments.NewMap
+      map: ICSGODocuments.Input.Map
     }) => Promise<GraphQLMutationResult>
 
     deleteCSGOMap: ({
@@ -108,13 +112,13 @@ export interface IcsgoGraphQLService {
     createCSGOItem: ({
       item
     }: {
-      item: ICSGODocuments.NewItem
+      item: ICSGODocuments.Input.Item
     }) => Promise<GraphQLMutationResult>
 
     createCSGOItems: ({
       items
     }: {
-      items: ICSGODocuments.NewItem[]
+      items: ICSGODocuments.Input.Item[]
     }) => Promise<GraphQLMutationResult[]>
 
     updateCSGOItem: ({
@@ -122,7 +126,7 @@ export interface IcsgoGraphQLService {
       item
     }: {
       id: Types.ObjectId
-      item: ICSGODocuments.NewItem
+      item: ICSGODocuments.Input.Item
     }) => Promise<GraphQLMutationResult>
 
     deleteCSGOItem: ({
@@ -140,7 +144,7 @@ export type csgoGraphQLServiceContext = {
 async function createCSGOStrategy({
   strategy
 }: {
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 }): Promise<GraphQLMutationResult> {
   return await csgoStrategyValidator(strategy)
     .then(async (validatorResult: ValidatorReturnType) => {
@@ -171,11 +175,11 @@ async function createCSGOStrategy({
 async function createCSGOStrategies({
   strategies
 }: {
-  strategies: ICSGODocuments.Strategy[]
+  strategies: ICSGODocuments.Input.Strategy[]
 }): Promise<GraphQLMutationResult[]> {
   return await Promise.all(
     strategies.map(
-      async (strategy: ICSGODocuments.Strategy) =>
+      async (strategy: ICSGODocuments.Input.Strategy) =>
         await createCSGOStrategy({ strategy })
     )
   )
@@ -186,7 +190,7 @@ async function updateCSGOStrategy({
   strategy
 }: {
   id: Types.ObjectId
-  strategy: ICSGODocuments.Strategy
+  strategy: ICSGODocuments.Input.Strategy
 }): Promise<GraphQLMutationResult> {
   return await csgoStrategyValidator(strategy)
     .then(async (validatorResult: ValidatorReturnType) => {
@@ -242,7 +246,7 @@ async function deleteCSGOStrategies({
 async function createCSGOMap({
   map
 }: {
-  map: ICSGODocuments.NewMap
+  map: ICSGODocuments.Input.Map
 }): Promise<GraphQLMutationResult> {
   Object.assign(map, {
     internal_id: idGenerator(map.name, {
@@ -264,10 +268,10 @@ async function createCSGOMap({
 async function createCSGOMaps({
   maps
 }: {
-  maps: ICSGODocuments.NewMap[]
+  maps: ICSGODocuments.Input.Map[]
 }): Promise<GraphQLMutationResult[]> {
   return await Promise.all(
-    maps.map(async (map: ICSGODocuments.NewMap) => {
+    maps.map(async (map: ICSGODocuments.Input.Map) => {
       return await createCSGOMap({ map })
     })
   )
@@ -278,7 +282,7 @@ async function updateCSGOMap({
   map
 }: {
   id: Types.ObjectId
-  map: ICSGODocuments.NewMap
+  map: ICSGODocuments.Input.Map
 }): Promise<GraphQLMutationResult> {
   return await MongooseModelCSGOMap.updateOne({ _id: id }, map)
     .then(() => ({
@@ -307,7 +311,7 @@ async function deleteCSGOMap({
 async function createCSGOItem({
   item
 }: {
-  item: ICSGODocuments.NewItem
+  item: ICSGODocuments.Input.Item
 }): Promise<GraphQLMutationResult> {
   Object.assign(item, {
     internal_id: idGenerator(item.name, {
@@ -329,10 +333,10 @@ async function createCSGOItem({
 async function createCSGOItems({
   items
 }: {
-  items: ICSGODocuments.NewItem[]
+  items: ICSGODocuments.Input.Item[]
 }): Promise<GraphQLMutationResult[]> {
   return Promise.all(
-    items.map(async (item: ICSGODocuments.NewItem) => {
+    items.map(async (item: ICSGODocuments.Input.Item) => {
       return await createCSGOItem({ item })
     })
   )
@@ -343,7 +347,7 @@ async function updateCSGOItem({
   item
 }: {
   id: Types.ObjectId
-  item: ICSGODocuments.NewItem
+  item: ICSGODocuments.Input.Item
 }): Promise<GraphQLMutationResult> {
   return await MongooseModelCSGOItem.updateOne({ _id: id }, item)
     .then(() => ({
@@ -376,12 +380,14 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     }: {
       id: string
     }): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseStrategy | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy | null | undefined
     > => {
       return await MongooseModelCSGOStrategy.findOne({ id })
         .exec()
         .then(
-          (doc: MongooseDocumentExtensionsCSGO.IMongooseStrategy | null) => doc
+          (
+            doc: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy | null
+          ) => doc
         )
         .catch((error: Error) => {
           throw error
@@ -389,12 +395,13 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     },
 
     csgoStrategies: async (): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     > => {
       return await MongooseModelCSGOStrategy.find({})
         .exec()
         .then(
-          (docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => docs
+          (docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+            docs
         )
         .catch((error: Error) => {
           throw error
@@ -405,22 +412,25 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
       map
     }: {
       map: string
-    }): Promise<MongooseDocumentExtensionsCSGO.IMongooseStrategy[]> =>
+    }): Promise<MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]> =>
       await MongooseModelCSGOStrategy.find({ map })
         .exec()
         .then(
-          (docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => docs
+          (docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+            docs
         )
         .catch((error: Error) => {
           throw error
         }),
 
     csgoMaps: async (): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     > =>
       await MongooseModelCSGOMap.find({})
         .exec()
-        .then((docs: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => docs)
+        .then(
+          (docs: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]) => docs
+        )
         .catch((error: Error) => {
           throw error
         }),
@@ -430,21 +440,26 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     }: {
       id: string
     }): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseMap | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseMap | null | undefined
     > =>
       await MongooseModelCSGOMap.findOne({ internal_id: id })
         .exec()
-        .then((doc: MongooseDocumentExtensionsCSGO.IMongooseMap | null) => doc)
+        .then(
+          (doc: MongooseDocumentExtensionsCSGO.Output.IMongooseMap | null) =>
+            doc
+        )
         .catch((error: Error) => {
           throw error
         }),
 
     csgoItems: async (): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     > =>
       await MongooseModelCSGOItem.find({})
         .exec()
-        .then((docs: MongooseDocumentExtensionsCSGO.IMongooseItem[]) => docs)
+        .then(
+          (docs: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]) => docs
+        )
         .catch((error: Error) => {
           throw error
         }),
@@ -454,11 +469,14 @@ export const csgoGraphQLService: IcsgoGraphQLService = {
     }: {
       id: string
     }): Promise<
-      MongooseDocumentExtensionsCSGO.IMongooseItem | null | undefined
+      MongooseDocumentExtensionsCSGO.Output.IMongooseItem | null | undefined
     > =>
       await MongooseModelCSGOItem.findOne({ internal_id: id })
         .exec()
-        .then((doc: MongooseDocumentExtensionsCSGO.IMongooseItem | null) => doc)
+        .then(
+          (doc: MongooseDocumentExtensionsCSGO.Output.IMongooseItem | null) =>
+            doc
+        )
         .catch((error: Error) => {
           throw error
         })

@@ -13,7 +13,7 @@ describe('csgoItem Integration Test', () => {
 
   function itemQuery(): Promise<
     ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }>
   > {
     return graphql(
@@ -38,7 +38,7 @@ describe('csgoItem Integration Test', () => {
   }
 
   test('should submit a valid item to the database', async () => {
-    const testItem: ICSGODocuments.NewItem = {
+    const testItem: ICSGODocuments.Input.Item = {
       name: 'Wingman',
       cost: 1337,
       side: 'UNI',
@@ -75,12 +75,12 @@ describe('csgoItem Integration Test', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     expect(dbEntries.data!.csgoItems.length).toBe(1)
 
-    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseItem &
+    const dbEntry: MongooseDocumentExtensionsCSGO.Output.IMongooseItem &
       any = dbEntries.data!.csgoItems[0]
 
     const responseDocument: typeof dbEntry = {
@@ -98,13 +98,13 @@ describe('csgoItem Integration Test', () => {
   })
 
   test('should not submit an invalid item (duplicate ID) to the database', async () => {
-    const testItem: ICSGODocuments.NewItem = {
+    const testItem: ICSGODocuments.Input.Item = {
       name: 'EVA-8',
       side: 'UNI',
       cost: 1,
       slot: 'primary'
     }
-    const testItemDuplicateID: ICSGODocuments.NewItem = {
+    const testItemDuplicateID: ICSGODocuments.Input.Item = {
       name: 'EVA-8',
       side: 'UNI',
       cost: 1,
@@ -153,12 +153,12 @@ describe('csgoItem Integration Test', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     expect(dbEntries.data!.csgoItems.length).toBe(1)
 
-    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseItem &
+    const dbEntry: MongooseDocumentExtensionsCSGO.Output.IMongooseItem &
       any = dbEntries.data!.csgoItems[0]
 
     const responseDocument: typeof dbEntry = {
@@ -192,7 +192,7 @@ describe('csgoItem Integration Test', () => {
   })
 
   test('should submit an array of valid items to the database', async () => {
-    const testItem: ICSGODocuments.NewItem[] = [
+    const testItem: ICSGODocuments.Input.Item[] = [
       {
         name: 'Spitfire',
         side: 'UNI',
@@ -242,14 +242,14 @@ describe('csgoItem Integration Test', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     expect(dbEntries.data!.csgoItems.length).toBe(2)
   })
 
   test('should update a item in the database', async () => {
-    const testItem: ICSGODocuments.NewItem[] = [
+    const testItem: ICSGODocuments.Input.Item[] = [
       {
         name: 'EVA-8',
         side: 'UNI',
@@ -284,7 +284,7 @@ describe('csgoItem Integration Test', () => {
     )
 
     const dbEntryToModify: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     const mutation: string = `
@@ -298,7 +298,7 @@ describe('csgoItem Integration Test', () => {
 
     const variables: {
       id: string
-      item: Partial<ICSGODocuments.NewItem>
+      item: Partial<ICSGODocuments.Input.Item>
     } = {
       id: dbEntryToModify.data!.csgoItems[0]._id.toString(),
       item: {
@@ -326,7 +326,7 @@ describe('csgoItem Integration Test', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     expect(dbEntries.data!.csgoItems.length).toBe(2)
@@ -335,7 +335,7 @@ describe('csgoItem Integration Test', () => {
   })
 
   test('should delete a item from the database', async () => {
-    const testItem: ICSGODocuments.NewItem[] = [
+    const testItem: ICSGODocuments.Input.Item[] = [
       {
         name: 'G7 Scout',
         side: 'UNI',
@@ -370,7 +370,7 @@ describe('csgoItem Integration Test', () => {
     )
 
     const dbEntryToModify: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     const mutation: string = `
@@ -403,7 +403,7 @@ describe('csgoItem Integration Test', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoItems: MongooseDocumentExtensionsCSGO.IMongooseItem[]
+      csgoItems: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]
     }> = await itemQuery()
 
     expect(dbEntries.data!.csgoItems.length).toBe(1)

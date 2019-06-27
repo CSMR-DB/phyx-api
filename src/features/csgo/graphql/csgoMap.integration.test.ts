@@ -13,7 +13,7 @@ describe('Integration tests for CSGO Map', () => {
 
   function mapQuery(): Promise<
     ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }>
   > {
     return graphql(
@@ -37,7 +37,7 @@ describe('Integration tests for CSGO Map', () => {
   }
 
   test('should submit a valid map to the database', async () => {
-    const testMap: ICSGODocuments.NewMap = {
+    const testMap: ICSGODocuments.Input.Map = {
       name: 'Airplane',
       mode: 'de',
       active: false
@@ -73,12 +73,12 @@ describe('Integration tests for CSGO Map', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     expect(dbEntries.data!.csgoMaps.length).toBe(1)
 
-    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseMap &
+    const dbEntry: MongooseDocumentExtensionsCSGO.Output.IMongooseMap &
       any = dbEntries.data!.csgoMaps[0]
 
     const responseDocument: typeof dbEntry = {
@@ -96,12 +96,12 @@ describe('Integration tests for CSGO Map', () => {
   })
 
   test('should not submit an invalid map (duplicate ID) to the database', async () => {
-    const testMap: ICSGODocuments.NewMap = {
+    const testMap: ICSGODocuments.Input.Map = {
       name: 'Zoo',
       mode: 'de',
       active: false
     }
-    const testMapDuplicateID: ICSGODocuments.NewMap = {
+    const testMapDuplicateID: ICSGODocuments.Input.Map = {
       name: 'Zoo',
       mode: 'de',
       active: false
@@ -149,12 +149,12 @@ describe('Integration tests for CSGO Map', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     expect(dbEntries.data!.csgoMaps.length).toBe(1)
 
-    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseMap &
+    const dbEntry: MongooseDocumentExtensionsCSGO.Output.IMongooseMap &
       any = dbEntries.data!.csgoMaps[0]
 
     const responseDocument: typeof dbEntry = {
@@ -188,7 +188,7 @@ describe('Integration tests for CSGO Map', () => {
   })
 
   test('should submit an array of valid maps to the database', async () => {
-    const testMaps: ICSGODocuments.NewMap[] = [
+    const testMaps: ICSGODocuments.Input.Map[] = [
       {
         name: 'Subzero',
         mode: 'de',
@@ -236,14 +236,14 @@ describe('Integration tests for CSGO Map', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     expect(dbEntries.data!.csgoMaps.length).toBe(2)
   })
 
   test('should update a map in the database', async () => {
-    const testMaps: ICSGODocuments.NewMap[] = [
+    const testMaps: ICSGODocuments.Input.Map[] = [
       {
         name: 'Subzero',
         mode: 'de',
@@ -276,7 +276,7 @@ describe('Integration tests for CSGO Map', () => {
     )
 
     const dbEntryToModify: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     const mutation: string = `
@@ -288,7 +288,7 @@ describe('Integration tests for CSGO Map', () => {
         }
       `
 
-    const variables: { id: string; map: Partial<ICSGODocuments.NewMap> } = {
+    const variables: { id: string; map: Partial<ICSGODocuments.Input.Map> } = {
       id: dbEntryToModify.data!.csgoMaps[0]._id.toString(),
       map: {
         name: 'Subzero',
@@ -314,7 +314,7 @@ describe('Integration tests for CSGO Map', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     expect(dbEntries.data!.csgoMaps.length).toBe(2)
@@ -323,7 +323,7 @@ describe('Integration tests for CSGO Map', () => {
   })
 
   test('should delete a map from the database', async () => {
-    const testMaps: ICSGODocuments.NewMap[] = [
+    const testMaps: ICSGODocuments.Input.Map[] = [
       {
         name: 'Subzero',
         mode: 'de',
@@ -356,7 +356,7 @@ describe('Integration tests for CSGO Map', () => {
     )
 
     const dbEntryToModify: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     const mutation: string = `
@@ -389,7 +389,7 @@ describe('Integration tests for CSGO Map', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoMaps: MongooseDocumentExtensionsCSGO.IMongooseMap[]
+      csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
 
     expect(dbEntries.data!.csgoMaps.length).toBe(1)

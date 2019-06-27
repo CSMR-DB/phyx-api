@@ -1,4 +1,4 @@
-import { Schema, model, Model, SchemaTypes } from 'mongoose'
+import { Schema, model, Model, SchemaTypes, Document } from 'mongoose'
 import { MongooseDocumentExtensionsCSGO, ICSGODocuments } from '../interfaces'
 
 const Loadout: Schema<any> = new Schema(
@@ -67,7 +67,7 @@ const Team: Schema<any> = new Schema(
       type: [ Player ],
       required: true,
       validate: [
-        (val: ICSGODocuments.Player[]): boolean => val.length === 5,
+        (val: ICSGODocuments.Input.Player[]): boolean => val.length === 5,
         '{PATH} has too many players'
       ]
     }
@@ -110,7 +110,22 @@ const schema: Schema<any> = new Schema(
   { timestamps: true }
 )
 
+const autoPopulateItems: (this: Document, next: Function) => void = function(
+  this: Document,
+  next: Function
+): void {
+  this.populate('team.players.loadout.primary')
+  this.populate('team.players.loadout.secondary')
+  this.populate('team.players.loadout.gear')
+  this.populate('team.players.loadout.utilities')
+
+  next()
+}
+
+schema.pre('find', autoPopulateItems)
+schema.pre('findOne', autoPopulateItems)
+
 export const MongooseModelCSGOStrategy: Model<
-  MongooseDocumentExtensionsCSGO.IMongooseStrategy,
+  MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy,
   {}
 > = model('csgo_strategy', schema, 'csgo_strategies')

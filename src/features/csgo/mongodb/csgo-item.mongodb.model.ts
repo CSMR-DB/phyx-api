@@ -1,4 +1,4 @@
-import { Schema, model, Model, SchemaTypes } from 'mongoose'
+import { Schema, model, Model, Document } from 'mongoose'
 import { MongooseDocumentExtensionsCSGO } from '../interfaces'
 import { idGenerator } from '~src/utils/idGenerator'
 
@@ -7,7 +7,6 @@ const schema: Schema<any> = new Schema(
     _id: {
       type: String,
       auto: false
-      // unique: true
     },
     internal_id: {
       type: String,
@@ -38,16 +37,16 @@ const schema: Schema<any> = new Schema(
   { timestamps: true }
 )
 
-schema.pre('save', function(next: Function): void {
-  // tslint:disable-next-line: no-invalid-this
-  const record: MongooseDocumentExtensionsCSGO.IMongooseItem = this as MongooseDocumentExtensionsCSGO.IMongooseItem
-
-  record._id = idGenerator(record.name!, { uppercase: true })
+schema.pre('save', function(
+  this: MongooseDocumentExtensionsCSGO.Input.IMongooseItem,
+  next: Function
+): void {
+  this._id = idGenerator(this.name, { uppercase: true })
 
   next()
 })
 
 export const MongooseModelCSGOItem: Model<
-  MongooseDocumentExtensionsCSGO.IMongooseItem,
+  MongooseDocumentExtensionsCSGO.Output.IMongooseItem & Document,
   {}
 > = model('csgo_item', schema, 'csgo_items')

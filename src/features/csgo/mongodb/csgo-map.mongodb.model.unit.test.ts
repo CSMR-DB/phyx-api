@@ -13,10 +13,12 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]) => result
+      )
       .catch((error: Error) => error)
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[] = await MongooseModelCSGOMap.find(
       {}
     )
 
@@ -33,14 +35,16 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]) => result
+      )
       .catch((error: Error) => {
         expect(error.message).toEqual(
           'csgo_map validation failed: mode: Path `mode` is required.'
         )
       })
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[] = await MongooseModelCSGOMap.find(
       {}
     )
 
@@ -68,12 +72,14 @@ describe('CSGO Item MongoDB Model', () => {
         active: true
       }
     ])
-      .then((result: MongooseDocumentExtensionsCSGO.IMongooseMap[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]) => result
+      )
       .catch((error: Error) => {
         expect(error.message.includes('duplicate key error')).toBe(true)
       })
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseMap[] = await MongooseModelCSGOMap.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[] = await MongooseModelCSGOMap.find(
       {}
     )
 

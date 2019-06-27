@@ -1,9 +1,7 @@
-import { Schema } from 'mongoose'
 import { csgoSchema } from './csgo.schema'
 import { graphql, ExecutionResult } from 'graphql'
 import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 import { csgoGraphQLService } from '../services/csgoGraphQL.service'
-import { MongooseModelCSGOStrategy } from '../mongodb/csgo-strategy.mongodb.model'
 import { csgoStrategyInvalidItems } from '../mocks/csgoStrategyInvalidItems.mock'
 import { csgoStrategyInvalidSide } from '../mocks/csgoStrategyInvalidSide.mock'
 import { MongooseDocumentExtensionsCSGO } from '../interfaces'
@@ -17,7 +15,7 @@ describe('Integration tests for CSGO Strategy', () => {
 
   function strategyQuery(): Promise<
     ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }>
   > {
     return graphql(
@@ -44,10 +42,22 @@ describe('Integration tests for CSGO Strategy', () => {
                   y
                 }
                 loadout {
-                  primary
-                  secondary
-                  gear
-                  utilities
+                  primary {
+                    name
+                    cost
+                  }
+                  secondary {
+                    name
+                    cost
+                  }
+                  gear {
+                    name
+                    cost
+                  }
+                  utilities {
+                    name
+                    cost
+                  }
                 }
               }
             }
@@ -89,29 +99,13 @@ describe('Integration tests for CSGO Strategy', () => {
       data: { createCSGOStrategy: { errors: [], result: true } }
     })
 
-    console.log(await strategyQuery())
-
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(1)
 
-    const dbEntry: MongooseDocumentExtensionsCSGO.IMongooseStrategy & {
-      createdAt: string
-      updatedAt: string
-    } = dbEntries.data!.csgoStrategies[0]
-
-    const responseDocument: typeof dbEntry & any = {
-      ...csgoStrategyValid,
-      _id: dbEntry._id,
-      createdAt: dbEntry.createdAt,
-      updatedAt: dbEntry.updatedAt
-    }
-
-    expect(dbEntry).toEqual(responseDocument)
-
-    expect(dbEntry.map).toBe('Nuke')
+    expect(dbEntries.data!.csgoStrategies[0].map).toBe('Nuke')
   })
 
   test('should receive, validate and NOT submit an invalid strategy to the database', async () => {
@@ -151,7 +145,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(0)
@@ -195,7 +189,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(0)
@@ -244,7 +238,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(1)
@@ -271,7 +265,7 @@ describe('Integration tests for CSGO Strategy', () => {
     )
 
     const dbEntriesBeforeUpdate: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntriesBeforeUpdate.data!.csgoStrategies.length).toBe(1)
@@ -313,7 +307,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(1)
@@ -344,7 +338,7 @@ describe('Integration tests for CSGO Strategy', () => {
     )
 
     const dbEntriesBeforeDelete: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntriesBeforeDelete.data!.csgoStrategies.length).toBe(1)
@@ -381,7 +375,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(0)
@@ -411,7 +405,7 @@ describe('Integration tests for CSGO Strategy', () => {
     )
 
     const dbEntriesBeforeDeletes: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntriesBeforeDeletes.data!.csgoStrategies.length).toBe(2)
@@ -431,7 +425,7 @@ describe('Integration tests for CSGO Strategy', () => {
 
     const variables: {} = {
       ids: dbEntriesBeforeDeletes.data!.csgoStrategies.map(
-        (entry: MongooseDocumentExtensionsCSGO.IMongooseStrategy) =>
+        (entry: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy) =>
           entry._id.toString()
       )
     }
@@ -451,7 +445,7 @@ describe('Integration tests for CSGO Strategy', () => {
     })
 
     const dbEntries: ExecutionResult<{
-      csgoStrategies: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]
+      csgoStrategies: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]
     }> = await strategyQuery()
 
     expect(dbEntries.data!.csgoStrategies.length).toBe(0)

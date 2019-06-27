@@ -11,8 +11,8 @@ import { csgoItems } from '~src/features/csgo/data/csgoItems'
 
 describe('SideValidator()', () => {
   const csgoDataManager: IGameDataManager<
-    ICSGODocuments.Item
-  > = gameDataManager<ICSGODocuments.Item>(csgoItems)
+    ICSGODocuments.Output.Item
+  > = gameDataManager<ICSGODocuments.Output.Item>(csgoItems)
 
   test('sideValidator() with imported mock data [valid]', async () => {
     await expect(

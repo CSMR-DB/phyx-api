@@ -22,7 +22,7 @@ describe('CSGO Item MongoDB Model', () => {
       }
     ])
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[] = await MongooseModelCSGOItem.find(
       {}
     )
 
@@ -41,14 +41,17 @@ describe('CSGO Item MongoDB Model', () => {
         slot: 'secondary'
       }
     ])
-      .then((result: MongooseDocumentExtensionsCSGO.IMongooseItem[]) => result)
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[]) =>
+          result
+      )
       .catch((error: Error) => {
         expect(error.message).toEqual(
           'csgo_item validation failed: cost: Path `cost` is required., side: Path `side` is required.'
         )
       })
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseItem[] = await MongooseModelCSGOItem.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseItem[] = await MongooseModelCSGOItem.find(
       {}
     )
 

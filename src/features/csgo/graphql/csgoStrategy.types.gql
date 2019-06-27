@@ -3,12 +3,19 @@ enum StrategySide {
   DEF
 }
 
+type CSGOStrategyItem {
+  _id: String!
+  name: String
+  cost: Int
+  slot: String
+}
+
 type CSGOLoadout {
   cost: Int!
-  primary: String!
-  secondary: String!
-  gear: [String!]!
-  utilities: [String!]!
+  primary: CSGOStrategyItem
+  secondary: CSGOStrategyItem!
+  gear: [CSGOStrategyItem]
+  utilities: [CSGOStrategyItem]
 }
 
 type Position {

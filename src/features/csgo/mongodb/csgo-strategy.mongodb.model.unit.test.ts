@@ -5,8 +5,11 @@ import { csgoStrategyValid } from '../mocks/csgoStrategyValid.mock'
 
 require('dotenv').config()
 
+process.env.DB_TEST_COLLECTION = 'csgoStrategyMongoDBUnitTest'
+
 describe('CSGO Strategy MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')
+  require('~src/testing/__test_csgo_mongodb_prepopulate__')
 
   test('should store a valid strategy', async () => {
     await MongooseModelCSGOStrategy.create([
@@ -14,6 +17,108 @@ describe('CSGO Strategy MongoDB Model', () => {
         name: 'Test',
         map: 'Mirage',
         side: 'ATK',
+        budget: 6000,
+        team: {
+          name: 'Plebs',
+          players: [
+            {
+              name: 'PHYD',
+              role: 'AWPer',
+              positions: [ { x: 1, y: 1 } ],
+              loadout: {
+                primary: 'SG551',
+                secondary: 'P250'
+              }
+            },
+            {
+              name: 'PHYD',
+              role: 'Lurker',
+              positions: [ { x: 1, y: 1 } ],
+              loadout: {
+                primary: 'SG551',
+                secondary: 'P250'
+              }
+            },
+            {
+              name: 'PHYD',
+              role: 'Lurker',
+              positions: [ { x: 1, y: 1 } ],
+              loadout: {
+                primary: 'SG551',
+                secondary: 'P250'
+              }
+            },
+            {
+              name: 'PHYD',
+              role: 'Entry Fragger',
+              positions: [ { x: 1, y: 1 } ],
+              loadout: {
+                primary: 'SG551',
+                secondary: 'P250'
+              }
+            },
+            {
+              name: 'PHYD',
+              role: 'Lurker',
+              positions: [ { x: 1, y: 1 } ],
+              loadout: {
+                primary: 'SG551',
+                secondary: 'P250'
+              }
+            }
+          ]
+        }
+      }
+    ])
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+          result
+      )
+      .catch((error: Error) => error)
+
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    expect(docs.length).toEqual(1)
+
+    expect(docs[0].map).toEqual('Mirage')
+  })
+
+  test('should throw an error on submission of invalid strategy, one where path `team` is not provided', async () => {
+    await MongooseModelCSGOStrategy.create([
+      {
+        _id: '1',
+        name: 'Test',
+        map: 'Mirage',
+        side: 'ATK',
+        budget: 6000
+        // team: {...} <-- required, should throw error
+      }
+    ])
+      .then(
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+          result
+      )
+      .catch((error: MongoError) => {
+        expect(error).toBeDefined()
+
+        expect(error.message).toContain('Path `team` is required')
+      })
+
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+      {}
+    )
+
+    expect(docs.length).toEqual(0)
+  })
+
+  test('should throw an error on submission of invalid strategy, one where path `side` is not a valid option in the enum', async () => {
+    await MongooseModelCSGOStrategy.create([
+      {
+        name: 'Test',
+        map: 'Mirage',
+        side: 'DAF',
         budget: 6000,
         team: {
           name: 'Plebs',
@@ -73,113 +178,8 @@ describe('CSGO Strategy MongoDB Model', () => {
       }
     ])
       .then(
-        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
-      )
-      .catch((error: Error) => error)
-
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
-      {}
-    )
-
-    expect(docs.length).toEqual(1)
-
-    expect(docs[0].map).toEqual('Mirage')
-  })
-
-  test('should throw an error on submission of invalid strategy, one where path `team` is not provided', async () => {
-    await MongooseModelCSGOStrategy.create([
-      {
-        _id: '1',
-        name: 'Test',
-        map: 'Mirage',
-        side: 'ATK',
-        budget: 6000
-        // team: {...} <-- required, should throw error
-      }
-    ])
-      .then(
-        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
-      )
-      .catch((error: MongoError) => {
-        expect(error).toBeDefined()
-
-        expect(error.message).toContain('Path `team` is required')
-      })
-
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
-      {}
-    )
-
-    expect(docs.length).toEqual(0)
-  })
-
-  test('should throw an error on submission of invalid strategy, one where path `side` is not a valid option in the enum', async () => {
-    await MongooseModelCSGOStrategy.create([
-      {
-        _id: '1',
-        name: 'Test',
-        map: 'Mirage',
-        side: 'DAF',
-        budget: 6000,
-        team: {
-          name: 'Plebs',
-          players: {
-            player_1: {
-              name: 'PHYD',
-              internal_id: 'phyd',
-              role: 'AWPer',
-              positions: [ { x: 1, y: 1 } ],
-              loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
-              }
-            },
-            player_2: {
-              name: 'PHYD',
-              internal_id: 'phyd',
-              role: 'Lurker',
-              positions: [ { x: 1, y: 1 } ],
-              loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
-              }
-            },
-            player_3: {
-              name: 'PHYD',
-              internal_id: 'phyd',
-              role: 'Lurker',
-              positions: [ { x: 1, y: 1 } ],
-              loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
-              }
-            },
-            player_4: {
-              name: 'PHYD',
-              internal_id: 'phyd',
-              role: 'Entry Fragger',
-              positions: [ { x: 1, y: 1 } ],
-              loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
-              }
-            },
-            player_5: {
-              name: 'PHYD',
-              internal_id: 'phyd',
-              role: 'Lurker',
-              positions: [ { x: 1, y: 1 } ],
-              loadout: {
-                primary: { internal_id: 'SG551' },
-                secondary: { internal_id: 'P250' }
-              }
-            }
-          }
-        }
-      }
-    ])
-      .then(
-        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+          result
       )
       .catch((error: MongoError) => {
         expect(error).toBeDefined()
@@ -189,7 +189,7 @@ describe('CSGO Strategy MongoDB Model', () => {
         )
       })
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
       {}
     )
 
@@ -199,7 +199,7 @@ describe('CSGO Strategy MongoDB Model', () => {
   test('should delete a strategy', async () => {
     await MongooseModelCSGOStrategy.create([ csgoStrategyValid ])
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
       {}
     )
 
@@ -214,7 +214,7 @@ describe('CSGO Strategy MongoDB Model', () => {
       { ...csgoStrategyValid, description: 'Split A' }
     )
 
-    const docsAfterUpdate: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+    const docsAfterUpdate: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
       {}
     )
 
@@ -226,17 +226,18 @@ describe('CSGO Strategy MongoDB Model', () => {
   test('should delete a strategy', async () => {
     await MongooseModelCSGOStrategy.create([ csgoStrategyValid ])
       .then(
-        (result: MongooseDocumentExtensionsCSGO.IMongooseStrategy[]) => result
+        (result: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[]) =>
+          result
       )
       .catch((error: Error) => error)
 
-    const docs: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+    const docs: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
       {}
     )
 
     await MongooseModelCSGOStrategy.deleteOne({ _id: docs[0]._id })
 
-    const docsAfterDelete: MongooseDocumentExtensionsCSGO.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
+    const docsAfterDelete: MongooseDocumentExtensionsCSGO.Output.IMongooseStrategy[] = await MongooseModelCSGOStrategy.find(
       {}
     )
 

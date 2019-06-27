@@ -11,32 +11,36 @@ import {
 import { isValidated } from '~src/services/validators/modules/isValidated'
 
 export function csgoCostValidator(
-  strategy: ICSGODocuments.Strategy,
+  strategy: ICSGODocuments.Input.Strategy,
   gameDataManager: IGameDataManager<
-    ICSGODocuments.Item & any | MongooseDocumentExtensionsCSGO.IMongooseItem
+    | ICSGODocuments.Output.Item
+    | MongooseDocumentExtensionsCSGO.Output.IMongooseItem
   >
 ): IValidator {
-  const { budget }: { budget: number } = strategy
+  const { budget }: ICSGODocuments.Input.Strategy = strategy
 
   const errors: Error[] = []
 
-  function validatePlayer(player: ICSGODocuments.Player): ValidatorReturnType {
+  function validatePlayer(
+    player: ICSGODocuments.Input.Player
+  ): ValidatorReturnType {
     const {
       loadout: { primary, secondary, gear, utilities }
-    }: ICSGODocuments.Player = player
+    }: ICSGODocuments.Input.Player = player
 
     function hasOrEmptyFn<T>(item: T | undefined): T {
       return item ? item : (([] as unknown) as T)
     }
-    const allPlayerItems: ICSGODocuments.Item['internal_id'][] = [
+    const allPlayerItems: ICSGODocuments.Output.Item['internal_id'][] = [
       hasOrEmptyFn(primary),
       hasOrEmptyFn(secondary),
       ...hasOrEmptyFn(gear),
       ...hasOrEmptyFn(utilities)
     ]
 
-    const allPlayerItemsCost: number[] = allPlayerItems.map((id: string) =>
-      gameDataManager.getField(id, 'cost', 0)
+    const allPlayerItemsCost: number[] = allPlayerItems.map(
+      (id: ICSGODocuments.Output.Item['internal_id']) =>
+        gameDataManager.getField(id, 'cost', 0)
     )
 
     const totalPlayerCost: number = sumArray(allPlayerItemsCost)
@@ -55,10 +59,10 @@ export function csgoCostValidator(
   async function execute(): Promise<ValidatorReturnType> {
     const {
       team: { players }
-    }: ICSGODocuments.Strategy = strategy
+    }: ICSGODocuments.Input.Strategy = strategy
 
     const results: ValidatorReturnType[] = players.map(
-      (player: ICSGODocuments.Player) => validatePlayer(player)
+      (player: ICSGODocuments.Input.Player) => validatePlayer(player)
     )
 
     return await {
