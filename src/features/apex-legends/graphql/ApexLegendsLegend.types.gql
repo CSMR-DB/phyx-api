@@ -1,0 +1,31 @@
+type ApexLegendsLegend {
+  _id: String!
+  name: String!
+  class: String!
+  tactical: String!
+  ultimate: String!
+  passive: String!
+}
+
+extend type Query {
+  apexLegendsLegends: [ApexLegendsLegend]
+}
+
+enum LegendClass {
+  OFFENSIVE
+  DEFENSIVE
+  SUPPORT
+  SCOUT
+}
+
+input ApexLegendsLegendInput {
+  name: String!
+  class: LegendClass!
+  tactical: String!
+  ultimate: String!
+  passive: String!
+}
+
+extend type Mutation {
+  createApexLegendsLegend(legend: ApexLegendsLegendInput): MutationReturn
+}

@@ -16,6 +16,7 @@
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
       "~src/*": ["src/*"],
@@ -31,5 +32,5 @@
   "compileOnSave": true,
   "buildOnSave": false,
   "include": ["src/**/*.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/testing"]
 }

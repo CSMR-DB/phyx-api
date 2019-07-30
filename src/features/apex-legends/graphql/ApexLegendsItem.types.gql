@@ -1,0 +1,36 @@
+type ApexLegendsItem {
+  _id: String!
+  name: String!
+  class: String!
+  ammo_type: String!
+}
+
+extend type Query {
+  apexLegendsItems: [ApexLegendsItem]
+}
+
+enum ItemClass {
+  SMG
+  LMG
+  SHOTGUN
+  DMR
+  AR
+  PISTOL
+}
+
+enum ItemAmmoType {
+  light
+  heavy
+  shotgun
+  energy
+}
+
+input ApexLegendsItemInput {
+  name: String!
+  class: ItemClass!
+  ammo_type: ItemAmmoType!
+}
+
+extend type Mutation {
+  createApexLegendsItem(item: ApexLegendsItemInput): MutationReturn
+}

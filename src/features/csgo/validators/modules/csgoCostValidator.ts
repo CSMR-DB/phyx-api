@@ -13,8 +13,7 @@ import { isValidated } from '~src/services/validators/modules/isValidated'
 export function csgoCostValidator(
   strategy: ICSGODocuments.Input.Strategy,
   gameDataManager: IGameDataManager<
-    | ICSGODocuments.Output.Item
-    | MongooseDocumentExtensionsCSGO.Output.IMongooseItem
+    MongooseDocumentExtensionsCSGO.Output.IMongooseItem & any
   >
 ): IValidator {
   const { budget }: ICSGODocuments.Input.Strategy = strategy

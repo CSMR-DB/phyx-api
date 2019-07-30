@@ -13,7 +13,7 @@ class Database {
   _connect(): void {
     connect(
       `${this.DBURL}/${this.DBNAME}`,
-      { useNewUrlParser: true }
+      { useNewUrlParser: true, useCreateIndex: true }
     )
       .then(() => {
         console.log('Database connection successful')

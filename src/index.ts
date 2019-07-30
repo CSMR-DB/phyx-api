@@ -1,23 +1,36 @@
-import { ApolloServer } from 'apollo-server'
-require('./mongodb')
-import { schemas } from './graphql'
-import { csgoGraphQLService } from './features/csgo/services/csgoGraphQL.service'
+import { ApolloServer, mergeSchemas } from 'apollo-server'
 import { InMemoryLRUCache } from 'apollo-server-caching'
+import { importFeatures, ImportFeaturesObject } from './graphql/importFeatures'
 
-const server: ApolloServer = new ApolloServer({
-  schema: schemas,
-  cors: true,
-  context: { csgoGraphQLService },
-  cache: new InMemoryLRUCache({})
-})
+require('./mongodb')
 
-server
-  .listen()
-  .then(() => {
-    console.log(
-      `🚀 Apollo Server ready at http://localhost:4000${server.graphqlPath}`
-    )
+function startServer({
+  featureSchemas,
+  featureContexts
+}: ImportFeaturesObject): void {
+  const context: Object = featureContexts.reduce((o: Object) => ({ ...o }))
+
+  const server: ApolloServer = new ApolloServer({
+    schema: mergeSchemas({ schemas: featureSchemas }),
+    cors: true,
+    context,
+    cache: new InMemoryLRUCache({})
   })
-  .catch((e: Error) => {
-    throw e
+
+  server
+    .listen()
+    .then(() => {
+      console.log(
+        `🚀 Apollo Server ready at http://localhost:4000${server.graphqlPath} `
+      )
+    })
+    .catch((error: Error) => {
+      throw error
+    })
+}
+
+importFeatures()
+  .then((featureObj: ImportFeaturesObject) => startServer(featureObj))
+  .catch((error: Error) => {
+    throw error
   })

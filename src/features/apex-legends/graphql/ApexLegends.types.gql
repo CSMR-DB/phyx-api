@@ -1,0 +1,46 @@
+type ApexLegendsLoadout {
+  primary: String!
+  secondary: String!
+}
+
+type ApexLegendsPlayer {
+  name: String!
+  legend: String!
+  loadout: ApexLegendsLoadout!
+}
+
+type ApexLegendsTeam {
+  players: [ApexLegendsPlayer]
+}
+
+type ApexLegendsStrategy {
+  _id: ID!
+  team: ApexLegendsTeam!
+}
+
+type Query {
+  apexLegendsStrategies: [ApexLegendsStrategy]
+}
+
+input ApexLegendsLoadoutInput {
+  primary: String!
+  secondary: String!
+}
+
+input ApexLegendsPlayerInput {
+  name: String!
+  legend: String!
+  loadout: ApexLegendsLoadoutInput!
+}
+
+input ApexLegendsTeamInput {
+  players: [ApexLegendsPlayerInput!]!
+}
+
+input ApexLegendsStrategyInput {
+  team: ApexLegendsTeamInput!
+}
+
+type Mutation {
+  createApexLegendsStrategy(strategy: ApexLegendsStrategyInput): MutationReturn
+}

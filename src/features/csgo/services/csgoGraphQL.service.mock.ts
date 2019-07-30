@@ -9,12 +9,14 @@ import { Types } from 'mongoose'
 const csgoMapsMockCollection: (WithID<ICSGODocuments.Output.Map>)[] = [
   {
     internal_id: 'MIRAGE',
+    _id: 'MIRAGE',
     name: 'Mirage',
     mode: 'de',
     active: true
   },
   {
     internal_id: 'NUKE',
+    _id: 'NUKE',
     name: 'Nuke',
     mode: 'de',
     active: true
