@@ -3,7 +3,7 @@ import {
   IValidatorWithStrategy
 } from '~src/services/validators/IValidator.interface'
 import { ApexLegendsStrategyTransposer } from './ApexLegendsStrategyTransposer'
-import { IApexLegendsStrategyDocument, IApexLegendsItem } from '../interfaces/index.interface'
+import { IApexLegendsStrategyDocument } from '../interfaces/index.interface'
 import { ApexLegendsDataManager } from './ApexLegendsDataManager'
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
 
@@ -20,7 +20,7 @@ export class ApexLegendsLoadoutValidator
   ): Promise<ValidatorReturnType> {
     const transposedItems: string[] = this.strategyTransposer.transpose(strategy)
       .items
-    const validItemIDs: string[] = await this.dataManager.items.then((items: IApexLegendsItem[])=> items.map((item:IApexLegendsItem)=> item._id))
+    const validItemIDs: string[] = await this.dataManager.itemIDs
     const errors: Error[] = transposedItems
       .filter((item: string) => validItemIDs.indexOf(item) === -1)
       .map((item: string) => Error(`Item is not valid: ${item}`))

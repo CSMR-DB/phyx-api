@@ -25,4 +25,10 @@ export class ApexLegendsDataManager {
   get items(): Promise<IApexLegendsItem[]> {
     return this._items
   }
+
+  get itemIDs(): Promise<string[]> {
+    return this._items.then((items: IApexLegendsItem[]) => 
+      items.map(({_id}: IApexLegendsItem) => _id)
+    )
+  }
 }
