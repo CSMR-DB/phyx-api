@@ -11,21 +11,21 @@ export class ApexLegendsDataManagerMock {
         name: 'Wattson',
         tactical: 'Wire Thing',
         ultimate: 'Turret Thing',
-        class: 'Defensive'
+        class: 'DEFENSIVE'
       },
       {
         _id: 'GIBRALTAR',
         name: 'Gibraltar',
         tactical: 'Dome Shield',
         ultimate: 'Airstrike Thing',
-        class: 'Defensive'
+        class: 'DEFENSIVE'
       },
       {
         _id: 'LIFELINE',
         name: 'Lifeline',
         tactical: 'Heal Drone',
         ultimate: 'Care Package',
-        class: 'Support'
+        class: 'SUPPORT'
       }
     ]
   }
