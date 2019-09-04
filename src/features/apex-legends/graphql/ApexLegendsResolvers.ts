@@ -1,4 +1,4 @@
-import { ApexLegendsDatabaseService } from './ApexLegendsDatabaseService'
+import { ApexLegendsDatabaseService } from '../services/ApexLegendsDatabaseService'
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
 import {
   IApexLegendsStrategyDocument,

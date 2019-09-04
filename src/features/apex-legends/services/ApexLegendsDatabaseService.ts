@@ -9,7 +9,7 @@ import {
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
 import { MongoError } from 'mongodb'
 import { GraphQLMutationResult } from '~src/graphql/shared.types'
-import { ApexLegendsItemMongooseModel } from './../mongodb/ApexLegendsItemMongooseModel'
+import { ApexLegendsItemMongooseModel } from '../mongodb/ApexLegendsItemMongooseModel'
 import { ApexLegendsLegendMongooseModel } from '../mongodb/ApexLegendsLegendMongooseModel'
 
 @ApexLegendsInjectable()
@@ -42,36 +42,35 @@ export class ApexLegendsDatabaseService {
   }
 
   async getStrategies(): Promise<
-    | ApexLegendsMongooseDocuments.Output.IStrategyDocument[]
-    | GraphQLMutationResult
+    | ApexLegendsMongooseDocuments.Output.IStrategyDocument[] | null
   > {
     return await this._strategiesCollection
       .find({})
       .exec()
-      .then(
-        (docs: ApexLegendsMongooseDocuments.Output.IStrategyDocument[]) => docs
-      )
-      .catch(this._errorResponse)
+      // .then(
+      //   (docs: ApexLegendsMongooseDocuments.Output.IStrategyDocument[]) => docs
+      // )
+      // .catch()
   }
 
   async getItems(): Promise<
-    ApexLegendsMongooseDocuments.Output.IItem[] | GraphQLMutationResult
+    ApexLegendsMongooseDocuments.Output.IItem[] 
   > {
     return await this._itemsCollection
       .find({})
       .exec()
-      .then((docs: ApexLegendsMongooseDocuments.Output.IItem[]) => docs)
-      .catch(this._errorResponse)
+      // .then((docs: ApexLegendsMongooseDocuments.Output.IItem[]) => docs)
+      // .catch()
   }
 
   async getLegends(): Promise<
-    ApexLegendsMongooseDocuments.Output.ILegend[] | GraphQLMutationResult
+    ApexLegendsMongooseDocuments.Output.ILegend[] 
   > {
     return await this._legendsCollection
       .find({})
       .exec()
-      .then((docs: ApexLegendsMongooseDocuments.Output.ILegend[]) => docs)
-      .catch(this._errorResponse)
+      // .then((docs: ApexLegendsMongooseDocuments.Output.ILegend[]) => docs)
+      // .catch()
   }
 
   async createStrategy({

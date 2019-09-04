@@ -1,7 +1,7 @@
 import { gameDataManager, IGameDataManager } from './gameDataManager'
 import { MongooseModelCSGOMap } from './../features/csgo/mongodb/csgo-map.mongodb.model'
 import { MongooseModelCSGOItem } from './../features/csgo/mongodb/csgo-item.mongodb.model'
-import { MongooseDocumentExtensionsCSGO } from '~src/features/csgo/interfaces'
+import { MongooseDocumentExtensionsCSGO } from './../features/csgo/interfaces'
 
 import path from 'path'
 process.env.DB_TEST_COLLECTION = path
@@ -9,17 +9,17 @@ process.env.DB_TEST_COLLECTION = path
   .replace(/\./g, '_')
 
 describe('gameDataManager()', () => {
-  require('~src/testing/__test_mongodb_preload__')
-  require('~src/testing/__test_csgo_mongodb_prepopulate__')
+  require('./../testing/__test_mongodb_preload__')
+  require('./../testing/__test_csgo_mongodb_prepopulate__') // ROOT
 
   test('should get CSGO maps from DB', async () => {
-    const dbItems: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[] = await MongooseModelCSGOMap.find(
+    const dbMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[] = await MongooseModelCSGOMap.find(
       {}
     )
 
     const itemsManager: IGameDataManager<
       MongooseDocumentExtensionsCSGO.Output.IMongooseMap
-    > = gameDataManager(dbItems)
+    > = gameDataManager(dbMaps)
 
     expect(itemsManager.hasID('MIRAGE')).toEqual(true)
   })

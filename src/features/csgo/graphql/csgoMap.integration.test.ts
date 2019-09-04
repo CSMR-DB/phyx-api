@@ -4,7 +4,7 @@ import { csgoGraphQLService } from '../services/csgoGraphQL.service'
 import {
   ICSGODocuments,
   MongooseDocumentExtensionsCSGO
-} from '~src/features/csgo/interfaces'
+} from '../interfaces'
 
 import path from 'path'
 process.env.DB_TEST_COLLECTION = path
@@ -357,7 +357,7 @@ describe('Integration tests for CSGO Map', () => {
         maps: testMaps
       }
     )
-
+    
     const dbEntryToModify: ExecutionResult<{
       csgoMaps: MongooseDocumentExtensionsCSGO.Output.IMongooseMap[]
     }> = await mapQuery()
@@ -372,7 +372,7 @@ describe('Integration tests for CSGO Map', () => {
       `
 
     const variables: { id: string } = {
-      id: dbEntryToModify.data!.csgoMaps[0]._id.toString()
+      id: dbEntryToModify.data!.csgoMaps[0]._id
     }
 
     const execution: ExecutionResult = await graphql(

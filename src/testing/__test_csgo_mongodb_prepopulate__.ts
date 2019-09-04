@@ -1,7 +1,9 @@
-import { MongooseModelCSGOItem } from '~src/features/csgo/mongodb/csgo-item.mongodb.model'
-import { csgoItems } from '~src/features/csgo/data/csgoItems'
-import { MongooseModelCSGOMap } from '~src/features/csgo/mongodb/csgo-map.mongodb.model'
-import { csgoMaps } from '~src/features/csgo/data/csgoMaps'
+import { MongooseModelCSGOItem } from './../features/csgo/mongodb/csgo-item.mongodb.model'
+import { csgoItems } from './../features/csgo/data/csgoItems'
+import { MongooseModelCSGOMap } from './../features/csgo/mongodb/csgo-map.mongodb.model'
+import { csgoMaps } from './../features/csgo/data/csgoMaps'
+
+console.log('Prepopulating CSGO Collections')
 
 beforeEach(async () => {
   await MongooseModelCSGOItem.create(csgoItems)

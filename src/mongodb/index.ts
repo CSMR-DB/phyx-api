@@ -3,8 +3,8 @@ import { connect } from 'mongoose'
 require('dotenv').config()
 
 class Database {
-  private readonly DBURL: string | undefined = process.env.DB_ROOT_URL
-  private readonly DBNAME: string | undefined = process.env.DB_COLLECTION_NAME
+  private readonly DBURL: string | undefined = process.env.DB_ROOT_URL || 'mongodb://localhost:27017'
+  private readonly DBNAME: string | undefined = process.env.DB_COLLECTION_NAME || 'phyx_api'
 
   constructor() {
     this._connect()

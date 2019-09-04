@@ -1,9 +1,13 @@
+// const { pathsToModuleNameMapper } = require('ts-jest');
+// const { compilerOptions } = require('./tsconfig')
+
+const { resolve } = require('path')
+
 module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
   testEnvironment: 'node',
-  roots: ['src'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   globals: {
@@ -12,9 +16,14 @@ module.exports = {
     }
   },
   moduleDirectories: ['node_modules', 'src'],
+
+  // FIXME: Why is this not necessary?
+
   moduleNameMapper: {
-    '~src/(.*)': '<rootDir>/src/$1',
-    '~csgo/(.*)': '<rootDir>/src/features/csgo/$1',
-    '~r6siege/(.*)': '<rootDir>/src/features/r6siege/$1'
+    '^~src/(.*)$': resolve(__dirname, './src/$1')
   }
+
+  // OR
+
+  // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths)
 }

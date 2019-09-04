@@ -14,7 +14,7 @@ process.env.DB_TEST_COLLECTION = path
 
 describe('Integration tests for CSGO Strategy', () => {
   require('~src/testing/__test_mongodb_preload__')
-  require('~src/testing/__test_csgo_mongodb_prepopulate__')
+  require('../testing/__insertDummyData__')
 
   function strategyQuery(): Promise<
     ExecutionResult<{

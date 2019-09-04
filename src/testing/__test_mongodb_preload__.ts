@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 require('dotenv').config()
 
+console.log('Connecting to MongoDB instance')
+
+jest.setTimeout(10000)
+
 beforeEach(async () => {
   async function clearDB(): Promise<void> {
     await Promise.all(
@@ -22,6 +26,7 @@ beforeEach(async () => {
       }
     )
   }
+  
   await clearDB()
 })
 

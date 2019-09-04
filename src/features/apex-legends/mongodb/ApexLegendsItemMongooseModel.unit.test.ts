@@ -11,6 +11,7 @@ process.env.DB_TEST_COLLECTION = path
   .replace(/\./g, '_')
 
 const validApexLegendsItem: IApexLegendsItem = {
+  _id: 'PROWLER',
   name: 'Prowler',
   class: 'SMG',
   ammo_type: 'heavy'

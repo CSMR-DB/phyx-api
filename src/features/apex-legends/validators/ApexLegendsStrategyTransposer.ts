@@ -3,10 +3,11 @@ import {
   IApexLegendsPlayer
 } from '../interfaces/index.interface'
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
+import { flattenArray } from '~src/utils/flattenArray';
 
 @ApexLegendsInjectable()
 export class ApexLegendsStrategyTransposer {
-  transpose(strategy: IApexLegendsStrategyDocument): { legends: string[] } {
+  transpose(strategy: IApexLegendsStrategyDocument): { legends: string[], items: string[] } {
     const {
       team: { players }
     }: IApexLegendsStrategyDocument = strategy
@@ -15,6 +16,8 @@ export class ApexLegendsStrategyTransposer {
       (player: IApexLegendsPlayer) => player.legend
     )
 
-    return { legends }
+    const items: string[] = flattenArray(players.map((player: IApexLegendsPlayer) => [ player.loadout.primary, player.loadout.secondary ]))
+
+    return { legends, items }
   }
 }

@@ -7,7 +7,7 @@
     "outDir": "lib",
     "sourceMap": false,
     "esModuleInterop": true,
-    "target": "es5",
+    "target": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "preserveConstEnums": true,
@@ -19,9 +19,7 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
-      "~src/*": ["src/*"],
-      "~csgo/*": ["src/features/csgo/*"],
-      "~r6siege/*": ["src/features/r6siege/*"]
+      "~src/*": ["src/*"]
     },
     "plugins": [
       {
@@ -31,6 +29,6 @@
   },
   "compileOnSave": true,
   "buildOnSave": false,
-  "include": ["src/**/*.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "exclude": ["node_modules", "src/testing"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

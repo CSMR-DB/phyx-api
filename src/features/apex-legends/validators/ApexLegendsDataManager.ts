@@ -1,6 +1,6 @@
 import { IApexLegend, IApexLegendsItem } from '../interfaces/index.interface'
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
-import { ApexLegendsDatabaseService } from './../graphql/ApexLegendsDatabaseService'
+import { ApexLegendsDatabaseService } from './../services/ApexLegendsDatabaseService'
 
 @ApexLegendsInjectable()
 export class ApexLegendsDataManager {

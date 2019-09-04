@@ -8,6 +8,7 @@ process.env.DB_TEST_COLLECTION = path
 
 describe('CSGO Item MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')
+  
   test('should store valid items', async () => {
     await MongooseModelCSGOMap.create([
       {

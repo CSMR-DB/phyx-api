@@ -2,9 +2,9 @@ import { gameDataManager, IGameDataManager } from './gameDataManager'
 import {
   Attackers,
   ALLOPERATORS
-} from '~src/features/r6siege/data/r6siege-operators'
-import { ICSGODocuments } from '~src/features/csgo/interfaces'
-import { csgoItems } from '~src/features/csgo/data/csgoItems'
+} from './../features/r6siege/data/r6siege-operators'
+import { ICSGODocuments } from './../features/csgo/interfaces'
+import { csgoItems } from './../features/csgo/data/csgoItems'
 
 describe('DataManager()', () => {
   const ALLITEMS: ICSGODocuments.Output.Item[] = csgoItems

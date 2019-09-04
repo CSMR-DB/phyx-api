@@ -27,7 +27,7 @@ export interface IApexLegendsStrategyDocument {
 export interface IApexLegend {
   _id: string
   name: string
-  class: 'Offensive' | 'Defensive' | 'Support'
+  class: 'OFFENSIVE' | 'DEFENSIVE' | 'SUPPORT'
   tactical: string
   ultimate: string
 }
@@ -35,7 +35,7 @@ export interface IApexLegend {
 export interface IApexLegendsItem {
   _id: string
   name: string
-  class: string
+  class: 'SMG' | 'LMG' | 'AR' | 'DMR' | 'SHOTGUN' | 'PISTOL'
   ammo_type: string
 }
 

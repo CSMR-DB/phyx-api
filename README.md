@@ -53,3 +53,21 @@ Where a `Validator` relies on validating the submitted values provided in the in
 > Some runtime type-checking could be implemented using a package like io-ts, as far as I know. Currently I prefer havind a smaller package.json ánd I consider type-checking via GraphQL sufficient for this API. But it could be a viable option.
 
 [graphqlurl]: https://graphql.org/
+
+## Features & FeatureExport
+
+Every added feature should have an index.ts file at the root of features/%FEATURE_NAME%/... This was designed so that every feature can be imported automagically, without modifying any of the core files. Features can import core files as needed, but can thereafter be developed independently. The index.ts file needs to comply with the following contract: 
+
+```
+export type FeatureExport = {
+  schema: GraphQLSchema
+  context?: {
+    [key: string]: {
+      Query: {}
+      Mutation: {}
+    }
+  }
+}
+```
+
+This design is complemented by a feature-specific DI Container, but implementing one is not required. This feature-based design allows me to experiment with different paradigms (classes vs plain objects & functions). For example, the current version contains both a CSGO and Apex Legends feature folder, which use different approaches. The R6Siege feature is currently pretty much empty. 

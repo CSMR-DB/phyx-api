@@ -12,7 +12,7 @@ process.env.DB_TEST_COLLECTION = path
 
 describe('CSGO Strategy MongoDB Model', () => {
   require('~src/testing/__test_mongodb_preload__')
-  require('~src/testing/__test_csgo_mongodb_prepopulate__')
+  require('./../testing/__insertDummyData__')
 
   test('should store a valid strategy', async () => {
     await MongooseModelCSGOStrategy.create([

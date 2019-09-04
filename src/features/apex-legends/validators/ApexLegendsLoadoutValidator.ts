@@ -3,12 +3,12 @@ import {
   IValidatorWithStrategy
 } from '~src/services/validators/IValidator.interface'
 import { ApexLegendsStrategyTransposer } from './ApexLegendsStrategyTransposer'
-import { IApexLegendsStrategyDocument } from '../interfaces/index.interface'
+import { IApexLegendsStrategyDocument, IApexLegendsItem } from '../interfaces/index.interface'
 import { ApexLegendsDataManager } from './ApexLegendsDataManager'
 import { ApexLegendsInjectable } from '../di/ApexLegendsDI'
 
 @ApexLegendsInjectable()
-export class ApexLegendsTeamValidator
+export class ApexLegendsLoadoutValidator
   implements IValidatorWithStrategy<IApexLegendsStrategyDocument> {
   constructor(
     public dataManager: ApexLegendsDataManager,
@@ -18,12 +18,12 @@ export class ApexLegendsTeamValidator
   async execute(
     strategy: IApexLegendsStrategyDocument
   ): Promise<ValidatorReturnType> {
-    const legends: string[] = this.strategyTransposer.transpose(strategy)
-      .legends
-    const validLegendIDs: string[] = await this.dataManager.legendIDs
-    const errors: Error[] = legends
-      .filter((legend: string) => validLegendIDs.indexOf(legend) === -1)
-      .map((legend: string) => Error(`Legend is not valid: ${legend}`))
+    const transposedItems: string[] = this.strategyTransposer.transpose(strategy)
+      .items
+    const validItemIDs: string[] = await this.dataManager.items.then((items: IApexLegendsItem[])=> items.map((item:IApexLegendsItem)=> item._id))
+    const errors: Error[] = transposedItems
+      .filter((item: string) => validItemIDs.indexOf(item) === -1)
+      .map((item: string) => Error(`Item is not valid: ${item}`))
 
     return await { result: errors.length === 0, errors }
   }
